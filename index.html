@@ -2,371 +2,675 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Каталог плагинов Telegram</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Telegram Каталог</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
             background: var(--tg-theme-bg-color, #ffffff);
             color: var(--tg-theme-text-color, #000000);
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            padding: 16px;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
-        .container {
+        /* Контейнер с отступами */
+        .app {
             max-width: 500px;
+            width: 100%;
             margin: 0 auto;
+            padding: 20px 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
         
-        h1 {
-            font-size: 28px;
+        /* Заголовок */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--tg-theme-hint-color, #e0e0e0);
+        }
+        
+        .header h1 {
+            font-size: 24px;
             font-weight: 600;
-            margin: 20px 0 10px;
             color: var(--tg-theme-button-color, #40a7e3);
         }
         
-        h2 {
-            font-size: 22px;
-            font-weight: 500;
-            margin: 20px 0 15px;
-            color: var(--tg-theme-hint-color, #999999);
+        .header-emoji {
+            font-size: 28px;
         }
         
-        h3 {
+        /* Приветствие */
+        .welcome-card {
+            background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+            border-radius: 20px;
+            padding: 24px 20px;
+            margin-bottom: 28px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .welcome-sticker {
+            font-size: 64px;
+            margin-bottom: 16px;
+            animation: wave 2s infinite;
+        }
+        
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(10deg); }
+            75% { transform: rotate(-5deg); }
+        }
+        
+        .welcome-card p {
             font-size: 18px;
-            font-weight: 500;
-            margin: 15px 0 10px;
-            color: var(--tg-theme-hint-color, #999999);
+            line-height: 1.5;
+            color: var(--tg-theme-text-color, #000000);
         }
         
-        .menu-btn {
+        /* Кнопки меню */
+        .menu-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .menu-button {
             background: var(--tg-theme-button-color, #40a7e3);
             color: var(--tg-theme-button-text-color, #ffffff);
             border: none;
-            border-radius: 12px;
-            padding: 16px 20px;
-            margin: 8px 0;
-            width: 100%;
-            font-size: 16px;
+            border-radius: 16px;
+            padding: 18px 20px;
+            font-size: 18px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(64, 167, 227, 0.3);
+            width: 100%;
+            -webkit-tap-highlight-color: transparent;
         }
         
-        .menu-btn:active {
+        .menu-button:active {
             transform: scale(0.98);
             opacity: 0.9;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         
-        .back-btn {
+        .menu-button-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .menu-button-emoji {
+            font-size: 24px;
+        }
+        
+        .menu-button-arrow {
+            font-size: 20px;
+            opacity: 0.8;
+        }
+        
+        /* Кнопка назад */
+        .back-button {
             background: transparent;
             color: var(--tg-theme-button-color, #40a7e3);
             border: 2px solid var(--tg-theme-button-color, #40a7e3);
+            border-radius: 16px;
+            padding: 14px 18px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
             margin-bottom: 20px;
+            display: flex;
+            align-items: center;
             justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            width: 100%;
         }
         
-        .plugin-item {
+        .back-button:active {
+            background: var(--tg-theme-button-color, #40a7e3);
+            color: var(--tg-theme-button-text-color, #ffffff);
+        }
+        
+        /* Заголовок раздела */
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Пагинация страниц */
+        .page-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .page-tab {
             background: var(--tg-theme-secondary-bg-color, #f0f0f0);
             color: var(--tg-theme-text-color, #000000);
             border: none;
-            border-radius: 10px;
-            padding: 14px 18px;
-            margin: 6px 0;
-            width: 100%;
+            border-radius: 30px;
+            padding: 10px 18px;
             font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+            min-width: 60px;
+        }
+        
+        .page-tab.active {
+            background: var(--tg-theme-button-color, #40a7e3);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            box-shadow: 0 4px 10px rgba(64, 167, 227, 0.4);
+        }
+        
+        .page-tab:active {
+            transform: scale(0.95);
+        }
+        
+        /* Список элементов (плагины/модули) */
+        .items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 24px;
+            max-height: 60vh;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        
+        .items-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .items-list::-webkit-scrollbar-track {
+            background: var(--tg-theme-secondary-bg-color, #f0f0f0);
+            border-radius: 10px;
+        }
+        
+        .items-list::-webkit-scrollbar-thumb {
+            background: var(--tg-theme-button-color, #40a7e3);
+            border-radius: 10px;
+        }
+        
+        .item-card {
+            background: var(--tg-theme-secondary-bg-color, #f8f9fa);
+            color: var(--tg-theme-text-color, #000000);
+            border: none;
+            border-radius: 14px;
+            padding: 16px 18px;
+            font-size: 16px;
             cursor: pointer;
             text-align: left;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            width: 100%;
         }
         
-        .plugin-item:active {
+        .item-card:active {
             background: var(--tg-theme-button-color, #40a7e3);
-            color: white;
+            color: var(--tg-theme-button-text-color, #ffffff);
+            transform: translateX(4px);
         }
         
-        .page-indicator {
+        .item-card-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .item-emoji {
+            font-size: 22px;
+        }
+        
+        .item-name {
+            font-weight: 500;
+        }
+        
+        .item-link-icon {
+            font-size: 18px;
+            opacity: 0.7;
+        }
+        
+        /* Навигация страниц (предыдущая/следующая) */
+        .page-navigation {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
+            gap: 16px;
+            margin-top: 16px;
+            padding: 12px 0;
+            border-top: 1px solid var(--tg-theme-hint-color, #e0e0e0);
         }
         
-        .page-btn {
-            background: var(--tg-theme-secondary-bg-color, #e0e0e0);
+        .nav-button {
+            background: var(--tg-theme-secondary-bg-color, #f0f0f0);
             border: none;
-            border-radius: 8px;
-            padding: 10px 15px;
-            font-size: 14px;
+            border-radius: 40px;
+            padding: 10px 20px;
+            font-size: 18px;
             cursor: pointer;
-            min-width: 40px;
+            transition: all 0.2s;
+            min-width: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
         }
         
-        .page-btn.active {
+        .nav-button:not(:disabled):active {
             background: var(--tg-theme-button-color, #40a7e3);
             color: white;
+            transform: scale(0.95);
         }
         
-        .page-btn:disabled {
+        .nav-button:disabled {
             opacity: 0.3;
             cursor: not-allowed;
         }
         
+        .page-indicator {
+            font-size: 18px;
+            font-weight: 500;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        /* Футер */
+        .footer {
+            margin-top: auto;
+            padding-top: 24px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--tg-theme-hint-color, #999);
+            opacity: 0.8;
+        }
+        
+        /* Анимации переключения секций */
         .section {
             display: none;
+            animation: fadeIn 0.3s ease;
         }
         
         .section.active {
             display: block;
         }
         
-        .sticker {
-            width: 80px;
-            height: 80px;
-            margin: 20px auto;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Страницы плагинов */
+        .plugins-page {
+            display: none;
+        }
+        
+        .plugins-page.active-page {
             display: block;
-            background: #f0f0f0;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
         }
         
-        .welcome-text {
-            text-align: center;
-            margin: 30px 0;
-            font-size: 18px;
-        }
-        
-        .footer {
-            margin-top: 30px;
-            text-align: center;
-            font-size: 12px;
-            color: var(--tg-theme-hint-color, #999);
-        }
-        
-        .arrow {
-            font-size: 18px;
+        /* Служебные классы */
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 <body>
-    <div class="container" id="app">
-        <!-- Стикер приветствия (эмодзи вместо стикера) -->
-        <div class="sticker">👋</div>
+    <div class="app" id="app">
+        <!-- Шапка -->
+        <div class="header">
+            <h1>TeleStore</h1>
+            <span class="header-emoji">📱</span>
+        </div>
         
         <!-- Главное меню -->
         <div id="main-menu" class="section active">
-            <h1>Каталог плагинов</h1>
-            <p class="welcome-text">Здравствуйте! Предлагаю вам установить лучшие плагины для вашего тг</p>
+            <div class="welcome-card">
+                <div class="welcome-sticker">👋</div>
+                <p>Здравствуйте! Предлагаю вам установить лучшие плагины для вашего тг</p>
+            </div>
             
-            <button class="menu-btn" onclick="showPluginsMain()">
-                <span>📦 Плагины</span>
-                <span class="arrow">→</span>
-            </button>
-            
-            <button class="menu-btn" onclick="showModules()">
-                <span>🔧 Модули</span>
-                <span class="arrow">→</span>
-            </button>
-            
-            <button class="menu-btn" onclick="showTikTok()">
-                <span>🎵 TikTok You</span>
-                <span class="arrow">→</span>
-            </button>
+            <div class="menu-grid">
+                <button class="menu-button" onclick="showPluginsMain()">
+                    <span class="menu-button-left">
+                        <span class="menu-button-emoji">📦</span>
+                        <span>Плагины</span>
+                    </span>
+                    <span class="menu-button-arrow">→</span>
+                </button>
+                
+                <button class="menu-button" onclick="showModules()">
+                    <span class="menu-button-left">
+                        <span class="menu-button-emoji">🔧</span>
+                        <span>Модули</span>
+                    </span>
+                    <span class="menu-button-arrow">→</span>
+                </button>
+                
+                <button class="menu-button" onclick="showTikTok()">
+                    <span class="menu-button-left">
+                        <span class="menu-button-emoji">🎵</span>
+                        <span>TikTok You</span>
+                    </span>
+                    <span class="menu-button-arrow">→</span>
+                </button>
+            </div>
         </div>
         
-        <!-- Раздел Плагины (основной) -->
+        <!-- Раздел Плагины -->
         <div id="plugins-section" class="section">
-            <button class="back-btn" onclick="showMainMenu()">← Назад в меню</button>
-            <h2>📦 Плагины</h2>
-            <p>Выберите страницу:</p>
+            <button class="back-button" onclick="showMainMenu()">
+                <span>←</span> Назад в меню
+            </button>
             
-            <div class="page-indicator">
-                <button class="page-btn" id="plugins-page1-btn" onclick="showPluginsPage(1)">1</button>
-                <button class="page-btn" id="plugins-page2-btn" onclick="showPluginsPage(2)">2</button>
-                <button class="page-btn" id="plugins-page3-btn" onclick="showPluginsPage(3)">3</button>
-                <button class="page-btn" id="plugins-page4-btn" onclick="showPluginsPage(4)">4</button>
+            <div class="section-title">
+                <span>📦</span> Плагины
             </div>
             
-            <!-- Страницы плагинов -->
-            <div id="plugins-page-1" class="plugins-page">
-                <h3>Страница 1/4</h3>
-                <button class="plugin-item" onclick="openLink('https://t.me/exteraPluginsSup/221')">
-                    <span>LocalEditor</span>
-                    <span>↗️</span>
-                </button>
-                <button class="plugin-item" onclick="openLink('https://t.me/exteraPluginsSup/369')">
-                    <span>Lyrics</span>
-                    <span>↗️</span>
-                </button>
-                <button class="plugin-item" onclick="openLink('https://t.me/kchemniy_modules/13')">
-                    <span>Genius Fork</span>
-                    <span>↗️</span>
-                </button>
-                <button class="plugin-item" onclick="openLink('https://t.me/swagnonher/321')">
-                    <span>Animated Wallpaper</span>
-                    <span>↗️</span>
-                </button>
+            <!-- Табы страниц -->
+            <div class="page-tabs">
+                <button class="page-tab active" id="tab-page-1" onclick="showPluginsPage(1)">1</button>
+                <button class="page-tab" id="tab-page-2" onclick="showPluginsPage(2)">2</button>
+                <button class="page-tab" id="tab-page-3" onclick="showPluginsPage(3)">3</button>
+                <button class="page-tab" id="tab-page-4" onclick="showPluginsPage(4)">4</button>
             </div>
             
-            <div id="plugins-page-2" class="plugins-page" style="display:none;">
-                <h3>Страница 2/4</h3>
-                <button class="plugin-item" onclick="openLink('https://t.me/meeowPlugins/145')">
-                    <span>reSwaga</span>
-                    <span>↗️</span>
-                </button>
-                <button class="plugin-item" onclick="openLink('https://t.me/shikaatuxplugins/196')">
-                    <span>re:extera</span>
-                    <span>↗️</span>
-                </button>
-                <button class="plugin-item" onclick="openLink('https://t.me/mishabotov/596')">
-                    <span>Quotecreate</span>
-                    <span>↗️</span>
-                </button>
-                <button class="plugin-item" onclick="openLink('https://t.me/plugins_lishonov/115')">
-                    <span>Fake Gifts</span>
-                    <span>↗️</span>
-                </button>
+            <!-- Страница 1 -->
+            <div id="plugins-page-1" class="plugins-page active-page">
+                <div class="items-list">
+                    <button class="item-card" onclick="openLink('https://t.me/exteraPluginsSup/221')">
+                        <span class="item-card-left">
+                            <span class="item-emoji">📝</span>
+                            <span class="item-name">LocalEditor</span>
+                        </span>
+                        <span class="item-link-icon">↗️</span>
+                    </button>
+                    
+                    <button class="item-card" onclick="openLink('https://t.me/exteraPluginsSup/369')">
+                        <span class="item-card-left">
+                            <span class="item-emoji">🎵</span>
+                            <span class="item-name">Lyrics</span>
+                        </span>
+                        <span class="item-link-icon">↗️</span>
+                    </button>
+                    
+                    <button class="item-card" onclick="openLink('https://t.me/kchemniy_modules/13')">
+                        <span class="item-card-left">
+                            <span class="item-emoji">🍴</span>
+                            <span class="item-name">Genius Fork</span>
+                        </span>
+                        <span class="item-link-icon">↗️</span>
+                    </button>
+                    
+                    <button class="item-card" onclick="openLink('https://t.me/swagnonher/321')">
+                        <span class="item-card-left">
+                            <span class="item-emoji">🖼️</span>
+                            <span class="item-name">Animated Wallpaper</span>
+                        </span>
+                        <span class="item-link-icon">↗️</span>
+                    </button>
+                </div>
             </div>
             
-            <div id="plugins-page-3" class="plugins-page" style="display:none;">
-                <h3>Страница 3/4</h3>
-                <button class="plugin-item" onclick="openLink('https://t.me/RnPlugins/1083')">
-                    <span>miniPlayer+</span>
-                    <span>↗️</span>
-                </button>
-                <button class="plugin-item" onclick="openLink('https://t.me/kchemniy_modules/125')">
-                    <span>Hide link preview fork</span>
-                    <span>↗️</span>
-                </button>
-                <button class="plugin-item" onclick="openLink('https://t.me/QuantaPlugins/210')">
-                    <span>UITweaks x QuantaHut</span>
-                    <span>↗️</span>
-                </button>
-                <button class="plugin-item" onclick="openLink('https://t.me/RnPlugins/620')">
-                    <span>Log overlay</span>
-                    <span>↗️</span>
-                </button>
+            <!-- Страница 2 -->
+            <div id="plugins-page-2" class="plugins-page">
+                <div class="items-list">
+                    <button class="item-card" onclick="openLink('https://t.me/meeowPlugins/145')">
+                        <span class="item-card-left">
+                            <span class="item-emoji">🔄</span>
+                            <span class="item-name">reSwaga</span>
+                        </span>
+                        <span class="item-link-icon">↗️</span>
+                    </button>
+                    
+                    <button class="item-card" onclick="openLink('https://t.me/shikaatuxplugins/196')">
+                        <span class="item-card-left">
+                            <span class="item-emoji">🔄</span>
+                            <span class="item-name">re:extera</span>
+                        </span>
+                        <span class="item-link-icon">↗️</span>
+                    </button>
+                    
+                    <button class="item-card" onclick="openLink('https://t.me/mishabotov/596')">
+                        <span class="item-card-left">
+                            <span class="item-emoji">💬</span>
+                            <span class="item-name">Quotecreate</span>
+                        </span>
+                        <span class="item-link-icon">↗️</span>
+                    </button>
+                    
+                    <button class="item-card" onclick="openLink('https://t.me/plugins_lishonov/115')">
+                        <span class="item-card-left">
+                            <span class="item-emoji">🎁</span>
+                            <span class="item-name">Fake Gifts</span>
+                        </span>
+                        <span class="item-link-icon">↗️</span>
+                    </button>
+                </div>
             </div>
             
-            <div id="plugins-page-4" class="plugins-page" style="display:none;">
-                <h3>Страница 4/4</h3>
-                <button class="plugin-item" onclick="openLink('https://t.me/kchemniy_modules/12')">
-                    <span>Transcriber fork</span>
-                    <span>↗️</span>
-                </button>
-                <button class="plugin-item" onclick="openLink('https://t.me/kvucoPlugins/54')">
-                    <span>Bot login</span>
-                    <span>↗️</span>
-                </button>
+            <!-- Страница 3 -->
+            <div id="plugins-page-3" class="plugins-page">
+                <div class="items-list">
+                    <button class="item-card" onclick="openLink('https://t.me/RnPlugins/1083')">
+                        <span class="item-card-left">
+                            <span class="item-emoji">▶️</span>
+                            <span class="item-name">miniPlayer+</span>
+                        </span>
+                        <span class="item-link-icon">↗️</span>
+                    </button>
+                    
+                    <button class="item-card" onclick="openLink('https://t.me/kchemniy_modules/125')">
+                        <span class="item-card-left">
+                            <span class="item-emoji">🔗</span>
+                            <span class="item-name">Hide link preview fork</span>
+                        </span>
+                        <span class="item-link-icon">↗️</span>
+                    </button>
+                    
+                    <button class="item-card" onclick="openLink('https://t.me/QuantaPlugins/210')">
+                        <span class="item-card-left">
+                            <span class="item-emoji">🎨</span>
+                            <span class="item-name">UITweaks x QuantaHut</span>
+                        </span>
+                        <span class="item-link-icon">↗️</span>
+                    </button>
+                    
+                    <button class="item-card" onclick="openLink('https://t.me/RnPlugins/620')">
+                        <span class="item-card-left">
+                            <span class="item-emoji">📋</span>
+                            <span class="item-name">Log overlay</span>
+                        </span>
+                        <span class="item-link-icon">↗️</span>
+                    </button>
+                </div>
             </div>
             
-            <!-- Пагинация -->
-            <div class="page-indicator" id="plugins-pagination">
-                <button class="page-btn" id="plugins-prev" onclick="prevPluginsPage()" disabled>◀️</button>
-                <span id="plugins-current-page">1/4</span>
-                <button class="page-btn" id="plugins-next" onclick="nextPluginsPage()">▶️</button>
+            <!-- Страница 4 -->
+            <div id="plugins-page-4" class="plugins-page">
+                <div class="items-list">
+                    <button class="item-card" onclick="openLink('https://t.me/kchemniy_modules/12')">
+                        <span class="item-card-left">
+                            <span class="item-emoji">📝</span>
+                            <span class="item-name">Transcriber fork</span>
+                        </span>
+                        <span class="item-link-icon">↗️</span>
+                    </button>
+                    
+                    <button class="item-card" onclick="openLink('https://t.me/kvucoPlugins/54')">
+                        <span class="item-card-left">
+                            <span class="item-emoji">🤖</span>
+                            <span class="item-name">Bot login</span>
+                        </span>
+                        <span class="item-link-icon">↗️</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Навигация по страницам -->
+            <div class="page-navigation">
+                <button class="nav-button" id="plugins-prev" onclick="prevPluginsPage()" disabled>← Назад</button>
+                <span class="page-indicator" id="plugins-current-page">1/4</span>
+                <button class="nav-button" id="plugins-next" onclick="nextPluginsPage()">Вперед →</button>
             </div>
         </div>
         
         <!-- Раздел Модули -->
         <div id="modules-section" class="section">
-            <button class="back-btn" onclick="showMainMenu()">← Назад в меню</button>
-            <h2>🔧 Модули</h2>
+            <button class="back-button" onclick="showMainMenu()">
+                <span>←</span> Назад в меню
+            </button>
             
-            <button class="plugin-item" onclick="openLink('https://t.me/RnPlugins/1097')">
-                <span>Source trigger</span>
-                <span>↗️</span>
-            </button>
-            <button class="plugin-item" onclick="openLink('https://t.me/kchemniy_modules/142')">
-                <span>Giweaway joiner</span>
-                <span>↗️</span>
-            </button>
-            <button class="plugin-item" onclick="openLink('https://t.me/kchemniy_modules/139')">
-                <span>Module list</span>
-                <span>↗️</span>
-            </button>
+            <div class="section-title">
+                <span>🔧</span> Модули
+            </div>
+            
+            <div class="items-list">
+                <button class="item-card" onclick="openLink('https://t.me/RnPlugins/1097')">
+                    <span class="item-card-left">
+                        <span class="item-emoji">⚡</span>
+                        <span class="item-name">Source trigger</span>
+                    </span>
+                    <span class="item-link-icon">↗️</span>
+                </button>
+                
+                <button class="item-card" onclick="openLink('https://t.me/kchemniy_modules/142')">
+                    <span class="item-card-left">
+                        <span class="item-emoji">🎁</span>
+                        <span class="item-name">Giweaway joiner</span>
+                    </span>
+                    <span class="item-link-icon">↗️</span>
+                </button>
+                
+                <button class="item-card" onclick="openLink('https://t.me/kchemniy_modules/139')">
+                    <span class="item-card-left">
+                        <span class="item-emoji">📋</span>
+                        <span class="item-name">Module list</span>
+                    </span>
+                    <span class="item-link-icon">↗️</span>
+                </button>
+            </div>
         </div>
         
         <!-- Раздел TikTok You -->
         <div id="tiktok-section" class="section">
-            <button class="back-btn" onclick="showMainMenu()">← Назад в меню</button>
-            <h2>🎵 TikTok You</h2>
-            
-            <button class="plugin-item" onclick="openLink('https://t.me/tikyoutok/13')">
-                <span>TikTok You 1.2.3 Beta</span>
-                <span>↗️</span>
+            <button class="back-button" onclick="showMainMenu()">
+                <span>←</span> Назад в меню
             </button>
+            
+            <div class="section-title">
+                <span>🎵</span> TikTok You
+            </div>
+            
+            <div class="items-list">
+                <button class="item-card" onclick="openLink('https://t.me/tikyoutok/13')">
+                    <span class="item-card-left">
+                        <span class="item-emoji">📱</span>
+                        <span class="item-name">TikTok You 1.2.3 Beta</span>
+                    </span>
+                    <span class="item-link-icon">↗️</span>
+                </button>
+            </div>
         </div>
         
+        <!-- Футер -->
         <div class="footer">
-            <p>Каталог плагинов Telegram • Версия 2.0</p>
+            <p>© 2026 • Каталог плагинов Telegram</p>
         </div>
     </div>
 
     <script>
-        // Telegram WebApp
+        // Telegram WebApp API
         const tg = window.Telegram.WebApp;
         tg.expand();
         tg.ready();
         
-        // Переменные для пагинации
+        // Состояние
         let currentPluginsPage = 1;
         const totalPluginsPages = 4;
         
-        // Функции навигации
+        // Навигация
         function showMainMenu() {
+            hideAllSections();
             document.getElementById('main-menu').classList.add('active');
-            document.getElementById('plugins-section').classList.remove('active');
-            document.getElementById('modules-section').classList.remove('active');
-            document.getElementById('tiktok-section').classList.remove('active');
             tg.BackButton.hide();
         }
         
         function showPluginsMain() {
-            document.getElementById('main-menu').classList.remove('active');
+            hideAllSections();
             document.getElementById('plugins-section').classList.add('active');
-            document.getElementById('modules-section').classList.remove('active');
-            document.getElementById('tiktok-section').classList.remove('active');
             tg.BackButton.show();
             tg.BackButton.onClick(showMainMenu);
-            
-            // Показываем первую страницу плагинов
-            showPluginsPage(1);
+            showPluginsPage(currentPluginsPage);
         }
         
+        function showModules() {
+            hideAllSections();
+            document.getElementById('modules-section').classList.add('active');
+            tg.BackButton.show();
+            tg.BackButton.onClick(showMainMenu);
+        }
+        
+        function showTikTok() {
+            hideAllSections();
+            document.getElementById('tiktok-section').classList.add('active');
+            tg.BackButton.show();
+            tg.BackButton.onClick(showMainMenu);
+        }
+        
+        function hideAllSections() {
+            document.getElementById('main-menu').classList.remove('active');
+            document.getElementById('plugins-section').classList.remove('active');
+            document.getElementById('modules-section').classList.remove('active');
+            document.getElementById('tiktok-section').classList.remove('active');
+        }
+        
+        // Плагины - пагинация
         function showPluginsPage(page) {
             // Скрываем все страницы
-            for (let i = 1; i <= 4; i++) {
-                document.getElementById(`plugins-page-${i}`).style.display = 'none';
-                document.getElementById(`plugins-page${i}-btn`).classList.remove('active');
+            for (let i = 1; i <= totalPluginsPages; i++) {
+                document.getElementById(`plugins-page-${i}`).classList.remove('active-page');
+                document.getElementById(`tab-page-${i}`).classList.remove('active');
             }
             
             // Показываем выбранную страницу
-            document.getElementById(`plugins-page-${page}`).style.display = 'block';
-            document.getElementById(`plugins-page${page}-btn`).classList.add('active');
+            document.getElementById(`plugins-page-${page}`).classList.add('active-page');
+            document.getElementById(`tab-page-${page}`).classList.add('active');
             
             currentPluginsPage = page;
             document.getElementById('plugins-current-page').textContent = `${page}/${totalPluginsPages}`;
             
-            // Обновляем кнопки пагинации
+            // Обновляем кнопки навигации
             document.getElementById('plugins-prev').disabled = (page === 1);
             document.getElementById('plugins-next').disabled = (page === totalPluginsPages);
         }
@@ -383,33 +687,51 @@
             }
         }
         
-        function showModules() {
-            document.getElementById('main-menu').classList.remove('active');
-            document.getElementById('plugins-section').classList.remove('active');
-            document.getElementById('modules-section').classList.add('active');
-            document.getElementById('tiktok-section').classList.remove('active');
-            tg.BackButton.show();
-            tg.BackButton.onClick(showMainMenu);
-        }
-        
-        function showTikTok() {
-            document.getElementById('main-menu').classList.remove('active');
-            document.getElementById('plugins-section').classList.remove('active');
-            document.getElementById('modules-section').classList.remove('active');
-            document.getElementById('tiktok-section').classList.add('active');
-            tg.BackButton.show();
-            tg.BackButton.onClick(showMainMenu);
-        }
-        
-        // Функция открытия ссылок
+        // Открытие ссылок
         function openLink(url) {
             tg.openTelegramLink(url);
         }
         
         // Инициализация
         document.addEventListener('DOMContentLoaded', function() {
-            // Показываем главное меню
             showMainMenu();
+            
+            // Обработка свайпов для навигации (опционально)
+            let touchstartX = 0;
+            let touchendX = 0;
+            
+            document.addEventListener('touchstart', e => {
+                touchstartX = e.changedTouches[0].screenX;
+            });
+            
+            document.addEventListener('touchend', e => {
+                touchendX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const activeSection = document.querySelector('.section.active');
+                
+                if (!activeSection) return;
+                
+                // Свайп влево - следующая страница (только для плагинов)
+                if (touchendX < touchstartX - swipeThreshold) {
+                    if (activeSection.id === 'plugins-section') {
+                        nextPluginsPage();
+                    }
+                }
+                
+                // Свайп вправо - предыдущая страница (только для плагинов)
+                if (touchendX > touchstartX + swipeThreshold) {
+                    if (activeSection.id === 'plugins-section') {
+                        prevPluginsPage();
+                    } else if (activeSection.id !== 'main-menu') {
+                        // В других разделах свайп вправо возвращает в меню
+                        showMainMenu();
+                    }
+                }
+            }
         });
     </script>
 </body>
