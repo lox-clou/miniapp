@@ -41,6 +41,7 @@
             overflow-x: hidden;
         }
         
+        /* Анимированный фон */
         .background {
             position: fixed;
             top: 0;
@@ -75,10 +76,28 @@
             filter: blur(50px);
         }
         
+        .gradient-sphere-3 {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulseSphere 8s ease-in-out infinite;
+            filter: blur(40px);
+        }
+        
         @keyframes floatSphere {
             0%, 100% { transform: translate(0, 0) rotate(0deg); }
             33% { transform: translate(30px, -30px) rotate(120deg); }
             66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+        
+        @keyframes pulseSphere {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.6; }
         }
         
         /* ЖИДКОЕ СТЕКЛО */
@@ -177,6 +196,32 @@
             }
         }
         
+        /* ПЛАВАЮЩИЕ ПУЗЫРЬКИ */
+        .bubbles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: bubbleFloat 8s ease-in-out infinite;
+        }
+        
+        @keyframes bubbleFloat {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+        }
+        
         .app {
             width: 100%;
             max-width: 420px;
@@ -202,7 +247,12 @@
                 inset 0 1px 1px rgba(255,255,255,0.6);
             position: relative;
             overflow: hidden;
-            animation: headerPulse 3s ease-in-out infinite;
+            animation: headerGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes headerGlow {
+            0%, 100% { box-shadow: 0 8px 32px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.6); }
+            50% { box-shadow: 0 8px 40px rgba(64,167,227,0.4), inset 0 1px 3px rgba(255,255,255,0.8); }
         }
         
         .header::before {
@@ -216,9 +266,9 @@
             animation: liquidMove 12s infinite linear;
         }
         
-        @keyframes headerPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
+        .logo {
+            position: relative;
+            z-index: 2;
         }
         
         .logo span {
@@ -227,11 +277,18 @@
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
             animation: textGlow 2s ease-in-out infinite;
+            display: inline-block;
         }
         
         @keyframes textGlow {
-            0%, 100% { text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
-            50% { text-shadow: 0 0 15px rgba(255,255,255,0.8), 2px 2px 4px rgba(0,0,0,0.2); }
+            0%, 100% { 
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+                transform: scale(1);
+            }
+            50% { 
+                text-shadow: 0 0 20px rgba(255,255,255,0.8), 2px 2px 4px rgba(0,0,0,0.2);
+                transform: scale(1.02);
+            }
         }
         
         /* ПРИВЕТСТВЕННАЯ КАРТОЧКА */
@@ -252,19 +309,9 @@
         }
         
         @keyframes cardFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-        
-        .welcome-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%);
-            animation: liquidMove 15s infinite linear;
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(0.5deg); }
+            75% { transform: translateY(3px) rotate(-0.5deg); }
         }
         
         .sticker-3d {
@@ -279,8 +326,22 @@
         }
         
         @keyframes float3d {
-            0%, 100% { transform: translateY(0) rotateX(0deg); }
-            50% { transform: translateY(-15px) rotateX(10deg); }
+            0%, 100% { 
+                transform: translateY(0) rotateX(0deg) rotateY(0deg);
+                filter: drop-shadow(0 20px 20px rgba(0,0,0,0.3));
+            }
+            25% { 
+                transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+                filter: drop-shadow(0 30px 25px rgba(0,0,0,0.4));
+            }
+            50% { 
+                transform: translateY(-15px) rotateX(10deg) rotateY(10deg);
+                filter: drop-shadow(0 40px 30px rgba(0,0,0,0.5));
+            }
+            75% { 
+                transform: translateY(-5px) rotateX(5deg) rotateY(-5deg);
+                filter: drop-shadow(0 30px 25px rgba(0,0,0,0.4));
+            }
         }
         
         .welcome-card h3 {
@@ -291,12 +352,12 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             position: relative;
             z-index: 2;
-            animation: textPulse 2s ease-in-out infinite;
+            animation: textWave 2s ease-in-out infinite;
         }
         
-        @keyframes textPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.9; }
+        @keyframes textWave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
         }
         
         .welcome-card p {
@@ -306,9 +367,15 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
             position: relative;
             z-index: 2;
+            animation: textPulse 3s ease-in-out infinite;
         }
         
-        /* КНОПКИ МЕНЮ (ТОЛЬКО ЗДЕСЬ ЕСТЬ ИКОНКИ) */
+        @keyframes textPulse {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 1; }
+        }
+        
+        /* КНОПКИ МЕНЮ */
         .menu-grid {
             display: flex;
             flex-direction: column;
@@ -346,45 +413,50 @@
         .menu-btn:nth-child(3) { --btn-index: 3; }
         
         @keyframes menuBtnPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
-            50% { transform: scale(1.02); box-shadow: 0 12px 30px rgba(0,0,0,0.3); }
+            0%, 100% { 
+                transform: scale(1) translateY(0);
+                box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            }
+            50% { 
+                transform: scale(1.02) translateY(-2px);
+                box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+            }
         }
         
         .menu-btn::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%);
-            opacity: 0.5;
-            transition: opacity 0.3s;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: linear-gradient(
+                135deg,
+                transparent 0%,
+                rgba(255,255,255,0.1) 25%,
+                transparent 50%,
+                rgba(255,255,255,0.1) 75%,
+                transparent 100%
+            );
+            animation: shine 6s infinite linear;
             pointer-events: none;
         }
         
-        .menu-btn:hover::before {
-            opacity: 1;
-        }
-        
-        .menu-btn:active {
-            transform: scale(0.96);
-            animation: none;
+        @keyframes shine {
+            from { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            to { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
         
         .menu-btn.plugins {
             background: linear-gradient(135deg, rgba(64,167,227,0.3), rgba(124,77,255,0.3));
-            backdrop-filter: blur(12px);
         }
         
         .menu-btn.modules {
             background: linear-gradient(135deg, rgba(255,107,107,0.3), rgba(240,101,149,0.3));
-            backdrop-filter: blur(12px);
         }
         
         .menu-btn.tiktok {
             background: linear-gradient(135deg, rgba(253,29,29,0.3), rgba(252,175,69,0.3));
-            backdrop-filter: blur(12px);
         }
         
         .btn-content {
@@ -397,19 +469,26 @@
         .btn-content i {
             font-size: 28px;
             filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3));
-            animation: iconSpin 4s ease-in-out infinite;
+            animation: iconBounce 3s ease-in-out infinite;
         }
         
-        @keyframes iconSpin {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(5deg); }
-            75% { transform: rotate(-5deg); }
+        @keyframes iconBounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(-5deg); }
+            75% { transform: translateY(5px) rotate(5deg); }
         }
         
         .btn-content span {
             font-size: 18px;
             font-weight: 600;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            animation: textShake 3s ease-in-out infinite;
+        }
+        
+        @keyframes textShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
         }
         
         .btn-arrow {
@@ -422,16 +501,11 @@
         }
         
         @keyframes arrowMove {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(5px); }
+            0%, 100% { transform: translateX(0); opacity: 0.8; }
+            50% { transform: translateX(8px); opacity: 1; }
         }
         
-        .menu-btn:active .btn-arrow {
-            transform: translateX(10px);
-            animation: none;
-        }
-        
-        /* КНОПКА НАЗАД (БЕЗ ИКОНКИ) */
+        /* КНОПКА НАЗАД */
         .back-btn {
             background: rgba(255,255,255,0.15);
             backdrop-filter: blur(12px);
@@ -454,36 +528,28 @@
                 inset 0 1px 1px rgba(255,255,255,0.6);
             position: relative;
             overflow: hidden;
-            animation: backBtnPulse 2s ease-in-out infinite;
+            animation: backBtnMove 2s ease-in-out infinite;
         }
         
-        @keyframes backBtnPulse {
+        @keyframes backBtnMove {
             0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(-3px); }
+            50% { transform: translateX(-5px); }
         }
         
         .back-btn::before {
-            content: '';
+            content: '←';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 50%);
-            animation: liquidMove 12s infinite linear;
+            left: -20px;
+            opacity: 0;
+            animation: backArrow 2s ease-in-out infinite;
         }
         
-        .back-btn span {
-            z-index: 2;
+        @keyframes backArrow {
+            0%, 100% { left: -20px; opacity: 0; }
+            50% { left: 5px; opacity: 1; }
         }
         
-        .back-btn:active {
-            background: rgba(255,255,255,0.25);
-            transform: translateX(-5px);
-            animation: none;
-        }
-        
-        /* ЗАГОЛОВКИ РАЗДЕЛОВ (БЕЗ ИКОНОК) */
+        /* ЗАГОЛОВКИ РАЗДЕЛОВ */
         .section-header {
             display: flex;
             align-items: center;
@@ -501,29 +567,48 @@
             overflow: hidden;
         }
         
-        .section-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 50%);
-            animation: liquidMove 15s infinite linear;
-        }
-        
         .section-title {
             font-size: 22px;
             font-weight: 700;
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             z-index: 2;
-            animation: sectionTitlePulse 2.5s ease-in-out infinite;
+            animation: titleGlow 2.5s ease-in-out infinite;
+            position: relative;
         }
         
-        @keyframes sectionTitlePulse {
-            0%, 100% { letter-spacing: normal; }
-            50% { letter-spacing: 2px; }
+        @keyframes titleGlow {
+            0%, 100% { 
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+                letter-spacing: normal;
+            }
+            50% { 
+                text-shadow: 0 0 15px rgba(255,255,255,0.8), 2px 2px 4px rgba(0,0,0,0.3);
+                letter-spacing: 2px;
+            }
+        }
+        
+        .section-title::before,
+        .section-title::after {
+            content: '✨';
+            position: absolute;
+            opacity: 0;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+        
+        .section-title::before {
+            left: -20px;
+            animation-delay: 0s;
+        }
+        
+        .section-title::after {
+            right: -20px;
+            animation-delay: 1s;
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
         }
         
         /* ИНДИКАТОР СТРАНИЦ */
@@ -546,7 +631,8 @@
             backdrop-filter: blur(4px);
             border: 1px solid rgba(255,255,255,0.2);
             animation: dotPulse 2s ease-in-out infinite;
-            animation-delay: calc(var(--dot-index) * 0.1s);
+            animation-delay: calc(var(--dot-index) * 0.2s);
+            position: relative;
         }
         
         .page-dot:nth-child(1) { --dot-index: 1; }
@@ -555,24 +641,40 @@
         .page-dot:nth-child(4) { --dot-index: 4; }
         
         @keyframes dotPulse {
-            0%, 100% { transform: scale(1); background: rgba(255,255,255,0.3); }
-            50% { transform: scale(1.2); background: rgba(255,255,255,0.5); }
+            0%, 100% { 
+                transform: scale(1);
+                background: rgba(255,255,255,0.3);
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            }
+            50% { 
+                transform: scale(1.3);
+                background: rgba(255,255,255,0.6);
+                box-shadow: 0 0 15px rgba(255,255,255,0.5);
+            }
         }
         
         .page-dot.active {
             width: 30px;
             background: white;
-            box-shadow: 0 0 15px rgba(255,255,255,0.5);
-            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 0 20px rgba(255,255,255,0.8);
+            border: 1px solid rgba(255,255,255,0.9);
             animation: activeDotPulse 1.5s ease-in-out infinite;
         }
         
         @keyframes activeDotPulse {
-            0%, 100% { width: 30px; background: white; }
-            50% { width: 35px; background: rgba(255,255,255,0.9); }
+            0%, 100% { 
+                width: 30px;
+                background: white;
+                box-shadow: 0 0 20px rgba(255,255,255,0.8);
+            }
+            50% { 
+                width: 35px;
+                background: rgba(255,255,255,0.9);
+                box-shadow: 0 0 30px rgba(255,255,255,1);
+            }
         }
         
-        /* СЕТКА ЭЛЕМЕНТОВ */
+        /* КАРТОЧКИ ЭЛЕМЕНТОВ */
         .items-grid {
             display: flex;
             flex-direction: column;
@@ -596,15 +698,14 @@
         .items-grid::-webkit-scrollbar-thumb {
             background: white;
             border-radius: 10px;
-            animation: scrollbarPulse 2s ease-in-out infinite;
+            animation: scrollbarGlow 2s ease-in-out infinite;
         }
         
-        @keyframes scrollbarPulse {
+        @keyframes scrollbarGlow {
             0%, 100% { background: white; }
-            50% { background: rgba(255,255,255,0.7); }
+            50% { background: rgba(255,255,255,0.7); box-shadow: 0 0 10px white; }
         }
         
-        /* КАРТОЧКИ ЭЛЕМЕНТОВ (БЕЗ ИКОНОК) */
         .item-card {
             background: rgba(255,255,255,0.15);
             backdrop-filter: blur(12px);
@@ -635,11 +736,11 @@
         @keyframes cardSlideIn {
             from {
                 opacity: 0;
-                transform: translateX(-20px);
+                transform: translateX(-30px) rotate(-2deg);
             }
             to {
                 opacity: 1;
-                transform: translateX(0);
+                transform: translateX(0) rotate(0);
             }
         }
         
@@ -655,11 +756,30 @@
             pointer-events: none;
         }
         
+        .item-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: cardShine 3s infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes cardShine {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
+        }
+        
         .item-card:hover {
-            transform: translateX(10px);
+            transform: translateX(10px) scale(1.02);
             background: rgba(255,255,255,0.25);
             box-shadow: 
                 0 8px 25px rgba(0,0,0,0.2),
+                0 0 20px rgba(255,255,255,0.3),
                 inset 0 1px 2px rgba(255,255,255,0.8);
         }
         
@@ -667,18 +787,19 @@
             transform: scale(0.98);
         }
         
-        .item-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            z-index: 2;
-        }
-        
         .item-name {
             font-size: 16px;
             font-weight: 600;
             color: white;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 2;
+            animation: namePulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes namePulse {
+            0%, 100% { text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+            50% { text-shadow: 0 0 10px rgba(255,255,255,0.5), 1px 1px 2px rgba(0,0,0,0.3); }
         }
         
         .item-link {
@@ -686,17 +807,18 @@
             opacity: 0.7;
             transition: all 0.3s;
             z-index: 2;
-            animation: linkPulse 2s ease-in-out infinite;
+            animation: linkWiggle 2s ease-in-out infinite;
         }
         
-        @keyframes linkPulse {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
+        @keyframes linkWiggle {
+            0%, 100% { transform: translateX(0) rotate(0); }
+            25% { transform: translateX(3px) rotate(5deg); }
+            75% { transform: translateX(-3px) rotate(-5deg); }
         }
         
         .item-card:hover .item-link {
             opacity: 1;
-            transform: translateX(5px);
+            transform: translateX(5px) scale(1.2);
             animation: none;
         }
         
@@ -717,17 +839,12 @@
                 inset 0 1px 1px rgba(255,255,255,0.6);
             position: relative;
             overflow: hidden;
+            animation: panelGlow 3s ease-in-out infinite;
         }
         
-        .nav-panel::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 50%);
-            animation: liquidMove 15s infinite linear;
+        @keyframes panelGlow {
+            0%, 100% { box-shadow: 0 4px 15px rgba(0,0,0,0.1), inset 0 1px 1px rgba(255,255,255,0.6); }
+            50% { box-shadow: 0 4px 25px rgba(64,167,227,0.3), inset 0 1px 3px rgba(255,255,255,0.8); }
         }
         
         .nav-btn {
@@ -753,32 +870,21 @@
             position: relative;
             overflow: hidden;
             z-index: 2;
-            animation: navBtnPulse 2s ease-in-out infinite;
-            animation-delay: calc(var(--nav-index) * 0.2s);
+            animation: navBtnBounce 2s ease-in-out infinite;
+            animation-delay: calc(var(--nav-index) * 0.3s);
         }
         
         .nav-btn:nth-child(1) { --nav-index: 1; }
         .nav-btn:nth-child(3) { --nav-index: 2; }
         
-        @keyframes navBtnPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        .nav-btn::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 50%);
-            animation: liquidMove 10s infinite linear;
+        @keyframes navBtnBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
         }
         
         .nav-btn:not(:disabled):active {
             background: rgba(255,255,255,0.4);
-            transform: scale(0.95);
+            transform: scale(0.95) translateY(0);
             animation: none;
         }
         
@@ -796,31 +902,33 @@
             text-align: center;
             text-shadow: 0 2px 5px rgba(0,0,0,0.3);
             z-index: 2;
-            animation: numberPulse 2s ease-in-out infinite;
+            animation: numberSpin 3s ease-in-out infinite;
+            display: inline-block;
         }
         
-        @keyframes numberPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+        @keyframes numberSpin {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(-3deg); }
+            75% { transform: scale(1.1) rotate(3deg); }
         }
         
         .section {
             display: none;
-            animation: fadeInUp 0.4s ease;
+            animation: sectionFadeIn 0.5s ease;
         }
         
         .section.active {
             display: block;
         }
         
-        @keyframes fadeInUp {
+        @keyframes sectionFadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: scale(0.95) translateY(20px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: scale(1) translateY(0);
             }
         }
         
@@ -891,9 +999,11 @@
     <div class="background">
         <div class="gradient-sphere"></div>
         <div class="gradient-sphere-2"></div>
+        <div class="gradient-sphere-3"></div>
     </div>
     
     <div class="particles" id="particles"></div>
+    <div class="bubbles" id="bubbles"></div>
     
     <div class="loading" id="loading">
         <div class="loading-spinner"></div>
@@ -942,7 +1052,7 @@
         
         <div id="plugins-section" class="section">
             <button class="back-btn" onclick="showMainMenu()">
-                <span>← Назад</span>
+                <span>Назад</span>
             </button>
             
             <div class="section-header">
@@ -959,30 +1069,22 @@
             <div id="plugins-page-1" class="plugins-page active">
                 <div class="items-grid">
                     <div class="item-card" onclick="openLink('https://t.me/exteraPluginsSup/221')">
-                        <div class="item-left">
-                            <span class="item-name">LocalEditor</span>
-                        </div>
+                        <span class="item-name">LocalEditor</span>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                     
                     <div class="item-card" onclick="openLink('https://t.me/exteraPluginsSup/369')">
-                        <div class="item-left">
-                            <span class="item-name">Lyrics</span>
-                        </div>
+                        <span class="item-name">Lyrics</span>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                     
                     <div class="item-card" onclick="openLink('https://t.me/kchemniy_modules/13')">
-                        <div class="item-left">
-                            <span class="item-name">Genius Fork</span>
-                        </div>
+                        <span class="item-name">Genius Fork</span>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                     
                     <div class="item-card" onclick="openLink('https://t.me/swagnonher/321')">
-                        <div class="item-left">
-                            <span class="item-name">Animated Wallpaper</span>
-                        </div>
+                        <span class="item-name">Animated Wallpaper</span>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                 </div>
@@ -991,30 +1093,22 @@
             <div id="plugins-page-2" class="plugins-page">
                 <div class="items-grid">
                     <div class="item-card" onclick="openLink('https://t.me/meeowPlugins/145')">
-                        <div class="item-left">
-                            <span class="item-name">reSwaga</span>
-                        </div>
+                        <span class="item-name">reSwaga</span>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                     
                     <div class="item-card" onclick="openLink('https://t.me/shikaatuxplugins/196')">
-                        <div class="item-left">
-                            <span class="item-name">re:extera</span>
-                        </div>
+                        <span class="item-name">re:extera</span>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                     
                     <div class="item-card" onclick="openLink('https://t.me/mishabotov/596')">
-                        <div class="item-left">
-                            <span class="item-name">Quotecreate</span>
-                        </div>
+                        <span class="item-name">Quotecreate</span>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                     
                     <div class="item-card" onclick="openLink('https://t.me/plugins_lishonov/115')">
-                        <div class="item-left">
-                            <span class="item-name">Fake Gifts</span>
-                        </div>
+                        <span class="item-name">Fake Gifts</span>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                 </div>
@@ -1023,30 +1117,22 @@
             <div id="plugins-page-3" class="plugins-page">
                 <div class="items-grid">
                     <div class="item-card" onclick="openLink('https://t.me/RnPlugins/1083')">
-                        <div class="item-left">
-                            <span class="item-name">miniPlayer+</span>
-                        </div>
+                        <span class="item-name">miniPlayer+</span>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                     
                     <div class="item-card" onclick="openLink('https://t.me/kchemniy_modules/125')">
-                        <div class="item-left">
-                            <span class="item-name">Hide link preview fork</span>
-                        </div>
+                        <span class="item-name">Hide link preview fork</span>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                     
                     <div class="item-card" onclick="openLink('https://t.me/QuantaPlugins/210')">
-                        <div class="item-left">
-                            <span class="item-name">UITweaks x QuantaHut</span>
-                        </div>
+                        <span class="item-name">UITweaks x QuantaHut</span>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                     
                     <div class="item-card" onclick="openLink('https://t.me/RnPlugins/620')">
-                        <div class="item-left">
-                            <span class="item-name">Log overlay</span>
-                        </div>
+                        <span class="item-name">Log overlay</span>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                 </div>
@@ -1055,16 +1141,12 @@
             <div id="plugins-page-4" class="plugins-page">
                 <div class="items-grid">
                     <div class="item-card" onclick="openLink('https://t.me/kchemniy_modules/12')">
-                        <div class="item-left">
-                            <span class="item-name">Transcriber fork</span>
-                        </div>
+                        <span class="item-name">Transcriber fork</span>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                     
                     <div class="item-card" onclick="openLink('https://t.me/kvucoPlugins/54')">
-                        <div class="item-left">
-                            <span class="item-name">Bot login</span>
-                        </div>
+                        <span class="item-name">Bot login</span>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                 </div>
@@ -1083,7 +1165,7 @@
         
         <div id="modules-section" class="section">
             <button class="back-btn" onclick="showMainMenu()">
-                <span>← Назад</span>
+                <span>Назад</span>
             </button>
             
             <div class="section-header">
@@ -1092,23 +1174,17 @@
             
             <div class="items-grid">
                 <div class="item-card" onclick="openLink('https://t.me/RnPlugins/1097')">
-                    <div class="item-left">
-                        <span class="item-name">Source trigger</span>
-                    </div>
+                    <span class="item-name">Source trigger</span>
                     <i class="fas fa-external-link-alt item-link"></i>
                 </div>
                 
                 <div class="item-card" onclick="openLink('https://t.me/kchemniy_modules/142')">
-                    <div class="item-left">
-                        <span class="item-name">Giweaway joiner</span>
-                    </div>
+                    <span class="item-name">Giweaway joiner</span>
                     <i class="fas fa-external-link-alt item-link"></i>
                 </div>
                 
                 <div class="item-card" onclick="openLink('https://t.me/kchemniy_modules/139')">
-                    <div class="item-left">
-                        <span class="item-name">Module list</span>
-                    </div>
+                    <span class="item-name">Module list</span>
                     <i class="fas fa-external-link-alt item-link"></i>
                 </div>
             </div>
@@ -1116,7 +1192,7 @@
         
         <div id="tiktok-section" class="section">
             <button class="back-btn" onclick="showMainMenu()">
-                <span>← Назад</span>
+                <span>Назад</span>
             </button>
             
             <div class="section-header">
@@ -1125,9 +1201,7 @@
             
             <div class="items-grid">
                 <div class="item-card" onclick="openLink('https://t.me/tikyoutok/13')">
-                    <div class="item-left">
-                        <span class="item-name">TikTok You 1.2.3 Beta</span>
-                    </div>
+                    <span class="item-name">TikTok You 1.2.3 Beta</span>
                     <i class="fas fa-external-link-alt item-link"></i>
                 </div>
             </div>
@@ -1142,25 +1216,49 @@
         
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
-            const particleCount = 30;
+            const particleCount = 40;
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 
                 const left = Math.random() * 100;
-                const size = Math.random() * 10 + 3;
-                const duration = Math.random() * 15 + 10;
-                const delay = Math.random() * 5;
+                const size = Math.random() * 12 + 2;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 10;
                 
                 particle.style.left = left + '%';
                 particle.style.width = size + 'px';
                 particle.style.height = size + 'px';
                 particle.style.animation = `fall ${duration}s linear infinite`;
                 particle.style.animationDelay = delay + 's';
-                particle.style.opacity = Math.random() * 0.7 + 0.3;
+                particle.style.opacity = Math.random() * 0.8 + 0.2;
                 
                 particlesContainer.appendChild(particle);
+            }
+        }
+        
+        function createBubbles() {
+            const bubblesContainer = document.getElementById('bubbles');
+            const bubbleCount = 15;
+            
+            for (let i = 0; i < bubbleCount; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                
+                const left = Math.random() * 100;
+                const size = Math.random() * 80 + 20;
+                const duration = Math.random() * 15 + 10;
+                const delay = Math.random() * 10;
+                
+                bubble.style.left = left + '%';
+                bubble.style.width = size + 'px';
+                bubble.style.height = size + 'px';
+                bubble.style.bottom = '-100px';
+                bubble.style.animation = `bubbleFloat ${duration}s ease-in-out infinite`;
+                bubble.style.animationDelay = delay + 's';
+                
+                bubblesContainer.appendChild(bubble);
             }
         }
         
@@ -1260,6 +1358,7 @@
         
         document.addEventListener('DOMContentLoaded', () => {
             createParticles();
+            createBubbles();
             showMainMenu();
             
             setTimeout(() => {
