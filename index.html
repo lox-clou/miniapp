@@ -81,7 +81,7 @@
             66% { transform: translate(-20px, 20px) rotate(240deg); }
         }
         
-        /* ЖИДКОЕ СТЕКЛО - ОСНОВНЫЕ СТИЛИ */
+        /* ЖИДКОЕ СТЕКЛО */
         .glass-effect {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(12px);
@@ -96,7 +96,6 @@
             overflow: hidden;
         }
         
-        /* Эффект капель воды */
         .glass-effect::before {
             content: '';
             position: absolute;
@@ -114,7 +113,6 @@
             pointer-events: none;
         }
         
-        /* Вторая волна */
         .glass-effect::after {
             content: '';
             position: absolute;
@@ -139,28 +137,7 @@
             100% { transform: translate(0, 0) rotate(360deg); }
         }
         
-        /* Эффект свечения по краям */
-        .glass-glow {
-            position: relative;
-        }
-        
-        .glass-glow::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(135deg, 
-                rgba(255,255,255,0.5) 0%, 
-                rgba(255,255,255,0.1) 50%, 
-                rgba(255,255,255,0.5) 100%);
-            border-radius: inherit;
-            z-index: -1;
-            filter: blur(10px);
-            opacity: 0.5;
-        }
-        
+        /* ПАДАЮЩИЕ ЧАСТИЦЫ */
         .particles {
             position: fixed;
             top: 0;
@@ -180,6 +157,7 @@
             filter: blur(1px);
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
             will-change: transform;
+            animation: fall linear infinite;
         }
         
         @keyframes fall {
@@ -208,7 +186,7 @@
             z-index: 10;
         }
         
-        /* Шапка с жидким стеклом */
+        /* ШАПКА */
         .header {
             display: flex;
             align-items: center;
@@ -224,6 +202,7 @@
                 inset 0 1px 1px rgba(255,255,255,0.6);
             position: relative;
             overflow: hidden;
+            animation: headerPulse 3s ease-in-out infinite;
         }
         
         .header::before {
@@ -237,14 +216,25 @@
             animation: liquidMove 12s infinite linear;
         }
         
+        @keyframes headerPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
         .logo span {
             font-size: 24px;
             font-weight: 700;
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            animation: textGlow 2s ease-in-out infinite;
         }
         
-        /* Карточка приветствия с жидким стеклом */
+        @keyframes textGlow {
+            0%, 100% { text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+            50% { text-shadow: 0 0 15px rgba(255,255,255,0.8), 2px 2px 4px rgba(0,0,0,0.2); }
+        }
+        
+        /* ПРИВЕТСТВЕННАЯ КАРТОЧКА */
         .welcome-card {
             padding: 30px 20px;
             margin-bottom: 30px;
@@ -258,6 +248,12 @@
                 inset 0 1px 1px rgba(255,255,255,0.6);
             position: relative;
             overflow: hidden;
+            animation: cardFloat 4s ease-in-out infinite;
+        }
+        
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
         
         .welcome-card::before {
@@ -295,6 +291,12 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             position: relative;
             z-index: 2;
+            animation: textPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes textPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.9; }
         }
         
         .welcome-card p {
@@ -306,7 +308,7 @@
             z-index: 2;
         }
         
-        /* Кнопки меню с жидким стеклом */
+        /* КНОПКИ МЕНЮ (ТОЛЬКО ЗДЕСЬ ЕСТЬ ИКОНКИ) */
         .menu-grid {
             display: flex;
             flex-direction: column;
@@ -335,6 +337,17 @@
             box-shadow: 
                 0 8px 20px rgba(0,0,0,0.2),
                 inset 0 1px 1px rgba(255,255,255,0.6);
+            animation: menuBtnPulse 2s ease-in-out infinite;
+            animation-delay: calc(var(--btn-index) * 0.2s);
+        }
+        
+        .menu-btn:nth-child(1) { --btn-index: 1; }
+        .menu-btn:nth-child(2) { --btn-index: 2; }
+        .menu-btn:nth-child(3) { --btn-index: 3; }
+        
+        @keyframes menuBtnPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+            50% { transform: scale(1.02); box-shadow: 0 12px 30px rgba(0,0,0,0.3); }
         }
         
         .menu-btn::before {
@@ -356,6 +369,7 @@
         
         .menu-btn:active {
             transform: scale(0.96);
+            animation: none;
         }
         
         .menu-btn.plugins {
@@ -383,6 +397,13 @@
         .btn-content i {
             font-size: 28px;
             filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3));
+            animation: iconSpin 4s ease-in-out infinite;
+        }
+        
+        @keyframes iconSpin {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
         }
         
         .btn-content span {
@@ -397,13 +418,20 @@
             transform: translateX(0);
             transition: transform 0.3s;
             z-index: 2;
+            animation: arrowMove 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes arrowMove {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
         }
         
         .menu-btn:active .btn-arrow {
             transform: translateX(10px);
+            animation: none;
         }
         
-        /* Кнопка назад с жидким стеклом */
+        /* КНОПКА НАЗАД (БЕЗ ИКОНКИ) */
         .back-btn {
             background: rgba(255,255,255,0.15);
             backdrop-filter: blur(12px);
@@ -416,6 +444,7 @@
             margin-bottom: 25px;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
             transition: all 0.3s;
             color: white;
@@ -425,6 +454,12 @@
                 inset 0 1px 1px rgba(255,255,255,0.6);
             position: relative;
             overflow: hidden;
+            animation: backBtnPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes backBtnPulse {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(-3px); }
         }
         
         .back-btn::before {
@@ -438,12 +473,6 @@
             animation: liquidMove 12s infinite linear;
         }
         
-        .back-btn i {
-            font-size: 18px;
-            transition: transform 0.3s;
-            z-index: 2;
-        }
-        
         .back-btn span {
             z-index: 2;
         }
@@ -451,15 +480,16 @@
         .back-btn:active {
             background: rgba(255,255,255,0.25);
             transform: translateX(-5px);
+            animation: none;
         }
         
-        /* Заголовки разделов с жидким стеклом */
+        /* ЗАГОЛОВКИ РАЗДЕЛОВ (БЕЗ ИКОНОК) */
         .section-header {
             display: flex;
             align-items: center;
-            gap: 15px;
+            justify-content: center;
             margin-bottom: 25px;
-            padding: 10px 20px;
+            padding: 15px 20px;
             background: rgba(255,255,255,0.15);
             backdrop-filter: blur(12px);
             border-radius: 50px;
@@ -482,31 +512,21 @@
             animation: liquidMove 15s infinite linear;
         }
         
-        .section-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: white;
-            box-shadow: 
-                0 4px 10px rgba(0,0,0,0.2),
-                inset 0 1px 1px rgba(255,255,255,0.6);
-            z-index: 2;
-        }
-        
         .section-title {
             font-size: 22px;
             font-weight: 700;
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             z-index: 2;
+            animation: sectionTitlePulse 2.5s ease-in-out infinite;
         }
         
-        /* Индикатор страниц */
+        @keyframes sectionTitlePulse {
+            0%, 100% { letter-spacing: normal; }
+            50% { letter-spacing: 2px; }
+        }
+        
+        /* ИНДИКАТОР СТРАНИЦ */
         .page-indicator {
             display: flex;
             align-items: center;
@@ -525,6 +545,18 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             backdrop-filter: blur(4px);
             border: 1px solid rgba(255,255,255,0.2);
+            animation: dotPulse 2s ease-in-out infinite;
+            animation-delay: calc(var(--dot-index) * 0.1s);
+        }
+        
+        .page-dot:nth-child(1) { --dot-index: 1; }
+        .page-dot:nth-child(2) { --dot-index: 2; }
+        .page-dot:nth-child(3) { --dot-index: 3; }
+        .page-dot:nth-child(4) { --dot-index: 4; }
+        
+        @keyframes dotPulse {
+            0%, 100% { transform: scale(1); background: rgba(255,255,255,0.3); }
+            50% { transform: scale(1.2); background: rgba(255,255,255,0.5); }
         }
         
         .page-dot.active {
@@ -532,9 +564,15 @@
             background: white;
             box-shadow: 0 0 15px rgba(255,255,255,0.5);
             border: 1px solid rgba(255,255,255,0.8);
+            animation: activeDotPulse 1.5s ease-in-out infinite;
         }
         
-        /* Сетка элементов */
+        @keyframes activeDotPulse {
+            0%, 100% { width: 30px; background: white; }
+            50% { width: 35px; background: rgba(255,255,255,0.9); }
+        }
+        
+        /* СЕТКА ЭЛЕМЕНТОВ */
         .items-grid {
             display: flex;
             flex-direction: column;
@@ -558,9 +596,15 @@
         .items-grid::-webkit-scrollbar-thumb {
             background: white;
             border-radius: 10px;
+            animation: scrollbarPulse 2s ease-in-out infinite;
         }
         
-        /* Карточки элементов с жидким стеклом */
+        @keyframes scrollbarPulse {
+            0%, 100% { background: white; }
+            50% { background: rgba(255,255,255,0.7); }
+        }
+        
+        /* КАРТОЧКИ ЭЛЕМЕНТОВ (БЕЗ ИКОНОК) */
         .item-card {
             background: rgba(255,255,255,0.15);
             backdrop-filter: blur(12px);
@@ -578,6 +622,25 @@
                 inset 0 1px 1px rgba(255,255,255,0.6);
             position: relative;
             overflow: hidden;
+            animation: cardSlideIn 0.5s ease-out;
+            animation-fill-mode: both;
+            animation-delay: calc(var(--card-index) * 0.05s);
+        }
+        
+        .item-card:nth-child(1) { --card-index: 1; }
+        .item-card:nth-child(2) { --card-index: 2; }
+        .item-card:nth-child(3) { --card-index: 3; }
+        .item-card:nth-child(4) { --card-index: 4; }
+        
+        @keyframes cardSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
         
         .item-card::before {
@@ -611,27 +674,6 @@
             z-index: 2;
         }
         
-        .item-emoji {
-            width: 45px;
-            height: 45px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            box-shadow: 
-                0 4px 10px rgba(0,0,0,0.1),
-                inset 0 1px 1px rgba(255,255,255,0.6);
-            backdrop-filter: blur(4px);
-            z-index: 2;
-        }
-        
-        .item-info {
-            display: flex;
-            flex-direction: column;
-        }
-        
         .item-name {
             font-size: 16px;
             font-weight: 600;
@@ -644,14 +686,21 @@
             opacity: 0.7;
             transition: all 0.3s;
             z-index: 2;
+            animation: linkPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes linkPulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
         }
         
         .item-card:hover .item-link {
             opacity: 1;
             transform: translateX(5px);
+            animation: none;
         }
         
-        /* Панель навигации с жидким стеклом */
+        /* ПАНЕЛЬ НАВИГАЦИИ */
         .nav-panel {
             display: flex;
             align-items: center;
@@ -704,6 +753,16 @@
             position: relative;
             overflow: hidden;
             z-index: 2;
+            animation: navBtnPulse 2s ease-in-out infinite;
+            animation-delay: calc(var(--nav-index) * 0.2s);
+        }
+        
+        .nav-btn:nth-child(1) { --nav-index: 1; }
+        .nav-btn:nth-child(3) { --nav-index: 2; }
+        
+        @keyframes navBtnPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
         
         .nav-btn::before {
@@ -720,11 +779,13 @@
         .nav-btn:not(:disabled):active {
             background: rgba(255,255,255,0.4);
             transform: scale(0.95);
+            animation: none;
         }
         
         .nav-btn:disabled {
             opacity: 0.3;
             cursor: not-allowed;
+            animation: none;
         }
         
         .page-number {
@@ -735,6 +796,12 @@
             text-align: center;
             text-shadow: 0 2px 5px rgba(0,0,0,0.3);
             z-index: 2;
+            animation: numberPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes numberPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
         
         .section {
@@ -875,14 +942,10 @@
         
         <div id="plugins-section" class="section">
             <button class="back-btn" onclick="showMainMenu()">
-                <i class="fas fa-arrow-left"></i>
-                <span>Назад</span>
+                <span>← Назад</span>
             </button>
             
             <div class="section-header">
-                <div class="section-icon">
-                    <i class="fas fa-puzzle-piece"></i>
-                </div>
                 <div class="section-title">Плагины</div>
             </div>
             
@@ -897,40 +960,28 @@
                 <div class="items-grid">
                     <div class="item-card" onclick="openLink('https://t.me/exteraPluginsSup/221')">
                         <div class="item-left">
-                            <div class="item-emoji">📝</div>
-                            <div class="item-info">
-                                <span class="item-name">LocalEditor</span>
-                            </div>
+                            <span class="item-name">LocalEditor</span>
                         </div>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                     
                     <div class="item-card" onclick="openLink('https://t.me/exteraPluginsSup/369')">
                         <div class="item-left">
-                            <div class="item-emoji">🎵</div>
-                            <div class="item-info">
-                                <span class="item-name">Lyrics</span>
-                            </div>
+                            <span class="item-name">Lyrics</span>
                         </div>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                     
                     <div class="item-card" onclick="openLink('https://t.me/kchemniy_modules/13')">
                         <div class="item-left">
-                            <div class="item-emoji">🍴</div>
-                            <div class="item-info">
-                                <span class="item-name">Genius Fork</span>
-                            </div>
+                            <span class="item-name">Genius Fork</span>
                         </div>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                     
                     <div class="item-card" onclick="openLink('https://t.me/swagnonher/321')">
                         <div class="item-left">
-                            <div class="item-emoji">🖼️</div>
-                            <div class="item-info">
-                                <span class="item-name">Animated Wallpaper</span>
-                            </div>
+                            <span class="item-name">Animated Wallpaper</span>
                         </div>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
@@ -941,40 +992,28 @@
                 <div class="items-grid">
                     <div class="item-card" onclick="openLink('https://t.me/meeowPlugins/145')">
                         <div class="item-left">
-                            <div class="item-emoji">🔄</div>
-                            <div class="item-info">
-                                <span class="item-name">reSwaga</span>
-                            </div>
+                            <span class="item-name">reSwaga</span>
                         </div>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                     
                     <div class="item-card" onclick="openLink('https://t.me/shikaatuxplugins/196')">
                         <div class="item-left">
-                            <div class="item-emoji">🔄</div>
-                            <div class="item-info">
-                                <span class="item-name">re:extera</span>
-                            </div>
+                            <span class="item-name">re:extera</span>
                         </div>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                     
                     <div class="item-card" onclick="openLink('https://t.me/mishabotov/596')">
                         <div class="item-left">
-                            <div class="item-emoji">💬</div>
-                            <div class="item-info">
-                                <span class="item-name">Quotecreate</span>
-                            </div>
+                            <span class="item-name">Quotecreate</span>
                         </div>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                     
                     <div class="item-card" onclick="openLink('https://t.me/plugins_lishonov/115')">
                         <div class="item-left">
-                            <div class="item-emoji">🎁</div>
-                            <div class="item-info">
-                                <span class="item-name">Fake Gifts</span>
-                            </div>
+                            <span class="item-name">Fake Gifts</span>
                         </div>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
@@ -985,40 +1024,28 @@
                 <div class="items-grid">
                     <div class="item-card" onclick="openLink('https://t.me/RnPlugins/1083')">
                         <div class="item-left">
-                            <div class="item-emoji">▶️</div>
-                            <div class="item-info">
-                                <span class="item-name">miniPlayer+</span>
-                            </div>
+                            <span class="item-name">miniPlayer+</span>
                         </div>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                     
                     <div class="item-card" onclick="openLink('https://t.me/kchemniy_modules/125')">
                         <div class="item-left">
-                            <div class="item-emoji">🔗</div>
-                            <div class="item-info">
-                                <span class="item-name">Hide link preview fork</span>
-                            </div>
+                            <span class="item-name">Hide link preview fork</span>
                         </div>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                     
                     <div class="item-card" onclick="openLink('https://t.me/QuantaPlugins/210')">
                         <div class="item-left">
-                            <div class="item-emoji">🎨</div>
-                            <div class="item-info">
-                                <span class="item-name">UITweaks x QuantaHut</span>
-                            </div>
+                            <span class="item-name">UITweaks x QuantaHut</span>
                         </div>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                     
                     <div class="item-card" onclick="openLink('https://t.me/RnPlugins/620')">
                         <div class="item-left">
-                            <div class="item-emoji">📋</div>
-                            <div class="item-info">
-                                <span class="item-name">Log overlay</span>
-                            </div>
+                            <span class="item-name">Log overlay</span>
                         </div>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
@@ -1029,20 +1056,14 @@
                 <div class="items-grid">
                     <div class="item-card" onclick="openLink('https://t.me/kchemniy_modules/12')">
                         <div class="item-left">
-                            <div class="item-emoji">📝</div>
-                            <div class="item-info">
-                                <span class="item-name">Transcriber fork</span>
-                            </div>
+                            <span class="item-name">Transcriber fork</span>
                         </div>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
                     
                     <div class="item-card" onclick="openLink('https://t.me/kvucoPlugins/54')">
                         <div class="item-left">
-                            <div class="item-emoji">🤖</div>
-                            <div class="item-info">
-                                <span class="item-name">Bot login</span>
-                            </div>
+                            <span class="item-name">Bot login</span>
                         </div>
                         <i class="fas fa-external-link-alt item-link"></i>
                     </div>
@@ -1051,57 +1072,42 @@
             
             <div class="nav-panel">
                 <button class="nav-btn" id="plugins-prev" onclick="prevPluginsPage()" disabled>
-                    <i class="fas fa-chevron-left"></i>
-                    <span>Назад</span>
+                    ← Назад
                 </button>
                 <span class="page-number" id="plugins-current-page">1/4</span>
                 <button class="nav-btn" id="plugins-next" onclick="nextPluginsPage()">
-                    <span>Вперед</span>
-                    <i class="fas fa-chevron-right"></i>
+                    Вперед →
                 </button>
             </div>
         </div>
         
         <div id="modules-section" class="section">
             <button class="back-btn" onclick="showMainMenu()">
-                <i class="fas fa-arrow-left"></i>
-                <span>Назад</span>
+                <span>← Назад</span>
             </button>
             
             <div class="section-header">
-                <div class="section-icon">
-                    <i class="fas fa-cogs"></i>
-                </div>
                 <div class="section-title">Модули</div>
             </div>
             
             <div class="items-grid">
                 <div class="item-card" onclick="openLink('https://t.me/RnPlugins/1097')">
                     <div class="item-left">
-                        <div class="item-emoji">⚡</div>
-                        <div class="item-info">
-                            <span class="item-name">Source trigger</span>
-                        </div>
+                        <span class="item-name">Source trigger</span>
                     </div>
                     <i class="fas fa-external-link-alt item-link"></i>
                 </div>
                 
                 <div class="item-card" onclick="openLink('https://t.me/kchemniy_modules/142')">
                     <div class="item-left">
-                        <div class="item-emoji">🎁</div>
-                        <div class="item-info">
-                            <span class="item-name">Giweaway joiner</span>
-                        </div>
+                        <span class="item-name">Giweaway joiner</span>
                     </div>
                     <i class="fas fa-external-link-alt item-link"></i>
                 </div>
                 
                 <div class="item-card" onclick="openLink('https://t.me/kchemniy_modules/139')">
                     <div class="item-left">
-                        <div class="item-emoji">📋</div>
-                        <div class="item-info">
-                            <span class="item-name">Module list</span>
-                        </div>
+                        <span class="item-name">Module list</span>
                     </div>
                     <i class="fas fa-external-link-alt item-link"></i>
                 </div>
@@ -1110,24 +1116,17 @@
         
         <div id="tiktok-section" class="section">
             <button class="back-btn" onclick="showMainMenu()">
-                <i class="fas fa-arrow-left"></i>
-                <span>Назад</span>
+                <span>← Назад</span>
             </button>
             
             <div class="section-header">
-                <div class="section-icon">
-                    <i class="fab fa-tiktok"></i>
-                </div>
                 <div class="section-title">TikTok You</div>
             </div>
             
             <div class="items-grid">
                 <div class="item-card" onclick="openLink('https://t.me/tikyoutok/13')">
                     <div class="item-left">
-                        <div class="item-emoji">📱</div>
-                        <div class="item-info">
-                            <span class="item-name">TikTok You 1.2.3 Beta</span>
-                        </div>
+                        <span class="item-name">TikTok You 1.2.3 Beta</span>
                     </div>
                     <i class="fas fa-external-link-alt item-link"></i>
                 </div>
