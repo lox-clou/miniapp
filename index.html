@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>TeleStore | Premium</title>
+    <title>Telegram Plugins | Premium</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Сброс и базовые стили */
+        /* Все стили остаются без изменений */
         * {
             margin: 0;
             padding: 0;
@@ -82,7 +82,7 @@
             66% { transform: translate(-20px, 20px) rotate(240deg); }
         }
         
-        /* Снежинки/частицы */
+        /* Частицы */
         .particles {
             position: fixed;
             top: 0;
@@ -156,7 +156,7 @@
         }
         
         .logo span {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
@@ -650,7 +650,6 @@
             pointer-events: none;
         }
         
-        /* Медиа-запросы */
         @media (max-width: 480px) {
             .app {
                 padding: 15px 12px;
@@ -666,6 +665,10 @@
             
             .menu-btn {
                 padding: 18px 20px;
+            }
+            
+            .logo span {
+                font-size: 18px;
             }
         }
     </style>
@@ -687,18 +690,18 @@
     
     <!-- Основное приложение -->
     <div class="app">
-        <!-- Шапка -->
+        <!-- Шапка (ИЗМЕНЕНО) -->
         <div class="header">
             <div class="logo">
                 <i class="fas fa-cube"></i>
-                <span>TeleStore</span>
+                <span>Telegram Plugins</span>  <!-- ИЗМЕНЕНО -->
             </div>
             <div class="badge">
                 <i class="fas fa-star" style="margin-right: 5px;"></i> PREMIUM
             </div>
         </div>
         
-        <!-- Главное меню -->
+        <!-- Главное меню (ИЗМЕНЕНО) -->
         <div id="main-menu" class="section active">
             <div class="welcome-card">
                 <div class="sticker-3d">👋</div>
@@ -723,10 +726,10 @@
                     <i class="fas fa-chevron-right btn-arrow"></i>
                 </button>
                 
-                <button class="menu-btn tiktok" onclick="showTikTok()">
+                <button class="menu-btn tiktok" onclick="showTikTok()">  <!-- УБРАНА НАДПИСЬ -->
                     <span class="btn-content">
                         <i class="fab fa-tiktok"></i>
-                        <span>TikTok You</span>
+                        <!-- ПУСТО -->
                     </span>
                     <i class="fas fa-chevron-right btn-arrow"></i>
                 </button>
@@ -747,7 +750,6 @@
                 <div class="section-title">Плагины</div>
             </div>
             
-            <!-- Индикатор страниц -->
             <div class="page-indicator" id="plugins-dots">
                 <div class="page-dot active" onclick="showPluginsPage(1)"></div>
                 <div class="page-dot" onclick="showPluginsPage(2)"></div>
@@ -929,7 +931,6 @@
                 </div>
             </div>
             
-            <!-- Навигация -->
             <div class="nav-panel">
                 <button class="nav-btn" id="plugins-prev" onclick="prevPluginsPage()" disabled>
                     <i class="fas fa-chevron-left"></i>
@@ -1024,7 +1025,7 @@
         <!-- Футер -->
         <div class="footer">
             <i class="fas fa-crown"></i>
-            <span>TeleStore Premium</span>
+            <span>Telegram Plugins</span>
             <span></span>
             <span>v2.0.0</span>
             <i class="fas fa-gem"></i>
@@ -1155,7 +1156,6 @@
             createParticles();
             showMainMenu();
             
-            // Скрыть загрузку через 1 секунду
             setTimeout(() => {
                 document.getElementById('loading').classList.add('fade-out');
             }, 1000);
