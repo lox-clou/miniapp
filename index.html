@@ -24,9 +24,10 @@
             --warning: #ff9800;
             --dark: #1a1a1a;
             --light: #f8f9fa;
-            --glass-bg: rgba(255, 255, 255, 0.25);
-            --glass-border: rgba(255, 255, 255, 0.18);
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.25);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            --glass-highlight: rgba(255, 255, 255, 0.3);
         }
         
         body {
@@ -80,7 +81,86 @@
             66% { transform: translate(-20px, 20px) rotate(240deg); }
         }
         
-        /* ИСПРАВЛЕННЫЕ ЧАСТИЦЫ */
+        /* ЖИДКОЕ СТЕКЛО - ОСНОВНЫЕ СТИЛИ */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 24px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                inset 0 1px 1px rgba(255, 255, 255, 0.6),
+                inset 0 -2px 2px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Эффект капель воды */
+        .glass-effect::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(
+                circle at 30% 30%,
+                rgba(255, 255, 255, 0.4) 0%,
+                transparent 30%
+            );
+            opacity: 0.6;
+            animation: liquidMove 15s infinite linear;
+            pointer-events: none;
+        }
+        
+        /* Вторая волна */
+        .glass-effect::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(
+                circle at 70% 70%,
+                rgba(255, 255, 255, 0.3) 0%,
+                transparent 40%
+            );
+            opacity: 0.4;
+            animation: liquidMove 20s infinite reverse linear;
+            pointer-events: none;
+        }
+        
+        @keyframes liquidMove {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(5%, 5%) rotate(120deg); }
+            66% { transform: translate(-5%, -5%) rotate(240deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+        
+        /* Эффект свечения по краям */
+        .glass-glow {
+            position: relative;
+        }
+        
+        .glass-glow::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, 
+                rgba(255,255,255,0.5) 0%, 
+                rgba(255,255,255,0.1) 50%, 
+                rgba(255,255,255,0.5) 100%);
+            border-radius: inherit;
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0.5;
+        }
+        
         .particles {
             position: fixed;
             top: 0;
@@ -102,7 +182,6 @@
             will-change: transform;
         }
         
-        /* Анимация падения */
         @keyframes fall {
             0% {
                 transform: translateY(-10vh) translateX(0) rotate(0deg);
@@ -129,17 +208,33 @@
             z-index: 10;
         }
         
+        /* Шапка с жидким стеклом */
         .header {
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 25px;
             padding: 12px 20px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border-radius: 40px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255,255,255,0.3);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-radius: 40px;
+            box-shadow: 
+                0 8px 32px rgba(0,0,0,0.2),
+                inset 0 1px 1px rgba(255,255,255,0.6);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%);
+            animation: liquidMove 12s infinite linear;
         }
         
         .logo span {
@@ -149,15 +244,18 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
         
+        /* Карточка приветствия с жидким стеклом */
         .welcome-card {
             padding: 30px 20px;
             margin-bottom: 30px;
             text-align: center;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255,255,255,0.3);
             border-radius: 40px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.2),
+                inset 0 1px 1px rgba(255,255,255,0.6);
             position: relative;
             overflow: hidden;
         }
@@ -169,13 +267,8 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-        }
-        
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%);
+            animation: liquidMove 15s infinite linear;
         }
         
         .sticker-3d {
@@ -185,6 +278,8 @@
             animation: float3d 3s ease-in-out infinite;
             transform-style: preserve-3d;
             perspective: 1000px;
+            position: relative;
+            z-index: 2;
         }
         
         @keyframes float3d {
@@ -198,6 +293,8 @@
             color: white;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 2;
         }
         
         .welcome-card p {
@@ -205,8 +302,11 @@
             font-size: 16px;
             line-height: 1.5;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 2;
         }
         
+        /* Кнопки меню с жидким стеклом */
         .menu-grid {
             display: flex;
             flex-direction: column;
@@ -229,24 +329,28 @@
             color: white;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255,255,255,0.3);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            box-shadow: 
+                0 8px 20px rgba(0,0,0,0.2),
+                inset 0 1px 1px rgba(255,255,255,0.6);
         }
         
-        .menu-btn::after {
+        .menu-btn::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 100%);
-            opacity: 0;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%);
+            opacity: 0.5;
             transition: opacity 0.3s;
+            pointer-events: none;
         }
         
-        .menu-btn:hover::after {
+        .menu-btn:hover::before {
             opacity: 1;
         }
         
@@ -255,22 +359,25 @@
         }
         
         .menu-btn.plugins {
-            background: linear-gradient(135deg, #40a7e3, #7c4dff);
+            background: linear-gradient(135deg, rgba(64,167,227,0.3), rgba(124,77,255,0.3));
+            backdrop-filter: blur(12px);
         }
         
         .menu-btn.modules {
-            background: linear-gradient(135deg, #ff6b6b, #f06595);
+            background: linear-gradient(135deg, rgba(255,107,107,0.3), rgba(240,101,149,0.3));
+            backdrop-filter: blur(12px);
         }
         
         .menu-btn.tiktok {
-            background: linear-gradient(135deg, #fd1d1d, #fcaf45);
+            background: linear-gradient(135deg, rgba(253,29,29,0.3), rgba(252,175,69,0.3));
+            backdrop-filter: blur(12px);
         }
         
         .btn-content {
             display: flex;
             align-items: center;
             gap: 15px;
-            z-index: 1;
+            z-index: 2;
         }
         
         .btn-content i {
@@ -281,6 +388,7 @@
         .btn-content span {
             font-size: 18px;
             font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
         
         .btn-arrow {
@@ -288,15 +396,17 @@
             opacity: 0.8;
             transform: translateX(0);
             transition: transform 0.3s;
+            z-index: 2;
         }
         
         .menu-btn:active .btn-arrow {
             transform: translateX(10px);
         }
         
+        /* Кнопка назад с жидким стеклом */
         .back-btn {
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255,255,255,0.3);
             border-radius: 40px;
             padding: 15px 25px;
@@ -310,23 +420,40 @@
             transition: all 0.3s;
             color: white;
             width: fit-content;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 
+                0 4px 15px rgba(0,0,0,0.1),
+                inset 0 1px 1px rgba(255,255,255,0.6);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .back-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 50%);
+            animation: liquidMove 12s infinite linear;
         }
         
         .back-btn i {
             font-size: 18px;
             transition: transform 0.3s;
+            z-index: 2;
+        }
+        
+        .back-btn span {
+            z-index: 2;
         }
         
         .back-btn:active {
-            background: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.25);
             transform: translateX(-5px);
         }
         
-        .back-btn:active i {
-            transform: translateX(-5px);
-        }
-        
+        /* Заголовки разделов с жидким стеклом */
         .section-header {
             display: flex;
             align-items: center;
@@ -334,22 +461,41 @@
             margin-bottom: 25px;
             padding: 10px 20px;
             background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border-radius: 50px;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 
+                0 4px 15px rgba(0,0,0,0.1),
+                inset 0 1px 1px rgba(255,255,255,0.6);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 50%);
+            animation: liquidMove 15s infinite linear;
         }
         
         .section-icon {
             width: 50px;
             height: 50px;
-            background: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.2);
             border-radius: 25px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
             color: white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 
+                0 4px 10px rgba(0,0,0,0.2),
+                inset 0 1px 1px rgba(255,255,255,0.6);
+            z-index: 2;
         }
         
         .section-title {
@@ -357,8 +503,10 @@
             font-weight: 700;
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            z-index: 2;
         }
         
+        /* Индикатор страниц */
         .page-indicator {
             display: flex;
             align-items: center;
@@ -375,14 +523,18 @@
             transition: all 0.3s;
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.2);
         }
         
         .page-dot.active {
             width: 30px;
             background: white;
             box-shadow: 0 0 15px rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.8);
         }
         
+        /* Сетка элементов */
         .items-grid {
             display: flex;
             flex-direction: column;
@@ -408,9 +560,10 @@
             border-radius: 10px;
         }
         
+        /* Карточки элементов с жидким стеклом */
         .item-card {
             background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255,255,255,0.25);
             border-radius: 25px;
             padding: 16px 20px;
@@ -420,13 +573,31 @@
             justify-content: space-between;
             transition: all 0.3s;
             color: white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 
+                0 4px 15px rgba(0,0,0,0.1),
+                inset 0 1px 1px rgba(255,255,255,0.6);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .item-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 50%);
+            animation: liquidMove 12s infinite linear;
+            pointer-events: none;
         }
         
         .item-card:hover {
             transform: translateX(10px);
             background: rgba(255,255,255,0.25);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            box-shadow: 
+                0 8px 25px rgba(0,0,0,0.2),
+                inset 0 1px 2px rgba(255,255,255,0.8);
         }
         
         .item-card:active {
@@ -437,6 +608,7 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            z-index: 2;
         }
         
         .item-emoji {
@@ -448,7 +620,11 @@
             align-items: center;
             justify-content: center;
             font-size: 22px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 
+                0 4px 10px rgba(0,0,0,0.1),
+                inset 0 1px 1px rgba(255,255,255,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 2;
         }
         
         .item-info {
@@ -460,12 +636,14 @@
             font-size: 16px;
             font-weight: 600;
             color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
         
         .item-link {
             font-size: 20px;
             opacity: 0.7;
             transition: all 0.3s;
+            z-index: 2;
         }
         
         .item-card:hover .item-link {
@@ -473,6 +651,7 @@
             transform: translateX(5px);
         }
         
+        /* Панель навигации с жидким стеклом */
         .nav-panel {
             display: flex;
             align-items: center;
@@ -480,10 +659,26 @@
             gap: 20px;
             margin-top: 25px;
             padding: 15px;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(12px);
             border-radius: 50px;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 
+                0 4px 15px rgba(0,0,0,0.1),
+                inset 0 1px 1px rgba(255,255,255,0.6);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-panel::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 50%);
+            animation: liquidMove 15s infinite linear;
         }
         
         .nav-btn {
@@ -502,7 +697,24 @@
             min-width: 100px;
             justify-content: center;
             backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 
+                0 2px 8px rgba(0,0,0,0.1),
+                inset 0 1px 1px rgba(255,255,255,0.6);
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+        
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2) 0%, transparent 50%);
+            animation: liquidMove 10s infinite linear;
         }
         
         .nav-btn:not(:disabled):active {
@@ -522,6 +734,7 @@
             min-width: 60px;
             text-align: center;
             text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            z-index: 2;
         }
         
         .section {
@@ -928,20 +1141,18 @@
         tg.ready();
         tg.enableClosingConfirmation();
         
-        // ИСПРАВЛЕННАЯ ФУНКЦИЯ СОЗДАНИЯ ЧАСТИЦ
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
-            const particleCount = 30; // Количество частиц
+            const particleCount = 30;
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 
-                // Случайные начальные координаты
                 const left = Math.random() * 100;
-                const size = Math.random() * 10 + 3; // Размер от 3px до 13px
-                const duration = Math.random() * 15 + 10; // Длительность от 10 до 25 секунд
-                const delay = Math.random() * 5; // Задержка от 0 до 5 секунд
+                const size = Math.random() * 10 + 3;
+                const duration = Math.random() * 15 + 10;
+                const delay = Math.random() * 5;
                 
                 particle.style.left = left + '%';
                 particle.style.width = size + 'px';
