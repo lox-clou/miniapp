@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог плагинов Telegram</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            padding: 16px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 20px 0 10px;
+            color: var(--tg-theme-button-color, #40a7e3);
+        }
+        
+        h2 {
+            font-size: 22px;
+            font-weight: 500;
+            margin: 20px 0 15px;
+            color: var(--tg-theme-hint-color, #999999);
+        }
+        
+        h3 {
+            font-size: 18px;
+            font-weight: 500;
+            margin: 15px 0 10px;
+            color: var(--tg-theme-hint-color, #999999);
+        }
+        
+        .menu-btn {
+            background: var(--tg-theme-button-color, #40a7e3);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 8px 0;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .menu-btn:active {
+            transform: scale(0.98);
+            opacity: 0.9;
+        }
+        
+        .back-btn {
+            background: transparent;
+            color: var(--tg-theme-button-color, #40a7e3);
+            border: 2px solid var(--tg-theme-button-color, #40a7e3);
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        .plugin-item {
+            background: var(--tg-theme-secondary-bg-color, #f0f0f0);
+            color: var(--tg-theme-text-color, #000000);
+            border: none;
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin: 6px 0;
+            width: 100%;
+            font-size: 15px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .plugin-item:active {
+            background: var(--tg-theme-button-color, #40a7e3);
+            color: white;
+        }
+        
+        .page-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .page-btn {
+            background: var(--tg-theme-secondary-bg-color, #e0e0e0);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            min-width: 40px;
+        }
+        
+        .page-btn.active {
+            background: var(--tg-theme-button-color, #40a7e3);
+            color: white;
+        }
+        
+        .page-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .sticker {
+            width: 80px;
+            height: 80px;
+            margin: 20px auto;
+            display: block;
+            background: #f0f0f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+        
+        .welcome-text {
+            text-align: center;
+            margin: 30px 0;
+            font-size: 18px;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--tg-theme-hint-color, #999);
+        }
+        
+        .arrow {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="app">
+        <!-- Стикер приветствия (эмодзи вместо стикера) -->
+        <div class="sticker">👋</div>
+        
+        <!-- Главное меню -->
+        <div id="main-menu" class="section active">
+            <h1>Каталог плагинов</h1>
+            <p class="welcome-text">Здравствуйте! Предлагаю вам установить лучшие плагины для вашего тг</p>
+            
+            <button class="menu-btn" onclick="showPluginsMain()">
+                <span>📦 Плагины</span>
+                <span class="arrow">→</span>
+            </button>
+            
+            <button class="menu-btn" onclick="showModules()">
+                <span>🔧 Модули</span>
+                <span class="arrow">→</span>
+            </button>
+            
+            <button class="menu-btn" onclick="showTikTok()">
+                <span>🎵 TikTok You</span>
+                <span class="arrow">→</span>
+            </button>
+        </div>
+        
+        <!-- Раздел Плагины (основной) -->
+        <div id="plugins-section" class="section">
+            <button class="back-btn" onclick="showMainMenu()">← Назад в меню</button>
+            <h2>📦 Плагины</h2>
+            <p>Выберите страницу:</p>
+            
+            <div class="page-indicator">
+                <button class="page-btn" id="plugins-page1-btn" onclick="showPluginsPage(1)">1</button>
+                <button class="page-btn" id="plugins-page2-btn" onclick="showPluginsPage(2)">2</button>
+                <button class="page-btn" id="plugins-page3-btn" onclick="showPluginsPage(3)">3</button>
+                <button class="page-btn" id="plugins-page4-btn" onclick="showPluginsPage(4)">4</button>
+            </div>
+            
+            <!-- Страницы плагинов -->
+            <div id="plugins-page-1" class="plugins-page">
+                <h3>Страница 1/4</h3>
+                <button class="plugin-item" onclick="openLink('https://t.me/exteraPluginsSup/221')">
+                    <span>LocalEditor</span>
+                    <span>↗️</span>
+                </button>
+                <button class="plugin-item" onclick="openLink('https://t.me/exteraPluginsSup/369')">
+                    <span>Lyrics</span>
+                    <span>↗️</span>
+                </button>
+                <button class="plugin-item" onclick="openLink('https://t.me/kchemniy_modules/13')">
+                    <span>Genius Fork</span>
+                    <span>↗️</span>
+                </button>
+                <button class="plugin-item" onclick="openLink('https://t.me/swagnonher/321')">
+                    <span>Animated Wallpaper</span>
+                    <span>↗️</span>
+                </button>
+            </div>
+            
+            <div id="plugins-page-2" class="plugins-page" style="display:none;">
+                <h3>Страница 2/4</h3>
+                <button class="plugin-item" onclick="openLink('https://t.me/meeowPlugins/145')">
+                    <span>reSwaga</span>
+                    <span>↗️</span>
+                </button>
+                <button class="plugin-item" onclick="openLink('https://t.me/shikaatuxplugins/196')">
+                    <span>re:extera</span>
+                    <span>↗️</span>
+                </button>
+                <button class="plugin-item" onclick="openLink('https://t.me/mishabotov/596')">
+                    <span>Quotecreate</span>
+                    <span>↗️</span>
+                </button>
+                <button class="plugin-item" onclick="openLink('https://t.me/plugins_lishonov/115')">
+                    <span>Fake Gifts</span>
+                    <span>↗️</span>
+                </button>
+            </div>
+            
+            <div id="plugins-page-3" class="plugins-page" style="display:none;">
+                <h3>Страница 3/4</h3>
+                <button class="plugin-item" onclick="openLink('https://t.me/RnPlugins/1083')">
+                    <span>miniPlayer+</span>
+                    <span>↗️</span>
+                </button>
+                <button class="plugin-item" onclick="openLink('https://t.me/kchemniy_modules/125')">
+                    <span>Hide link preview fork</span>
+                    <span>↗️</span>
+                </button>
+                <button class="plugin-item" onclick="openLink('https://t.me/QuantaPlugins/210')">
+                    <span>UITweaks x QuantaHut</span>
+                    <span>↗️</span>
+                </button>
+                <button class="plugin-item" onclick="openLink('https://t.me/RnPlugins/620')">
+                    <span>Log overlay</span>
+                    <span>↗️</span>
+                </button>
+            </div>
+            
+            <div id="plugins-page-4" class="plugins-page" style="display:none;">
+                <h3>Страница 4/4</h3>
+                <button class="plugin-item" onclick="openLink('https://t.me/kchemniy_modules/12')">
+                    <span>Transcriber fork</span>
+                    <span>↗️</span>
+                </button>
+                <button class="plugin-item" onclick="openLink('https://t.me/kvucoPlugins/54')">
+                    <span>Bot login</span>
+                    <span>↗️</span>
+                </button>
+            </div>
+            
+            <!-- Пагинация -->
+            <div class="page-indicator" id="plugins-pagination">
+                <button class="page-btn" id="plugins-prev" onclick="prevPluginsPage()" disabled>◀️</button>
+                <span id="plugins-current-page">1/4</span>
+                <button class="page-btn" id="plugins-next" onclick="nextPluginsPage()">▶️</button>
+            </div>
+        </div>
+        
+        <!-- Раздел Модули -->
+        <div id="modules-section" class="section">
+            <button class="back-btn" onclick="showMainMenu()">← Назад в меню</button>
+            <h2>🔧 Модули</h2>
+            
+            <button class="plugin-item" onclick="openLink('https://t.me/RnPlugins/1097')">
+                <span>Source trigger</span>
+                <span>↗️</span>
+            </button>
+            <button class="plugin-item" onclick="openLink('https://t.me/kchemniy_modules/142')">
+                <span>Giweaway joiner</span>
+                <span>↗️</span>
+            </button>
+            <button class="plugin-item" onclick="openLink('https://t.me/kchemniy_modules/139')">
+                <span>Module list</span>
+                <span>↗️</span>
+            </button>
+        </div>
+        
+        <!-- Раздел TikTok You -->
+        <div id="tiktok-section" class="section">
+            <button class="back-btn" onclick="showMainMenu()">← Назад в меню</button>
+            <h2>🎵 TikTok You</h2>
+            
+            <button class="plugin-item" onclick="openLink('https://t.me/tikyoutok/13')">
+                <span>TikTok You 1.2.3 Beta</span>
+                <span>↗️</span>
+            </button>
+        </div>
+        
+        <div class="footer">
+            <p>Каталог плагинов Telegram • Версия 2.0</p>
+        </div>
+    </div>
+
+    <script>
+        // Telegram WebApp
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.ready();
+        
+        // Переменные для пагинации
+        let currentPluginsPage = 1;
+        const totalPluginsPages = 4;
+        
+        // Функции навигации
+        function showMainMenu() {
+            document.getElementById('main-menu').classList.add('active');
+            document.getElementById('plugins-section').classList.remove('active');
+            document.getElementById('modules-section').classList.remove('active');
+            document.getElementById('tiktok-section').classList.remove('active');
+            tg.BackButton.hide();
+        }
+        
+        function showPluginsMain() {
+            document.getElementById('main-menu').classList.remove('active');
+            document.getElementById('plugins-section').classList.add('active');
+            document.getElementById('modules-section').classList.remove('active');
+            document.getElementById('tiktok-section').classList.remove('active');
+            tg.BackButton.show();
+            tg.BackButton.onClick(showMainMenu);
+            
+            // Показываем первую страницу плагинов
+            showPluginsPage(1);
+        }
+        
+        function showPluginsPage(page) {
+            // Скрываем все страницы
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`plugins-page-${i}`).style.display = 'none';
+                document.getElementById(`plugins-page${i}-btn`).classList.remove('active');
+            }
+            
+            // Показываем выбранную страницу
+            document.getElementById(`plugins-page-${page}`).style.display = 'block';
+            document.getElementById(`plugins-page${page}-btn`).classList.add('active');
+            
+            currentPluginsPage = page;
+            document.getElementById('plugins-current-page').textContent = `${page}/${totalPluginsPages}`;
+            
+            // Обновляем кнопки пагинации
+            document.getElementById('plugins-prev').disabled = (page === 1);
+            document.getElementById('plugins-next').disabled = (page === totalPluginsPages);
+        }
+        
+        function prevPluginsPage() {
+            if (currentPluginsPage > 1) {
+                showPluginsPage(currentPluginsPage - 1);
+            }
+        }
+        
+        function nextPluginsPage() {
+            if (currentPluginsPage < totalPluginsPages) {
+                showPluginsPage(currentPluginsPage + 1);
+            }
+        }
+        
+        function showModules() {
+            document.getElementById('main-menu').classList.remove('active');
+            document.getElementById('plugins-section').classList.remove('active');
+            document.getElementById('modules-section').classList.add('active');
+            document.getElementById('tiktok-section').classList.remove('active');
+            tg.BackButton.show();
+            tg.BackButton.onClick(showMainMenu);
+        }
+        
+        function showTikTok() {
+            document.getElementById('main-menu').classList.remove('active');
+            document.getElementById('plugins-section').classList.remove('active');
+            document.getElementById('modules-section').classList.remove('active');
+            document.getElementById('tiktok-section').classList.add('active');
+            tg.BackButton.show();
+            tg.BackButton.onClick(showMainMenu);
+        }
+        
+        // Функция открытия ссылок
+        function openLink(url) {
+            tg.openTelegramLink(url);
+        }
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            // Показываем главное меню
+            showMainMenu();
+        });
+    </script>
+</body>
+</html>
