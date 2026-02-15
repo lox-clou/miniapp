@@ -1,1 +1,1 @@
-# miniapp
+Mini App for Telegram
