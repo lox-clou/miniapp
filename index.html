@@ -3,99 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Premium Catalog</title>
+    <title>Premium Dark Catalog</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* 🌑 ПРИНУДИТЕЛЬНАЯ ТЕМНАЯ ТЕМА (Игнорируем настройки Telegram) */
         :root {
-            --bg: var(--tg-theme-bg-color, #0f0f0f);
-            --text: var(--tg-theme-text-color, #ffffff);
-            --hint: var(--tg-theme-hint-color, #999999);
-            --link: var(--tg-theme-link-color, #3390ec);
-            --btn: var(--tg-theme-button-color, #3390ec);
-            --btn-text: var(--tg-theme-button-text-color, #ffffff);
-            --secondary-bg: var(--tg-theme-secondary-bg-color, #1c1c1e);
-            --card-bg: rgba(255, 255, 255, 0.06);
+            --bg: #000000;
+            --text: #ffffff;
+            --hint: #888888;
+            --accent: #00f2ff; /* Неоновый голубой */
+            --accent-2: #bd00ff; /* Неоновый фиолетовый */
+            --card-bg: rgba(255, 255, 255, 0.03);
             --border: rgba(255, 255, 255, 0.08);
+            --glass-blur: blur(20px) saturate(180%);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif; }
         
-        body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; padding-bottom: 40px; }
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            min-height: 100vh; 
+            overflow-x: hidden; 
+            padding-bottom: 40px; 
+        }
 
+        /* 🌌 Анимированный фон "Жидкий неон" */
         .mesh-bg {
             position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle at 50% 50%, rgba(51, 144, 236, 0.12), transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(150, 50, 255, 0.08), transparent 40%);
-            z-index: -1; animation: meshMove 20s ease-in-out infinite alternate;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 242, 255, 0.15), transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(189, 0, 255, 0.15), transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03), transparent 60%);
+            z-index: -1; 
+            animation: meshMove 15s ease-in-out infinite alternate;
+            filter: blur(40px);
         }
-        @keyframes meshMove { 0% { transform: translate(0, 0); } 100% { transform: translate(-5%, -5%); } }
+        @keyframes meshMove { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-5%, -5%) scale(1.1); } }
 
-        .app { max-width: 480px; margin: 0 auto; padding: 16px; }
+        .app { max-width: 480px; margin: 0 auto; padding: 16px; position: relative; }
 
-        .header { text-align: center; margin-bottom: 20px; padding-top: 10px; }
-        .header h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--text), var(--hint)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        /* Заголовок с секретной кнопкой */
+        .header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            margin-bottom: 24px; padding-top: 10px; 
+        }
+        .header h1 { 
+            font-size: 28px; font-weight: 800; letter-spacing: -1px; 
+            background: linear-gradient(135deg, #fff 0%, #aaa 100%); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+        }
+        
+        /* 🔮 Секретный декоративный значок */
+        .secret-trigger {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.4s ease;
+            color: rgba(255, 255, 255, 0.2); font-size: 16px;
+        }
+        .secret-trigger:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+            transform: rotate(180deg) scale(1.1);
+        }
+        .secret-trigger:active { transform: scale(0.9); }
 
-        /* Вкладки (Chips) */
-        .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 16px; scrollbar-width: none; }
+        /* Вкладки */
+        .tabs { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 16px; margin-bottom: 16px; scrollbar-width: none; }
         .tabs::-webkit-scrollbar { display: none; }
         .tab {
-            flex-shrink: 0; padding: 10px 18px; border-radius: 20px;
-            background: var(--secondary-bg); border: 1px solid var(--border);
+            flex-shrink: 0; padding: 10px 20px; border-radius: 24px;
+            background: var(--card-bg); border: 1px solid var(--border);
             color: var(--hint); font-size: 14px; font-weight: 600; cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: var(--glass-blur); transition: all 0.3s ease;
         }
-        .tab.active { background: var(--btn); color: var(--btn-text); border-color: var(--btn); box-shadow: 0 4px 15px rgba(51, 144, 236, 0.3); }
+        .tab.active { 
+            background: rgba(255, 255, 255, 0.1); 
+            color: #fff; border-color: rgba(255, 255, 255, 0.3); 
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
         .tab:active { transform: scale(0.95); }
 
         /* Поиск */
-        .search-box { position: relative; margin-bottom: 20px; }
+        .search-box { position: relative; margin-bottom: 24px; }
         .search-input {
-            width: 100%; background: var(--secondary-bg); border: 1px solid var(--border);
-            border-radius: 16px; padding: 14px 16px 14px 44px; color: var(--text);
-            font-size: 15px; outline: none; transition: all 0.2s;
+            width: 100%; background: var(--card-bg); border: 1px solid var(--border);
+            border-radius: 20px; padding: 16px 16px 16px 48px; color: var(--text);
+            font-size: 15px; outline: none; transition: all 0.3s; backdrop-filter: var(--glass-blur);
         }
-        .search-input:focus { border-color: var(--btn); box-shadow: 0 0 0 3px rgba(51, 144, 236, 0.15); }
-        .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--hint); }
+        .search-input:focus { 
+            border-color: var(--accent); 
+            box-shadow: 0 0 0 4px rgba(0, 242, 255, 0.1), 0 0 20px rgba(0, 242, 255, 0.2); 
+        }
+        .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--hint); }
 
-        /* Список */
-        .items-list { display: flex; flex-direction: column; gap: 10px; }
+        /* Карточки (Liquid Glass) */
+        .items-list { display: flex; flex-direction: column; gap: 12px; }
         .item-card {
             background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: 18px; padding: 16px; display: flex; align-items: center;
-            justify-content: space-between; cursor: pointer; transition: all 0.2s;
+            border-radius: 24px; padding: 18px; display: flex; align-items: center;
+            justify-content: space-between; cursor: pointer; 
+            backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative; overflow: hidden;
         }
-        .item-card:active { transform: scale(0.98); background: rgba(255,255,255,0.1); }
-        .item-info { display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0; }
+        /* Эффект свечения при наведении/нажатии */
+        .item-card::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: left 0.5s;
+        }
+        .item-card:hover::before { left: 100%; }
+        .item-card:active { transform: scale(0.98); border-color: rgba(255,255,255,0.2); }
+        
+        .item-info { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 0; }
         .item-icon { 
-            width: 40px; height: 40px; border-radius: 12px; background: rgba(51, 144, 236, 0.15); 
-            color: var(--link); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; 
+            width: 44px; height: 44px; border-radius: 14px; 
+            background: linear-gradient(135deg, rgba(0, 242, 255, 0.1), rgba(189, 0, 255, 0.1)); 
+            color: var(--accent); display: flex; align-items: center; justify-content: center; 
+            font-size: 18px; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.05);
         }
-        .item-name { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .item-desc { font-size: 12px; color: var(--hint); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .item-name { font-size: 16px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .item-desc { font-size: 13px; color: var(--hint); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
-        .action-btns { display: flex; gap: 8px; }
+        .action-btns { display: flex; gap: 10px; }
         .icon-btn {
-            width: 36px; height: 36px; border-radius: 10px; background: var(--secondary-bg);
+            width: 40px; height: 40px; border-radius: 14px; background: rgba(255,255,255,0.05);
             border: 1px solid var(--border); color: var(--hint); display: flex; align-items: center;
-            justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 14px;
+            justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 15px;
         }
-        .icon-btn:active { transform: scale(0.9); background: var(--btn); color: var(--btn-text); border-color: var(--btn); }
+        .icon-btn:active { transform: scale(0.9); background: var(--accent); color: #000; border-color: var(--accent); }
+        .icon-btn.open { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 0 15px rgba(0, 242, 255, 0.3); }
 
-        .empty-state { text-align: center; padding: 40px 20px; color: var(--hint); }
-        .empty-state i { font-size: 40px; margin-bottom: 12px; opacity: 0.4; }
+        /* Секретная страница */
+        .view { display: none; }
+        .view.active { display: block; animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .fade-in { animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(8px); }
-        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
-        
-        /* Уведомление о копировании */
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 8px; color: var(--accent);
+            font-size: 15px; font-weight: 600; margin-bottom: 24px; cursor: pointer;
+            padding: 10px 0; transition: opacity 0.2s;
+        }
+        .back-btn:active { opacity: 0.6; }
+
+        .empty-state { text-align: center; padding: 50px 20px; color: var(--hint); }
+        .empty-state i { font-size: 48px; margin-bottom: 16px; opacity: 0.3; }
+
+        /* Уведомление */
         .toast {
             position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); color: white;
-            padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 500;
-            opacity: 0; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 100;
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(20, 20, 20, 0.9); backdrop-filter: blur(10px); color: #fff;
+            padding: 14px 28px; border-radius: 30px; font-size: 14px; font-weight: 600;
+            opacity: 0; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 100;
+            border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
     </style>
@@ -104,29 +169,58 @@
     <div class="mesh-bg"></div>
     
     <div class="app">
-        <div class="header fade-in">
-            <h1>⚡ Premium Catalog</h1>
+        <!-- ГЛАВНЫЙ ЭКРАН -->
+        <div id="view-main" class="view active">
+            <div class="header">
+                <h1>⚡ Premium</h1>
+                <!-- 🔮 Секретный декоративный значок -->
+                <div class="secret-trigger" onclick="openSecret()" title="???">
+                    <i class="fas fa-gem"></i>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('plugins', this)">📦 Плагины</div>
+                <div class="tab" onclick="switchTab('modules', this)">🧩 Модули</div>
+                <div class="tab" onclick="switchTab('apps', this)">📱 Приложения</div>
+            </div>
+
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" id="searchInput" placeholder="Поиск по всему каталогу..." oninput="handleSearch(this.value)">
+            </div>
+
+            <div id="content-list" class="items-list"></div>
         </div>
 
-        <div class="tabs fade-in" style="animation-delay: 0.05s;">
-            <div class="tab active" onclick="switchTab('plugins')">📦 Плагины</div>
-            <div class="tab" onclick="switchTab('modules')">🧩 Модули</div>
-            <div class="tab" onclick="switchTab('apps')">📱 Приложения</div>
-            <div class="tab" onclick="switchTab('bots')">🤖 Боты</div>
+        <!-- 🔒 СЕКРЕТНЫЙ ЭКРАН -->
+        <div id="view-secret" class="view">
+            <div class="back-btn" onclick="closeSecret()"><i class="fas fa-arrow-left"></i> Назад в каталог</div>
+            <div class="header">
+                <h1>🔒 Secret Area</h1>
+            </div>
+            <div class="items-list">
+                <div class="item-card" style="border-color: rgba(255, 0, 85, 0.3); box-shadow: 0 0 30px rgba(255, 0, 85, 0.1);" onclick="openLink('https://t.me/exterapl/838')">
+                    <div class="item-info">
+                        <div class="item-icon" style="background: rgba(255, 0, 85, 0.15); color: #ff0055; border-color: rgba(255, 0, 85, 0.3);">
+                            <i class="fas fa-skull"></i>
+                        </div>
+                        <div>
+                            <div class="item-name" style="color: #ff0055;">Секретный Плагин</div>
+                            <div class="item-desc">Доступ только для избранных</div>
+                        </div>
+                    </div>
+                    <div class="action-btns">
+                        <div class="icon-btn open"><i class="fas fa-external-link-alt"></i></div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="search-box fade-in" style="animation-delay: 0.1s;">
-            <i class="fas fa-search search-icon"></i>
-            <input type="text" class="search-input" id="searchInput" placeholder="Поиск по всему каталогу..." oninput="handleSearch(this.value)">
-        </div>
-
-        <div id="content-list" class="items-list fade-in" style="animation-delay: 0.15s;"></div>
     </div>
 
     <div class="toast" id="toast">✅ Ссылка скопирована!</div>
 
     <script>
-        // 🗄️ ЕДИНАЯ БАЗА ДАННЫХ
         const DATA = {
             plugins: [
                 { name: "LocalEditor", url: "https://t.me/exteraPluginsSup/221", desc: "Редактирование без пересылки" },
@@ -152,10 +246,6 @@
                 { name: "TikTok You v3.4", url: "https://t.me/tiktokyou/49", desc: "Модифицированный клиент TikTok" },
                 { name: "Wallify", url: "https://t.me/WallifyApp/4/1993", desc: "Красивые живые обои на телефон" },
                 { name: "Larpkeeper", url: "https://t.me/vcvk1/1406", desc: "Фейковый Tonkeeper" }
-            ],
-            bots: [
-                // Заготовка на будущее. Когда добавишь ботов, просто раскомментируй и добавь строки:
-                // { name: "Название бота", url: "https://t.me/username", desc: "Описание бота" }
             ]
         };
 
@@ -165,20 +255,16 @@
         
         const haptic = (type = 'light') => tg.HapticFeedback?.impactOccurred(type);
 
-        let state = {
-            activeTab: 'plugins',
-            searchQuery: ''
-        };
+        let state = { activeTab: 'plugins', searchQuery: '' };
 
-        function switchTab(tab) {
+        function switchTab(tab, element) {
             haptic('medium');
             state.activeTab = tab;
             state.searchQuery = '';
             document.getElementById('searchInput').value = '';
             
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            
+            element.classList.add('active');
             renderList();
         }
 
@@ -192,7 +278,6 @@
             const list = document.getElementById('content-list');
             list.innerHTML = '';
             
-            // Если есть поиск, ищем по ВСЕМ категориям. Иначе только в активной вкладке.
             let itemsToRender = [];
             if (state.searchQuery) {
                 Object.values(DATA).flat().forEach(item => {
@@ -205,20 +290,21 @@
             }
 
             if (itemsToRender.length === 0) {
-                list.innerHTML = `<div class="empty-state fade-in"><i class="fas fa-ghost"></i><br>Ничего не найдено</div>`;
+                list.innerHTML = `<div class="empty-state"><i class="fas fa-ghost"></i><br>Ничего не найдено</div>`;
                 return;
             }
 
             itemsToRender.forEach((item, index) => {
                 const div = document.createElement('div');
-                div.className = 'item-card fade-in';
-                div.style.animationDelay = `${index * 0.04}s`;
+                div.className = 'item-card';
+                div.style.animation = `fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards`;
+                div.style.animationDelay = `${index * 0.05}s`;
+                div.style.opacity = '0'; // Для анимации
                 
-                // Подсветка совпадений в поиске
                 let displayName = item.name;
                 if (state.searchQuery) {
                     const regex = new RegExp(`(${state.searchQuery})`, 'gi');
-                    displayName = item.name.replace(regex, '<span style="color: var(--link); font-weight: 700;">$1</span>');
+                    displayName = item.name.replace(regex, '<span style="color: var(--accent); font-weight: 700;">$1</span>');
                 }
 
                 div.innerHTML = `
@@ -230,12 +316,8 @@
                         </div>
                     </div>
                     <div class="action-btns">
-                        <div class="icon-btn" onclick="copyLink('${item.url}', event)" title="Копировать ссылку">
-                            <i class="fas fa-copy"></i>
-                        </div>
-                        <div class="icon-btn" onclick="openLink('${item.url}')" style="background: var(--btn); color: var(--btn-text); border-color: var(--btn);" title="Открыть">
-                            <i class="fas fa-external-link-alt"></i>
-                        </div>
+                        <div class="icon-btn" onclick="copyLink('${item.url}', event)"><i class="fas fa-copy"></i></div>
+                        <div class="icon-btn open" onclick="openLink('${item.url}')"><i class="fas fa-external-link-alt"></i></div>
                     </div>
                 `;
                 list.appendChild(div);
@@ -248,11 +330,9 @@
         }
 
         function copyLink(url, event) {
-            event.stopPropagation(); // Чтобы не срабатывал клик по карточке
+            event.stopPropagation();
             haptic('medium');
-            navigator.clipboard.writeText(url).then(() => {
-                showToast();
-            });
+            navigator.clipboard.writeText(url).then(() => showToast());
         }
 
         function showToast() {
@@ -261,15 +341,20 @@
             setTimeout(() => toast.classList.remove('show'), 2000);
         }
 
-        // Инициализация темы Telegram
-        if (tg.themeParams.bg_color) {
-            document.documentElement.style.setProperty('--bg', tg.themeParams.bg_color);
-            document.documentElement.style.setProperty('--text', tg.themeParams.text_color);
-            document.documentElement.style.setProperty('--hint', tg.themeParams.hint_color);
-            document.documentElement.style.setProperty('--link', tg.themeParams.link_color);
-            document.documentElement.style.setProperty('--btn', tg.themeParams.button_color);
-            document.documentElement.style.setProperty('--btn-text', tg.themeParams.button_text_color);
-            document.documentElement.style.setProperty('--secondary-bg', tg.themeParams.secondary_bg_color);
+        // 🔮 Логика секретной страницы
+        function openSecret() {
+            haptic('heavy');
+            document.getElementById('view-main').classList.remove('active');
+            document.getElementById('view-secret').classList.add('active');
+            tg.BackButton.show();
+            tg.BackButton.onClick(closeSecret);
+        }
+
+        function closeSecret() {
+            haptic('medium');
+            document.getElementById('view-secret').classList.remove('active');
+            document.getElementById('view-main').classList.add('active');
+            tg.BackButton.hide();
         }
 
         // Первичный рендер
