@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Plugins Catalog</title>
+    <title>Premium Catalog</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* 🎨 НАТИВНАЯ АДАПТАЦИЯ ПОД ТЕМУ TELEGRAM */
         :root {
             --bg: var(--tg-theme-bg-color, #0f0f0f);
             --text: var(--tg-theme-text-color, #ffffff);
@@ -16,344 +15,253 @@
             --btn: var(--tg-theme-button-color, #3390ec);
             --btn-text: var(--tg-theme-button-text-color, #ffffff);
             --secondary-bg: var(--tg-theme-secondary-bg-color, #1c1c1e);
-            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-bg: rgba(255, 255, 255, 0.06);
             --border: rgba(255, 255, 255, 0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif; }
         
-        body {
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-        }
+        body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; padding-bottom: 40px; }
 
-        /* Анимированный фон Mesh Gradient */
         .mesh-bg {
             position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle at 50% 50%, rgba(51, 144, 236, 0.15), transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(150, 50, 255, 0.1), transparent 40%);
-            z-index: -1; animation: meshMove 15s ease-in-out infinite alternate;
+            background: radial-gradient(circle at 50% 50%, rgba(51, 144, 236, 0.12), transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(150, 50, 255, 0.08), transparent 40%);
+            z-index: -1; animation: meshMove 20s ease-in-out infinite alternate;
         }
         @keyframes meshMove { 0% { transform: translate(0, 0); } 100% { transform: translate(-5%, -5%); } }
 
-        .app { max-width: 480px; margin: 0 auto; padding: 20px 16px 40px; }
+        .app { max-width: 480px; margin: 0 auto; padding: 16px; }
 
-        /* Анимации появления */
-        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(10px); }
-        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+        .header { text-align: center; margin-bottom: 20px; padding-top: 10px; }
+        .header h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--text), var(--hint)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .header { text-align: center; margin-bottom: 24px; padding-top: 10px; }
-        .header h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; background: linear-gradient(135deg, var(--text), var(--hint)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        /* Карточки меню */
-        .menu-grid { display: grid; gap: 12px; }
-        .menu-card {
-            background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: 20px; padding: 18px; display: flex; align-items: center;
-            justify-content: space-between; cursor: pointer; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-            backdrop-filter: blur(10px);
+        /* Вкладки (Chips) */
+        .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 16px; scrollbar-width: none; }
+        .tabs::-webkit-scrollbar { display: none; }
+        .tab {
+            flex-shrink: 0; padding: 10px 18px; border-radius: 20px;
+            background: var(--secondary-bg); border: 1px solid var(--border);
+            color: var(--hint); font-size: 14px; font-weight: 600; cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .menu-card:active { transform: scale(0.96); background: rgba(255,255,255,0.1); }
-        .menu-icon { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-right: 14px; }
-        .icon-plugins { background: rgba(51, 144, 236, 0.2); color: #3390ec; }
-        .icon-modules { background: rgba(255, 149, 0, 0.2); color: #ff9500; }
-        .icon-tiktok { background: rgba(255, 45, 85, 0.2); color: #ff2d55; }
-        .menu-text { flex: 1; }
-        .menu-title { font-size: 16px; font-weight: 600; margin-bottom: 2px; }
-        .menu-sub { font-size: 13px; color: var(--hint); }
+        .tab.active { background: var(--btn); color: var(--btn-text); border-color: var(--btn); box-shadow: 0 4px 15px rgba(51, 144, 236, 0.3); }
+        .tab:active { transform: scale(0.95); }
 
         /* Поиск */
-        .search-box {
-            position: relative; margin-bottom: 16px;
-        }
+        .search-box { position: relative; margin-bottom: 20px; }
         .search-input {
             width: 100%; background: var(--secondary-bg); border: 1px solid var(--border);
             border-radius: 16px; padding: 14px 16px 14px 44px; color: var(--text);
-            font-size: 16px; outline: none; transition: all 0.2s;
+            font-size: 15px; outline: none; transition: all 0.2s;
         }
         .search-input:focus { border-color: var(--btn); box-shadow: 0 0 0 3px rgba(51, 144, 236, 0.15); }
         .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--hint); }
 
-        /* Список элементов */
+        /* Список */
         .items-list { display: flex; flex-direction: column; gap: 10px; }
         .item-card {
             background: var(--card-bg); border: 1px solid var(--border);
-            border-radius: 16px; padding: 16px; display: flex; align-items: center;
-            justify-content: space-between; cursor: pointer; transition: transform 0.15s;
+            border-radius: 18px; padding: 16px; display: flex; align-items: center;
+            justify-content: space-between; cursor: pointer; transition: all 0.2s;
+            position: relative; overflow: hidden;
         }
-        .item-card:active { transform: scale(0.97); background: rgba(255,255,255,0.08); }
-        .item-info { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
-        .item-icon { font-size: 20px; color: var(--btn); flex-shrink: 0; }
-        .item-name { font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .item-arrow { color: var(--hint); font-size: 14px; transition: transform 0.2s; }
-        .item-card:active .item-arrow { transform: translateX(4px); color: var(--text); }
+        .item-card:active { transform: scale(0.98); background: rgba(255,255,255,0.1); }
+        .item-info { display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0; }
+        .item-icon { 
+            width: 40px; height: 40px; border-radius: 12px; background: rgba(51, 144, 236, 0.15); 
+            color: var(--link); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; 
+        }
+        .item-name { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .item-desc { font-size: 12px; color: var(--hint); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        .action-btns { display: flex; gap: 8px; }
+        .icon-btn {
+            width: 36px; height: 36px; border-radius: 10px; background: var(--secondary-bg);
+            border: 1px solid var(--border); color: var(--hint); display: flex; align-items: center;
+            justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 14px;
+        }
+        .icon-btn:active { transform: scale(0.9); background: var(--btn); color: var(--btn-text); border-color: var(--btn); }
 
-        /* Навигация */
-        .pagination { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 24px; }
-        .page-btn {
-            background: var(--secondary-bg); border: 1px solid var(--border);
-            color: var(--text); width: 40px; height: 40px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            transition: all 0.2s;
-        }
-        .page-btn:active:not(:disabled) { transform: scale(0.9); background: var(--btn); color: var(--btn-text); border-color: var(--btn); }
-        .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-        .page-indicator { font-size: 15px; font-weight: 600; color: var(--hint); min-width: 50px; text-align: center; }
-
-        /* Утилиты */
-        .hidden { display: none !important; }
-        .back-btn {
-            display: inline-flex; align-items: center; gap: 8px; color: var(--link);
-            font-size: 15px; font-weight: 500; margin-bottom: 20px; cursor: pointer;
-            padding: 8px 0; transition: opacity 0.2s;
-        }
-        .back-btn:active { opacity: 0.6; }
         .empty-state { text-align: center; padding: 40px 20px; color: var(--hint); }
-        .empty-state i { font-size: 40px; margin-bottom: 12px; opacity: 0.5; }
+        .empty-state i { font-size: 40px; margin-bottom: 12px; opacity: 0.4; }
+
+        .fade-in { animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; transform: translateY(8px); }
+        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+        
+        /* Уведомление о копировании */
+        .toast {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); color: white;
+            padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 500;
+            opacity: 0; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 100;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
     </style>
 </head>
 <body>
     <div class="mesh-bg"></div>
     
     <div class="app">
-        <!-- ГЛАВНОЕ МЕНЮ -->
-        <div id="view-main" class="view">
-            <div class="header fade-in">
-                <h1>⚡ Plugins Hub</h1>
-                <p style="color: var(--hint); margin-top: 8px; font-size: 15px;">Премиум каталог твиком и модулей</p>
-            </div>
-            
-            <div class="menu-grid fade-in" style="animation-delay: 0.1s;">
-                <div class="menu-card" onclick="navigate('plugins')">
-                    <div class="menu-icon icon-plugins"><i class="fas fa-puzzle-piece"></i></div>
-                    <div class="menu-text">
-                        <div class="menu-title">Плагины</div>
-                        <div class="menu-sub">14 твиков для клиентов</div>
-                    </div>
-                    <i class="fas fa-chevron-right" style="color: var(--hint);"></i>
-                </div>
-                
-                <div class="menu-card" onclick="navigate('modules')">
-                    <div class="menu-icon icon-modules"><i class="fas fa-cubes"></i></div>
-                    <div class="menu-text">
-                        <div class="menu-title">Модули</div>
-                        <div class="menu-sub">Системные расширения</div>
-                    </div>
-                    <i class="fas fa-chevron-right" style="color: var(--hint);"></i>
-                </div>
-                
-                <div class="menu-card" onclick="navigate('tiktok')">
-                    <div class="menu-icon icon-tiktok"><i class="fab fa-tiktok"></i></div>
-                    <div class="menu-text">
-                        <div class="menu-title">TikTok You v3.4</div>
-                        <div class="menu-sub">Модифицированный клиент</div>
-                    </div>
-                    <i class="fas fa-chevron-right" style="color: var(--hint);"></i>
-                </div>
-            </div>
+        <div class="header fade-in">
+            <h1>⚡ Premium Catalog</h1>
         </div>
 
-        <!-- СЕКЦИЯ ПЛАГИНОВ -->
-        <div id="view-plugins" class="view hidden">
-            <div class="back-btn fade-in" onclick="navigate('main')"><i class="fas fa-arrow-left"></i> Назад</div>
-            <div class="search-box fade-in" style="animation-delay: 0.05s;">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" class="search-input" id="searchInput" placeholder="Поиск (например: local)..." oninput="handleSearch(this.value)">
-            </div>
-            <div id="plugins-list" class="items-list fade-in" style="animation-delay: 0.1s;"></div>
-            <div class="pagination" id="plugins-pagination">
-                <button class="page-btn" id="prevBtn" onclick="changePage(-1)"><i class="fas fa-chevron-left"></i></button>
-                <span class="page-indicator" id="pageIndicator">1 / 1</span>
-                <button class="page-btn" id="nextBtn" onclick="changePage(1)"><i class="fas fa-chevron-right"></i></button>
-            </div>
+        <div class="tabs fade-in" style="animation-delay: 0.05s;">
+            <div class="tab active" onclick="switchTab('plugins')">📦 Плагины</div>
+            <div class="tab" onclick="switchTab('modules')">🧩 Модули</div>
+            <div class="tab" onclick="switchTab('apps')">📱 Приложения</div>
+            <div class="tab" onclick="switchTab('bots')">🤖 Боты</div>
         </div>
 
-        <!-- СЕКЦИЯ МОДУЛЕЙ -->
-        <div id="view-modules" class="view hidden">
-            <div class="back-btn fade-in" onclick="navigate('main')"><i class="fas fa-arrow-left"></i> Назад</div>
-            <div class="header fade-in"><h2>🧩 Модули</h2></div>
-            <div id="modules-list" class="items-list fade-in"></div>
+        <div class="search-box fade-in" style="animation-delay: 0.1s;">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" id="searchInput" placeholder="Поиск по всему каталогу..." oninput="handleSearch(this.value)">
         </div>
 
-        <!-- СЕКЦИЯ TIKTOK -->
-        <div id="view-tiktok" class="view hidden">
-            <div class="back-btn fade-in" onclick="navigate('main')"><i class="fas fa-arrow-left"></i> Назад</div>
-            <div class="header fade-in"><h2>🎵 TikTok You</h2></div>
-            <div id="tiktok-list" class="items-list fade-in"></div>
-        </div>
+        <div id="content-list" class="items-list fade-in" style="animation-delay: 0.15s;"></div>
     </div>
 
+    <div class="toast" id="toast">✅ Ссылка скопирована!</div>
+
     <script>
-        // 🗄️ ДАННЫЕ (Единый источник истины)
+        // 🗄️ ЕДИНАЯ БАЗА ДАННЫХ
         const DATA = {
             plugins: [
                 { name: "LocalEditor", url: "https://t.me/exteraPluginsSup/221", desc: "Редактирование без пересылки" },
-                { name: "Lyrics", url: "https://t.me/exteraPluginsSup/369", desc: "Тексты песен в плеере" },
-                { name: "Genius Fork", url: "https://t.me/kchemniy_modules/13", desc: "Интеграция с Genius" },
-                { name: "Animated Wallpaper", url: "https://t.me/swagnonher/321", desc: "Живые обои для чатов" },
-                { name: "reSwaga", url: "https://t.me/meeowPlugins/145", desc: "Стильные визуальные твики" },
-                { name: "re:extera", url: "https://t.me/shikaatuxplugins/196", desc: "Расширенные настройки" },
-                { name: "Quotecreate", url: "https://t.me/mishabotov/596", desc: "Красивые цитаты" },
-                { name: "Fake Gifts", url: "https://t.me/plugins_lishonov/115", desc: "Пранк с подарками" },
+                { name: "Lyrics+", url: "https://t.me/thefantiq/22", desc: "Тексты песен прямо в плеере" },
+                { name: "Animated Wallpaper", url: "https://t.me/swagnonher/321", desc: "Живые обои для фона чатов" },
+                { name: "reSwaga", url: "https://t.me/meeowPlugins/213", desc: "Карточки и треки со всех площадок" },
+                { name: "re:extera", url: "https://t.me/shikaatuxplugins/224", desc: "Расширенные настройки Extera" },
+                { name: "Quotify+", url: "https://t.me/mur_live/1537", desc: "Создание красивых цитат" },
+                { name: "Fake Gifts", url: "https://t.me/vcvk1/1365", desc: "NFT юзернеймы, номера и подарки" },
                 { name: "miniPlayer+", url: "https://t.me/RnPlugins/1083", desc: "Продвинутый мини-плеер" },
-                { name: "Hide link preview fork", url: "https://t.me/kchemniy_modules/125", desc: "Скрытие предпросмотра" },
-                { name: "UITweaks x QuantaHut", url: "https://t.me/QuantaPlugins/210", desc: "Кастомизация интерфейса" },
-                { name: "Log overlay", url: "https://t.me/RnPlugins/620", desc: "Логи поверх экрана" },
-                { name: "Transcriber fork", url: "https://t.me/kchemniy_modules/12", desc: "Голосовые в текст" },
-                { name: "Bot login", url: "https://t.me/kvucoPlugins/54", desc: "Вход через ботов" }
+                { name: "Hide link preview fork", url: "https://t.me/kchemniy_modules/125", desc: "Скрытие предпросмотра ссылок" },
+                { name: "UITweaks x QuantaHut", url: "https://t.me/QuantaPlugins/210", desc: "Глубокая кастомизация интерфейса" },
+                { name: "Log overlay", url: "https://t.me/RnPlugins/620", desc: "Отображение логов поверх экрана" },
+                { name: "Transcriber fork", url: "https://t.me/kchemniy_modules/12", desc: "Расшифровка голосовых в текст" },
+                { name: "Bot login", url: "https://t.me/kvucoPlugins/54", desc: "Удобный вход через ботов" }
             ],
             modules: [
-                { name: "Source trigger", url: "https://t.me/RnPlugins/1097", desc: "Исходный код сообщений" },
-                { name: "Giveaway joiner", url: "https://t.me/kchemniy_modules/142", desc: "Авто-участие в розыгрышах" },
-                { name: "Module list", url: "https://t.me/kchemniy_modules/139", desc: "Управление модулями" }
+                { name: "Source trigger", url: "https://t.me/RnPlugins/1097", desc: "Триггеры на сообщения" },
+                { name: "Giveaway joiner", url: "https://t.me/kchemi_projects/142", desc: "Авто-участие в розыгрышах" },
+                { name: "Module list", url: "https://t.me/kchemi_projects/207", desc: "Управление списком модулей" }
             ],
-            tiktok: { name: "TikTok You v3.4", url: "https://t.me/tiktokyou/49", desc: "Модифицированный клиент с расширенными функциями" }
+            apps: [
+                { name: "TikTok You v3.4", url: "https://t.me/tiktokyou/49", desc: "Модифицированный клиент TikTok" },
+                { name: "Wallify", url: "https://t.me/WallifyApp/4/1993", desc: "Красивые живые обои на телефон" },
+                { name: "Larpkeeper", url: "https://t.me/vcvk1/1406", desc: "Фейковый Tonkeeper" }
+            ],
+            bots: [
+                // Заготовка на будущее. Когда добавишь ботов, просто раскомментируй и добавь строки:
+                // { name: "Название бота", url: "https://t.me/username", desc: "Описание бота" }
+            ]
         };
 
         const tg = window.Telegram.WebApp;
         tg.expand();
         tg.ready();
         
-        // Тактильный отклик
         const haptic = (type = 'light') => tg.HapticFeedback?.impactOccurred(type);
 
-        // Состояние
         let state = {
-            view: 'main',
-            pluginsPage: 1,
-            itemsPerPage: 5,
-            filteredPlugins: [...DATA.plugins]
+            activeTab: 'plugins',
+            searchQuery: ''
         };
 
-        // 🧠 УМНЫЙ ПОИСК (Fuzzy-like)
-        function handleSearch(query) {
-            haptic('light');
-            const q = query.toLowerCase().trim();
-            state.filteredPlugins = q === '' 
-                ? [...DATA.plugins] 
-                : DATA.plugins.filter(p => p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q));
-            state.pluginsPage = 1;
-            renderPlugins();
+        function switchTab(tab) {
+            haptic('medium');
+            state.activeTab = tab;
+            state.searchQuery = '';
+            document.getElementById('searchInput').value = '';
+            
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            renderList();
         }
 
-        // 🎨 РЕНДЕРИНГ
-        function renderPlugins() {
-            const list = document.getElementById('plugins-list');
-            const pagination = document.getElementById('plugins-pagination');
-            const isSearching = document.getElementById('searchInput').value.trim() !== '';
-            
+        function handleSearch(query) {
+            haptic('light');
+            state.searchQuery = query.toLowerCase().trim();
+            renderList();
+        }
+
+        function renderList() {
+            const list = document.getElementById('content-list');
             list.innerHTML = '';
             
-            if (state.filteredPlugins.length === 0) {
+            // Если есть поиск, ищем по ВСЕМ категориям. Иначе только в активной вкладке.
+            let itemsToRender = [];
+            if (state.searchQuery) {
+                Object.values(DATA).flat().forEach(item => {
+                    if (item.name.toLowerCase().includes(state.searchQuery) || item.desc.toLowerCase().includes(state.searchQuery)) {
+                        itemsToRender.push(item);
+                    }
+                });
+            } else {
+                itemsToRender = DATA[state.activeTab] || [];
+            }
+
+            if (itemsToRender.length === 0) {
                 list.innerHTML = `<div class="empty-state fade-in"><i class="fas fa-ghost"></i><br>Ничего не найдено</div>`;
-                pagination.classList.add('hidden');
                 return;
             }
 
-            const start = (state.pluginsPage - 1) * state.itemsPerPage;
-            const end = start + state.itemsPerPage;
-            const pageItems = isSearching ? state.filteredPlugins : state.filteredPlugins.slice(start, end);
-
-            pageItems.forEach((item, index) => {
+            itemsToRender.forEach((item, index) => {
                 const div = document.createElement('div');
                 div.className = 'item-card fade-in';
-                div.style.animationDelay = `${index * 0.05}s`;
-                div.innerHTML = `
-                    <div class="item-info">
-                        <i class="fas fa-bolt item-icon"></i>
-                        <div>
-                            <div class="item-name">${highlightMatch(item.name, document.getElementById('searchInput').value)}</div>
-                            <div style="font-size: 12px; color: var(--hint); margin-top: 2px;">${item.desc}</div>
-                        </div>
-                    </div>
-                    <i class="fas fa-chevron-right item-arrow"></i>
-                `;
-                div.onclick = () => { haptic('heavy'); tg.openTelegramLink(item.url); };
-                list.appendChild(div);
-            });
-
-            if (!isSearching) {
-                pagination.classList.remove('hidden');
-                const totalPages = Math.ceil(state.filteredPlugins.length / state.itemsPerPage) || 1;
-                document.getElementById('pageIndicator').textContent = `${state.pluginsPage} / ${totalPages}`;
-                document.getElementById('prevBtn').disabled = state.pluginsPage === 1;
-                document.getElementById('nextBtn').disabled = state.pluginsPage === totalPages;
-            } else {
-                pagination.classList.add('hidden');
-            }
-        }
-
-        function highlightMatch(text, query) {
-            if (!query) return text;
-            const regex = new RegExp(`(${query})`, 'gi');
-            return text.replace(regex, '<span style="color: var(--btn); font-weight: 700;">$1</span>');
-        }
-
-        function renderStaticList(containerId, items) {
-            const list = document.getElementById(containerId);
-            list.innerHTML = '';
-            const dataArray = Array.isArray(items) ? items : [items];
-            dataArray.forEach((item, index) => {
-                const div = document.createElement('div');
-                div.className = 'item-card fade-in';
-                div.style.animationDelay = `${index * 0.1}s`;
-                div.innerHTML = `
-                    <div class="item-info">
-                        <i class="fas fa-download item-icon"></i>
-                        <div>
-                            <div class="item-name">${item.name}</div>
-                            <div style="font-size: 12px; color: var(--hint); margin-top: 2px;">${item.desc}</div>
-                        </div>
-                    </div>
-                    <i class="fas fa-external-link-alt item-arrow"></i>
-                `;
-                div.onclick = () => { haptic('heavy'); tg.openTelegramLink(item.url); };
-                list.appendChild(div);
-            });
-        }
-
-        // 🔄 НАВИГАЦИЯ
-        function navigate(viewName) {
-            haptic('medium');
-            document.querySelectorAll('.view').forEach(el => el.classList.add('hidden'));
-            document.getElementById(`view-${viewName}`).classList.remove('hidden');
-            
-            if (viewName === 'main') {
-                tg.BackButton.hide();
-                document.getElementById('searchInput').value = '';
-                state.filteredPlugins = [...DATA.plugins];
-            } else {
-                tg.BackButton.show();
-                tg.BackButton.onClick(() => navigate('main'));
+                div.style.animationDelay = `${index * 0.04}s`;
                 
-                if (viewName === 'plugins') renderPlugins();
-                if (viewName === 'modules') renderStaticList('modules-list', DATA.modules);
-                if (viewName === 'tiktok') renderStaticList('tiktok-list', DATA.tiktok);
-            }
+                // Подсветка совпадений в поиске
+                let displayName = item.name;
+                if (state.searchQuery) {
+                    const regex = new RegExp(`(${state.searchQuery})`, 'gi');
+                    displayName = item.name.replace(regex, '<span style="color: var(--link); font-weight: 700;">$1</span>');
+                }
+
+                div.innerHTML = `
+                    <div class="item-info" onclick="openLink('${item.url}')">
+                        <div class="item-icon"><i class="fas fa-bolt"></i></div>
+                        <div style="flex:1; min-width:0;">
+                            <div class="item-name">${displayName}</div>
+                            <div class="item-desc">${item.desc}</div>
+                        </div>
+                    </div>
+                    <div class="action-btns">
+                        <div class="icon-btn" onclick="copyLink('${item.url}', event)" title="Копировать ссылку">
+                            <i class="fas fa-copy"></i>
+                        </div>
+                        <div class="icon-btn" onclick="openLink('${item.url}')" style="background: var(--btn); color: var(--btn-text); border-color: var(--btn);" title="Открыть">
+                            <i class="fas fa-external-link-alt"></i>
+                        </div>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
         }
 
-        function changePage(dir) {
-            haptic('light');
-            const totalPages = Math.ceil(state.filteredPlugins.length / state.itemsPerPage);
-            const newPage = state.pluginsPage + dir;
-            if (newPage >= 1 && newPage <= totalPages) {
-                state.pluginsPage = newPage;
-                renderPlugins();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
+        function openLink(url) {
+            haptic('heavy');
+            tg.openTelegramLink(url);
         }
 
-        // Инициализация
-        tg.onEvent('themeChanged', () => {
-            // Автоматическая перерисовка при смене темы Telegram
-            document.documentElement.style.setProperty('--bg', tg.themeParams.bg_color || '#0f0f0f');
-            document.documentElement.style.setProperty('--text', tg.themeParams.text_color || '#ffffff');
-        });
-        
-        // Задаем цвета при старте
+        function copyLink(url, event) {
+            event.stopPropagation(); // Чтобы не срабатывал клик по карточке
+            haptic('medium');
+            navigator.clipboard.writeText(url).then(() => {
+                showToast();
+            });
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        // Инициализация темы Telegram
         if (tg.themeParams.bg_color) {
             document.documentElement.style.setProperty('--bg', tg.themeParams.bg_color);
             document.documentElement.style.setProperty('--text', tg.themeParams.text_color);
@@ -363,6 +271,9 @@
             document.documentElement.style.setProperty('--btn-text', tg.themeParams.button_text_color);
             document.documentElement.style.setProperty('--secondary-bg', tg.themeParams.secondary_bg_color);
         }
+
+        // Первичный рендер
+        renderList();
     </script>
 </body>
 </html>
