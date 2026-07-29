@@ -107,7 +107,7 @@
         .item-info { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 0; position: relative; z-index: 1; }
         
         .plugin-icon-wrapper {
-            width: 58px; height: 58px; flex-shrink: 0;
+            width: 52px; height: 52px; flex-shrink: 0;
             display: flex; align-items: center; justify-content: center;
             transition: all 0.3s ease;
         }
@@ -247,21 +247,23 @@
     <div class="toast" id="toast"><i class="fas fa-check-circle"></i> Ссылка скопирована!</div>
 
     <script>
-        // ✅ ПАЗЛ: предыдущая форма + небольшие скругления углов + чуть меньше размер
+        // ✅ ПАЗЛ: уменьшен до 52px + более выраженные скругления углов (радиус 5)
         const PLUGIN_ICON = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <path d="M 13 10 
+            <path d="M 15 10 
                      L 40 10 
                      A 10 10 0 1 1 60 10 
-                     L 87 10 
-                     Q 90 10, 90 13 
+                     L 85 10 
+                     A 5 5 0 0 1 90 15 
                      L 90 40 
                      A 10 10 0 1 0 90 60 
-                     L 90 87 
-                     Q 90 90, 87 90 
-                     L 13 90 
-                     Q 10 90, 10 87 
-                     L 10 13 
-                     Q 10 10, 13 10 
+                     L 90 85 
+                     A 5 5 0 0 1 85 90 
+                     L 15 90 
+                     A 5 5 0 0 1 10 85 
+                     L 10 60 
+                     A 10 10 0 1 0 10 40 
+                     L 10 15 
+                     A 5 5 0 0 1 15 10 
                      Z" 
                   fill="#4A9FE5"/>
         </svg>`;
