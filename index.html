@@ -225,7 +225,7 @@
         <div id="view-secret" class="view">
             <div class="back-btn animate-in" onclick="closeSecret()"><i class="fas fa-arrow-left"></i> Назад</div>
             <div class="header animate-in" style="animation-delay: 0.1s;">
-                <h1 style="background: linear-gradient(135deg, var(--secret), var(--app)); -webkit-background-clip: text;">🔒 Secret</h1>
+                <h1 style="background: linear-gradient(135deg, var(--secret), var(--app)); -webkit-background-clip: text;"> Secret</h1>
             </div>
             <div class="items-list">
                 <div class="item-card secret-card animate-in" style="animation-delay: 0.2s;" onclick="openLink('https://t.me/exterapl/838')">
@@ -247,7 +247,7 @@
     <div class="toast" id="toast"><i class="fas fa-check-circle"></i> Ссылка скопирована!</div>
 
     <script>
-        // ✅ ПАЗЛ: уменьшен до 52px + более выраженные скругления углов (радиус 5)
+        // ✅ ПАЗЛ: левая стенка теперь плоская (без выемки)
         const PLUGIN_ICON = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
             <path d="M 15 10 
                      L 40 10 
@@ -260,8 +260,6 @@
                      A 5 5 0 0 1 85 90 
                      L 15 90 
                      A 5 5 0 0 1 10 85 
-                     L 10 60 
-                     A 10 10 0 1 0 10 40 
                      L 10 15 
                      A 5 5 0 0 1 15 10 
                      Z" 
