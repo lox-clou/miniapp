@@ -47,24 +47,37 @@
 
         .app { max-width: 480px; margin: 0 auto; padding: 20px 16px 40px; position: relative; }
 
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; padding-top: 8px; }
+        .header { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            margin-bottom: 28px; 
+            padding-top: 8px;
+            position: relative;
+        }
         .header h1 {
-            font-size: 32px; font-weight: 800; letter-spacing: -1px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
             background: linear-gradient(135deg, #fff 0%, var(--plugin) 50%, var(--app) 100%);
-            background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             animation: gradientShift 6s ease infinite;
             cursor: pointer;
             user-select: none;
             transition: transform 0.1s ease;
+            text-align: center;
         }
         .header h1:active { transform: scale(0.97); }
         @keyframes gradientShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
         
-        /* ✅ СКРЫТЫЙ СЧЁТЧИК НАЖАТИЙ */
         .secret-counter {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
             width: 8px;
             height: 8px;
             border-radius: 50%;
@@ -76,18 +89,67 @@
         .secret-counter.visible { opacity: 1; }
         .secret-counter.pulse { animation: counterPulse 0.3s ease; }
         @keyframes counterPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.5); background: rgba(189, 0, 255, 0.5); }
+            0%, 100% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-50%) scale(1.5); background: rgba(189, 0, 255, 0.5); }
         }
 
-        .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 24px; scrollbar-width: none; }
-        .tabs::-webkit-scrollbar { display: none; }
-        .tab {
-            flex-shrink: 0; padding: 12px 20px; border-radius: 100px; background: var(--card-bg); border: 1px solid var(--border);
-            color: var(--text-dim); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;
+        /* ✅ ВКЛАДКИ С НАВИГАЦИЕЙ */
+        .tabs-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
         }
-        .tab.active { color: #fff; background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); box-shadow: 0 0 20px rgba(255, 255, 255, 0.05); }
+        .tabs { 
+            display: flex; 
+            gap: 8px;
+            flex: 1;
+            overflow: hidden;
+        }
+        .tab {
+            flex: 1;
+            padding: 12px 8px;
+            border-radius: 100px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .tab.active { 
+            color: #fff; 
+            background: rgba(255, 255, 255, 0.08); 
+            border-color: rgba(255, 255, 255, 0.2); 
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+        }
         .tab:active { transform: scale(0.95); }
+
+        /* ✅ КНОПКИ НАВИГАЦИИ МЕЖДУ СТРАНИЦАМИ */
+        .nav-tab {
+            flex-shrink: 0;
+            width: 44px;
+            height: 44px;
+            border-radius: 100px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        .nav-tab:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .nav-tab:active { transform: scale(0.9); }
 
         .search-box { position: relative; margin-bottom: 28px; }
         .search-input {
@@ -222,14 +284,30 @@
         <div id="view-main" class="view active">
             <div class="header animate-in" style="animation-delay: 0.05s;">
                 <h1 id="titleClick">Каталог</h1>
-                <!-- ✅ СКРЫТЫЙ СЧЁТЧИК -->
                 <div class="secret-counter" id="secretCounter"></div>
             </div>
 
-            <div class="tabs animate-in" style="animation-delay: 0.1s;">
-                <div class="tab active" onclick="switchTab('plugins', this)">Плагины</div>
-                <div class="tab" onclick="switchTab('modules', this)">Модули</div>
-                <div class="tab" onclick="switchTab('apps', this)">Приложения</div>
+            <!-- ✅ СТРАНИЦА 1: Плагины, Модули, Приложения + кнопка далее -->
+            <div class="tabs-container animate-in" style="animation-delay: 0.1s;" id="tabsPage1">
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('plugins', this)">Плагины</div>
+                    <div class="tab" onclick="switchTab('modules', this)">Модули</div>
+                    <div class="tab" onclick="switchTab('apps', this)">Приложения</div>
+                </div>
+                <div class="nav-tab" onclick="goToTabsPage(2)" title="Следующая страница">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+
+            <!-- ✅ СТРАНИЦА 2: Назад, Боты, Предложения -->
+            <div class="tabs-container animate-in" style="animation-delay: 0.1s; display: none;" id="tabsPage2">
+                <div class="nav-tab" onclick="goToTabsPage(1)" title="Предыдущая страница">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="tabs">
+                    <div class="tab" onclick="switchTab('bots', this)">Боты</div>
+                    <div class="tab" onclick="switchTab('suggestions', this)">Предложения</div>
+                </div>
             </div>
 
             <div class="search-box animate-in" style="animation-delay: 0.15s;">
@@ -248,7 +326,7 @@
         <div id="view-secret" class="view">
             <div class="back-btn animate-in" onclick="closeSecret()"><i class="fas fa-arrow-left"></i> Назад</div>
             <div class="header animate-in" style="animation-delay: 0.1s;">
-                <h1 style="background: linear-gradient(135deg, var(--secret), var(--app)); -webkit-background-clip: text;">🔒 Secret</h1>
+                <h1 style="background: linear-gradient(135deg, var(--secret), var(--app)); -webkit-background-clip: text;"> Secret</h1>
             </div>
             <div class="items-list">
                 <div class="item-card secret-card animate-in" style="animation-delay: 0.2s;" onclick="openLink('https://t.me/exterapl/838')">
@@ -329,6 +407,16 @@
                 { name: "TikTok You v3.4", url: "https://t.me/tiktokyou/49", desc: "Модифицированный клиент TikTok" },
                 { name: "Wallify", url: "https://t.me/WallifyApp/4/1993", desc: "Красивые живые обои на телефон" },
                 { name: "Larpkeeper", url: "https://t.me/vcvk1/1406", desc: "Фейковый Tonkeeper" }
+            ],
+            // ✅ РАЗДЕЛ БОТОВ (пока пустой, добавляй ботов сюда)
+            bots: [
+                // { name: "Название бота", url: "https://t.me/username", desc: "Описание" }
+            ],
+            // ✅ РАЗДЕЛ ПРЕДЛОЖЕНИЙ ОТ ПОЛЬЗОВАТЕЛЕЙ
+            // Синхронизация: когда принимаешь предложение в боте, добавляй его сюда вручную
+            // (веб-приложение не может читать базу данных бота напрямую)
+            suggestions: [
+                // Пример: { name: "Название", url: "https://t.me/link", desc: "Описание", author: "Имя" }
             ]
         };
 
@@ -340,21 +428,33 @@
         
         const haptic = (type = 'light') => tg.HapticFeedback?.impactOccurred(type);
 
-        let state = { activeTab: 'plugins', searchQuery: '', currentPage: 1, itemsPerPage: 5 };
+        let state = { activeTab: 'plugins', searchQuery: '', currentPage: 1, itemsPerPage: 5, tabsPage: 1 };
 
-        // ✅ СИСТЕМА СКРЫТОГО ДОСТУПА К СЕКРЕТНОЙ СТРАНИЦЕ
+        // ✅ ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ ВКЛАДОК
+        function goToTabsPage(page) {
+            haptic('medium');
+            state.tabsPage = page;
+            document.getElementById('tabsPage1').style.display = page === 1 ? 'flex' : 'none';
+            document.getElementById('tabsPage2').style.display = page === 2 ? 'flex' : 'none';
+            
+            // Сброс активной вкладки при переключении страницы
+            state.activeTab = page === 1 ? 'plugins' : 'bots';
+            state.searchQuery = '';
+            state.currentPage = 1;
+            document.getElementById('searchInput').value = '';
+            document.getElementById('clearSearch').classList.remove('visible');
+            renderList();
+        }
+
+        // ✅ СИСТЕМА СКРЫТОГО ДОСТУПА
         let secretClicks = 0;
         let lastClickTime = 0;
-        const SECRET_CLICKS_REQUIRED = 7; // Нужно 7 нажатий
-        const SECRET_CLICK_TIMEOUT = 2000; // Сброс через 2 секунды
+        const SECRET_CLICKS_REQUIRED = 7;
+        const SECRET_CLICK_TIMEOUT = 2000;
 
         document.getElementById('titleClick').addEventListener('click', function() {
             const now = Date.now();
-            
-            if (now - lastClickTime > SECRET_CLICK_TIMEOUT) {
-                secretClicks = 0;
-            }
-            
+            if (now - lastClickTime > SECRET_CLICK_TIMEOUT) secretClicks = 0;
             secretClicks++;
             lastClickTime = now;
             
@@ -368,8 +468,6 @@
                 secretClicks = 0;
                 counter.classList.remove('visible');
             }
-            
-            // Сброс счётчика через таймаут
             setTimeout(() => {
                 if (Date.now() - lastClickTime >= SECRET_CLICK_TIMEOUT) {
                     secretClicks = 0;
@@ -381,7 +479,7 @@
         function getFilteredItems() {
             if (state.searchQuery) {
                 return Object.values(DATA).flat().filter(item => 
-                    item.name.toLowerCase().includes(state.searchQuery) || item.desc.toLowerCase().includes(state.searchQuery)
+                    item.name && (item.name.toLowerCase().includes(state.searchQuery) || item.desc.toLowerCase().includes(state.searchQuery))
                 );
             }
             return DATA[state.activeTab] || [];
@@ -396,7 +494,7 @@
             document.getElementById('clearSearch').classList.remove('visible');
             
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            element.classList.add('active');
+            if (element) element.classList.add('active');
             renderList();
         }
 
@@ -444,8 +542,14 @@
             }
 
             list.innerHTML = '';
+            
+            // Обработка пустых разделов
             if (filtered.length === 0) {
-                list.innerHTML = `<div class="empty-state animate-in"><i class="fas fa-ghost"></i><br>Ничего не найдено</div>`;
+                let emptyMsg = 'Ничего не найдено';
+                if (state.activeTab === 'bots') emptyMsg = '🚧 Раздел в разработке...<br>Скоро здесь появятся лучшие боты';
+                else if (state.activeTab === 'suggestions') emptyMsg = '📭 Пока нет принятых предложений<br>Стань первым!';
+                
+                list.innerHTML = `<div class="empty-state animate-in"><i class="fas fa-ghost"></i><br>${emptyMsg}</div>`;
                 return;
             }
 
@@ -475,8 +579,19 @@
                     iconHTML = `<div class="plugin-icon-wrapper">${PLUGIN_ICON}</div>`;
                 } else if (state.activeTab === 'apps' && APP_ICONS[item.name]) {
                     iconHTML = `<div class="app-icon-wrapper">${APP_ICONS[item.name]}</div>`;
-                } else {
+                } else if (state.activeTab === 'modules') {
                     iconHTML = `<div class="item-icon module"><i class="fas fa-cube"></i></div>`;
+                } else if (state.activeTab === 'bots') {
+                    iconHTML = `<div class="item-icon module" style="background: rgba(0, 242, 255, 0.1); color: var(--plugin); border-color: rgba(0, 242, 255, 0.2);"><i class="fas fa-robot"></i></div>`;
+                } else if (state.activeTab === 'suggestions') {
+                    iconHTML = `<div class="item-icon module" style="background: rgba(189, 0, 255, 0.1); color: var(--secret); border-color: rgba(189, 0, 255, 0.2);"><i class="fas fa-star"></i></div>`;
+                }
+
+                let authorInfo = '';
+                if (state.activeTab === 'suggestions' && item.author) {
+                    authorInfo = `<div class="item-desc">от ${item.author}</div>`;
+                } else {
+                    authorInfo = `<div class="item-desc">${item.desc}</div>`;
                 }
 
                 div.innerHTML = `
@@ -484,7 +599,7 @@
                         ${iconHTML}
                         <div style="flex:1; min-width:0;">
                             <div class="item-name">${displayName}</div>
-                            <div class="item-desc">${item.desc}</div>
+                            ${authorInfo}
                         </div>
                     </div>
                     <div class="action-btns">
