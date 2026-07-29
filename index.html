@@ -106,7 +106,7 @@
         
         .item-info { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 0; position: relative; z-index: 1; }
         
-        /* ✅ БОЛЬШИЕ ИКОНКИ ДЛЯ ПЛАГИНОВ (БЕЗ ФОНА, КАК У ПРИЛОЖЕНИЙ) */
+        /* ✅ БОЛЬШИЕ ИКОНКИ ДЛЯ ПЛАГИНОВ (БЕЗ ФОНА) */
         .plugin-icon-wrapper {
             width: 64px; height: 64px; flex-shrink: 0;
             display: flex; align-items: center; justify-content: center;
@@ -207,9 +207,10 @@
             </div>
 
             <div class="tabs animate-in" style="animation-delay: 0.1s;">
-                <div class="tab active" onclick="switchTab('plugins', this)">📦 Плагины</div>
-                <div class="tab" onclick="switchTab('modules', this)">🧩 Модули</div>
-                <div class="tab" onclick="switchTab('apps', this)"> Приложения</div>
+                <!-- ✅ УБРАНЫ ЭМОДЗИ ИЗ НАЗВАНИЙ ВКЛАДОК -->
+                <div class="tab active" onclick="switchTab('plugins', this)">Плагины</div>
+                <div class="tab" onclick="switchTab('modules', this)">Модули</div>
+                <div class="tab" onclick="switchTab('apps', this)">Приложения</div>
             </div>
 
             <div class="search-box animate-in" style="animation-delay: 0.15s;">
@@ -250,43 +251,9 @@
     <div class="toast" id="toast"><i class="fas fa-check-circle"></i> Ссылка скопирована!</div>
 
     <script>
-        // ✅ SVG ГОЛУБОГО ПАЗЛА (ПОВЕРНУТ НА -90°, ДЫРКА СПРАВА)
+        // ✅ УЛУЧШЕННАЯ SVG ИКОНКА ПАЗЛА (ПРОСТАЯ И КРАСИВАЯ)
         const PLUGIN_ICON = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <g transform="rotate(-90 50 50)">
-                <path d="M 30 10 
-                         L 70 10 
-                         C 70 10, 72 18, 78 18 
-                         C 84 18, 86 10, 86 10 
-                         L 86 30 
-                         C 86 30, 78 32, 78 38 
-                         C 78 44, 86 46, 86 46 
-                         L 86 70 
-                         C 86 70, 78 68, 78 62 
-                         C 78 56, 86 54, 86 54 
-                         L 70 54 
-                         C 70 54, 68 62, 62 62 
-                         C 56 62, 54 54, 54 54 
-                         L 30 54 
-                         C 30 54, 32 46, 38 46 
-                         C 44 46, 46 54, 46 54 
-                         L 46 30 
-                         C 46 30, 54 28, 54 22 
-                         C 54 16, 46 14, 46 14 
-                         L 30 14 
-                         C 30 14, 28 22, 22 22 
-                         C 16 22, 14 14, 14 14 
-                         L 14 30 
-                         C 14 30, 22 32, 22 38 
-                         C 22 44, 14 46, 14 46 
-                         L 14 70 
-                         C 14 70, 22 68, 22 62 
-                         C 22 56, 14 54, 14 54 
-                         L 30 54 
-                         C 30 54, 32 46, 38 46 
-                         C 44 46, 46 54, 46 54 
-                         Z" 
-                      fill="#4A9FE5" stroke="#1a1a1a" stroke-width="3" stroke-linejoin="round"/>
-            </g>
+            <path d="M75 20 L75 25 C75 25, 70 25, 70 30 C70 35, 75 35, 75 35 L75 40 C75 40, 80 40, 80 45 C80 50, 75 50, 75 50 L75 75 C75 75, 70 75, 70 70 C70 65, 75 65, 75 65 L75 60 C75 60, 70 60, 70 55 C70 50, 75 50, 75 50 L75 45 C75 45, 70 45, 70 40 C70 35, 75 35, 75 35 L75 20 Z M25 20 L25 75 C25 75, 30 75, 30 70 C30 65, 25 65, 25 65 L25 60 C25 60, 30 60, 30 55 C30 50, 25 50, 25 50 L25 45 C25 45, 30 45, 30 40 C30 35, 25 35, 25 35 L25 30 C25 30, 30 30, 30 25 C30 20, 25 20, 25 20 Z M30 25 L70 25 L70 70 L30 70 Z" fill="#4A9FE5"/>
         </svg>`;
 
         const APP_ICONS = {
