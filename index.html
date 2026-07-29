@@ -111,9 +111,18 @@
             display: flex; align-items: center; justify-content: center;
             transition: all 0.3s ease;
         }
+        /* ✅ МЕЛКОЕ МЯГКОЕ СВЕЧЕНИЕ ПАЗЛА */
         .plugin-icon-wrapper svg {
             width: 100%; height: 100%;
-            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+            filter: 
+                drop-shadow(0 0 2px rgba(74, 159, 229, 0.4))
+                drop-shadow(0 0 6px rgba(74, 159, 229, 0.25));
+            transition: filter 0.3s ease;
+        }
+        .item-card:hover .plugin-icon-wrapper svg {
+            filter: 
+                drop-shadow(0 0 3px rgba(74, 159, 229, 0.6))
+                drop-shadow(0 0 10px rgba(74, 159, 229, 0.35));
         }
         .item-card:hover .plugin-icon-wrapper { transform: scale(1.1) rotate(5deg); }
         
@@ -225,7 +234,7 @@
         <div id="view-secret" class="view">
             <div class="back-btn animate-in" onclick="closeSecret()"><i class="fas fa-arrow-left"></i> Назад</div>
             <div class="header animate-in" style="animation-delay: 0.1s;">
-                <h1 style="background: linear-gradient(135deg, var(--secret), var(--app)); -webkit-background-clip: text;"> Secret</h1>
+                <h1 style="background: linear-gradient(135deg, var(--secret), var(--app)); -webkit-background-clip: text;">🔒 Secret</h1>
             </div>
             <div class="items-list">
                 <div class="item-card secret-card animate-in" style="animation-delay: 0.2s;" onclick="openLink('https://t.me/exterapl/838')">
@@ -247,7 +256,6 @@
     <div class="toast" id="toast"><i class="fas fa-check-circle"></i> Ссылка скопирована!</div>
 
     <script>
-        // ✅ ПАЗЛ: левая стенка теперь плоская (без выемки)
         const PLUGIN_ICON = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
             <path d="M 15 10 
                      L 40 10 
