@@ -106,6 +106,8 @@
             flex: 1;
             overflow: hidden;
         }
+        
+        /* ✅ ВКЛАДКИ С RIPPLE ЭФФЕКТОМ */
         .tab {
             flex: 1;
             padding: 12px 8px;
@@ -122,22 +124,6 @@
             position: relative;
             overflow: hidden;
         }
-        .tab::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-        .tab:hover::before {
-            width: 300px;
-            height: 300px;
-        }
         .tab.active { 
             color: #fff; 
             background: rgba(255, 255, 255, 0.08); 
@@ -146,6 +132,22 @@
             transform: translateY(-2px);
         }
         .tab:active { transform: scale(0.95); }
+        
+        /* Ripple эффект */
+        .tab .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
 
         .nav-tab {
             flex-shrink: 0;
@@ -161,6 +163,8 @@
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-size: 14px;
+            position: relative;
+            overflow: hidden;
         }
         .nav-tab:hover {
             color: #fff;
@@ -169,6 +173,14 @@
             transform: scale(1.1);
         }
         .nav-tab:active { transform: scale(0.9); }
+        .nav-tab .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
 
         .search-box { position: relative; margin-bottom: 28px; }
         .search-input {
@@ -188,7 +200,6 @@
 
         .items-list { display: flex; flex-direction: column; gap: 14px; min-height: 200px; }
         
-        /* ✅ УЛУЧШЕННЫЕ АНИМАЦИИ КАРТОЧЕК */
         .item-card {
             background: var(--card-bg); 
             border: 1px solid var(--border); 
@@ -203,7 +214,6 @@
             overflow: hidden;
         }
         
-        /* Свечение при наведении */
         .item-card::before {
             content: ''; 
             position: absolute; 
@@ -217,7 +227,6 @@
             pointer-events: none;
         }
         
-        /* Градиентная рамка при наведении */
         .item-card::after {
             content: '';
             position: absolute;
@@ -258,7 +267,7 @@
             transform: translateX(4px);
         }
         
-        /* ✅ ИКОНКИ С АНИМАЦИЯМИ */
+        /* ✅ ИКОНКИ С ЭФФЕКТОМ ОТТАЛКИВАНИЯ */
         .plugin-icon-wrapper,
         .module-icon-wrapper,
         .bot-icon-wrapper,
@@ -269,7 +278,7 @@
             display: flex; 
             align-items: center; 
             justify-content: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
         }
         
@@ -282,7 +291,6 @@
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        /* Свечение иконок */
         .plugin-icon-wrapper svg {
             filter: 
                 drop-shadow(0 0 2px rgba(74, 159, 229, 0.4))
@@ -302,27 +310,21 @@
             filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
         }
         
-        /* Анимация иконок при наведении */
+        /* Анимация при наведении на карточку */
         .item-card:hover .plugin-icon-wrapper svg {
             filter: 
                 drop-shadow(0 0 4px rgba(74, 159, 229, 0.6))
                 drop-shadow(0 0 12px rgba(74, 159, 229, 0.4));
-            transform: scale(1.1) rotate(5deg);
         }
         .item-card:hover .module-icon-wrapper svg {
             filter: 
                 drop-shadow(0 0 4px rgba(255, 149, 0, 0.6))
                 drop-shadow(0 0 12px rgba(255, 149, 0, 0.4));
-            transform: scale(1.1) rotate(-5deg);
         }
         .item-card:hover .bot-icon-wrapper svg {
             filter: 
                 drop-shadow(0 0 4px rgba(189, 0, 255, 0.6))
                 drop-shadow(0 0 12px rgba(189, 0, 255, 0.4));
-            transform: scale(1.1) rotate(5deg);
-        }
-        .item-card:hover .app-icon-wrapper svg {
-            transform: scale(1.1) rotate(5deg);
         }
         
         .item-name { 
@@ -349,7 +351,6 @@
             color: rgba(255, 255, 255, 0.6);
         }
         
-        /* ✅ АНИМАЦИЯ КНОПОК ДЕЙСТВИЙ */
         .action-btns { 
             display: flex; 
             gap: 10px; 
@@ -373,27 +374,11 @@
             position: relative;
             overflow: hidden;
         }
-        .icon-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.4s, height 0.4s;
-        }
-        .icon-btn:hover::before {
-            width: 100px;
-            height: 100px;
-        }
         .icon-btn:hover { 
             color: #fff; 
             background: rgba(255, 255, 255, 0.08); 
             border-color: rgba(255, 255, 255, 0.2); 
-            transform: scale(1.15) rotate(5deg);
+            transform: scale(1.15);
         }
         .icon-btn.open-btn { 
             background: linear-gradient(135deg, var(--plugin), #0099cc); 
@@ -402,7 +387,6 @@
             box-shadow: 0 4px 20px rgba(0, 242, 255, 0.2); 
         }
         .icon-btn.open-btn:hover { 
-            transform: scale(1.15) rotate(-5deg);
             box-shadow: 0 6px 30px rgba(0, 242, 255, 0.4);
         }
         .icon-btn:active { transform: scale(0.95); }
@@ -460,7 +444,6 @@
                 <div class="secret-counter" id="secretCounter"></div>
             </div>
 
-            <!-- ✅ СТРАНИЦА 1: Плагины, Приложения -->
             <div class="tabs-container animate-in" style="animation-delay: 0.1s;" id="tabsPage1">
                 <div class="tabs">
                     <div class="tab active" onclick="switchTab('plugins', this)">Плагины</div>
@@ -471,7 +454,6 @@
                 </div>
             </div>
 
-            <!-- ✅ СТРАНИЦА 2: Модули, Боты -->
             <div class="tabs-container animate-in" style="animation-delay: 0.1s; display: none;" id="tabsPage2">
                 <div class="nav-tab" onclick="goToTabsPage(1)" title="Предыдущая страница">
                     <i class="fas fa-chevron-left"></i>
@@ -570,7 +552,6 @@
             </svg>`
         };
 
-        // ✅ КРАСИВАЯ ИКОНКА БОТА
         const BOT_ICON = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <linearGradient id="botGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -639,6 +620,31 @@
         const haptic = (type = 'light') => tg.HapticFeedback?.impactOccurred(type);
 
         let state = { activeTab: 'plugins', searchQuery: '', currentPage: 1, itemsPerPage: 5, tabsPage: 1 };
+
+        // ✅ RIPPLE ЭФФЕКТ ДЛЯ ВКЛАДОК
+        function createRipple(event, element) {
+            const ripple = document.createElement('span');
+            const rect = element.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = event.clientX - rect.left - size / 2;
+            const y = event.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.classList.add('ripple');
+            
+            element.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 600);
+        }
+
+        // Добавляем ripple на все вкладки
+        document.querySelectorAll('.tab, .nav-tab').forEach(tab => {
+            tab.addEventListener('click', function(e) {
+                createRipple(e, this);
+            });
+        });
 
         function goToTabsPage(page) {
             haptic('medium');
@@ -757,7 +763,7 @@
             
             if (filtered.length === 0) {
                 let emptyMsg = 'Ничего не найдено';
-                if (state.activeTab === 'bots') emptyMsg = ' Раздел в разработке...<br>Скоро здесь появятся лучшие боты';
+                if (state.activeTab === 'bots') emptyMsg = '🚧 Раздел в разработке...<br>Скоро здесь появятся лучшие боты';
                 
                 list.innerHTML = `<div class="empty-state animate-in"><i class="fas fa-ghost"></i><br>${emptyMsg}</div>`;
                 return;
@@ -772,10 +778,38 @@
                 div.className = 'item-card animate-in';
                 div.style.animationDelay = `${index * 0.06}s`;
                 
+                // ✅ ЭФФЕКТ ОТТАЛКИВАНИЯ ИКОНКИ
                 div.addEventListener('mousemove', (e) => {
                     const rect = div.getBoundingClientRect();
-                    div.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-                    div.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+                    const mouseX = e.clientX - rect.left;
+                    const mouseY = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    // Вычисляем направление от курсора
+                    const deltaX = mouseX - centerX;
+                    const deltaY = mouseY - centerY;
+                    
+                    // Смещаем иконку в противоположную сторону (максимум 8px)
+                    const maxOffset = 8;
+                    const offsetX = -(deltaX / centerX) * maxOffset;
+                    const offsetY = -(deltaY / centerY) * maxOffset;
+                    
+                    div.style.setProperty('--mouse-x', `${mouseX}px`);
+                    div.style.setProperty('--mouse-y', `${mouseY}px`);
+                    
+                    // Применяем смещение к иконке
+                    const iconWrapper = div.querySelector('.plugin-icon-wrapper, .module-icon-wrapper, .bot-icon-wrapper, .app-icon-wrapper');
+                    if (iconWrapper) {
+                        iconWrapper.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+                    }
+                });
+                
+                div.addEventListener('mouseleave', () => {
+                    const iconWrapper = div.querySelector('.plugin-icon-wrapper, .module-icon-wrapper, .bot-icon-wrapper, .app-icon-wrapper');
+                    if (iconWrapper) {
+                        iconWrapper.style.transform = 'translate(0, 0)';
+                    }
                 });
                 
                 let displayName = item.name;
