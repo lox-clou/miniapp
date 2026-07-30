@@ -93,7 +93,6 @@
             50% { transform: translateY(-50%) scale(1.5); background: rgba(189, 0, 255, 0.5); }
         }
 
-        /* ✅ ВКЛАДКИ С НАВИГАЦИЕЙ */
         .tabs-container {
             display: flex;
             align-items: center;
@@ -128,7 +127,6 @@
         }
         .tab:active { transform: scale(0.95); }
 
-        /* ✅ КНОПКИ НАВИГАЦИИ МЕЖДУ СТРАНИЦАМИ */
         .nav-tab {
             flex-shrink: 0;
             width: 44px;
@@ -184,6 +182,7 @@
         
         .item-info { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 0; position: relative; z-index: 1; }
         
+        /* ✅ ПАЗЛ С ГРАДИЕНТОМ */
         .plugin-icon-wrapper {
             width: 52px; height: 52px; flex-shrink: 0;
             display: flex; align-items: center; justify-content: center;
@@ -203,12 +202,25 @@
         }
         .item-card:hover .plugin-icon-wrapper { transform: scale(1.1) rotate(5deg); }
         
-        .item-icon.module {
-            width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
-            font-size: 20px; flex-shrink: 0; transition: all 0.3s ease; border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 149, 0, 0.1); color: var(--module); border-color: rgba(255, 149, 0, 0.2);
+        /* ✅ КРАСИВЫЕ ИКОНКИ МОДУЛЕЙ */
+        .module-icon-wrapper {
+            width: 52px; height: 52px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s ease;
         }
-        .item-card:hover .item-icon.module { transform: scale(1.1) rotate(5deg); }
+        .module-icon-wrapper svg {
+            width: 100%; height: 100%;
+            filter: 
+                drop-shadow(0 0 2px rgba(255, 149, 0, 0.4))
+                drop-shadow(0 0 6px rgba(255, 149, 0, 0.25));
+            transition: filter 0.3s ease;
+        }
+        .item-card:hover .module-icon-wrapper svg {
+            filter: 
+                drop-shadow(0 0 3px rgba(255, 149, 0, 0.6))
+                drop-shadow(0 0 10px rgba(255, 149, 0, 0.35));
+        }
+        .item-card:hover .module-icon-wrapper { transform: scale(1.1) rotate(5deg); }
         
         .app-icon-wrapper {
             width: 64px; height: 64px; flex-shrink: 0;
@@ -287,11 +299,10 @@
                 <div class="secret-counter" id="secretCounter"></div>
             </div>
 
-            <!-- ✅ СТРАНИЦА 1: Плагины, Модули, Приложения + кнопка далее -->
+            <!-- ✅ СТРАНИЦА 1: Плагины, Приложения -->
             <div class="tabs-container animate-in" style="animation-delay: 0.1s;" id="tabsPage1">
                 <div class="tabs">
                     <div class="tab active" onclick="switchTab('plugins', this)">Плагины</div>
-                    <div class="tab" onclick="switchTab('modules', this)">Модули</div>
                     <div class="tab" onclick="switchTab('apps', this)">Приложения</div>
                 </div>
                 <div class="nav-tab" onclick="goToTabsPage(2)" title="Следующая страница">
@@ -299,13 +310,13 @@
                 </div>
             </div>
 
-            <!-- ✅ СТРАНИЦА 2: Назад, Боты, Предложения -->
+            <!-- ✅ СТРАНИЦА 2: Модули, Предложения -->
             <div class="tabs-container animate-in" style="animation-delay: 0.1s; display: none;" id="tabsPage2">
                 <div class="nav-tab" onclick="goToTabsPage(1)" title="Предыдущая страница">
                     <i class="fas fa-chevron-left"></i>
                 </div>
                 <div class="tabs">
-                    <div class="tab" onclick="switchTab('bots', this)">Боты</div>
+                    <div class="tab" onclick="switchTab('modules', this)">Модули</div>
                     <div class="tab" onclick="switchTab('suggestions', this)">Предложения</div>
                 </div>
             </div>
@@ -326,7 +337,7 @@
         <div id="view-secret" class="view">
             <div class="back-btn animate-in" onclick="closeSecret()"><i class="fas fa-arrow-left"></i> Назад</div>
             <div class="header animate-in" style="animation-delay: 0.1s;">
-                <h1 style="background: linear-gradient(135deg, var(--secret), var(--app)); -webkit-background-clip: text;"> Secret</h1>
+                <h1 style="background: linear-gradient(135deg, var(--secret), var(--app)); -webkit-background-clip: text;">Secret</h1>
             </div>
             <div class="items-list">
                 <div class="item-card secret-card animate-in" style="animation-delay: 0.2s;" onclick="openLink('https://t.me/exterapl/838')">
@@ -348,23 +359,59 @@
     <div class="toast" id="toast"><i class="fas fa-check-circle"></i> Ссылка скопирована!</div>
 
     <script>
+        // ✅ ПАЗЛ С ГРАДИЕНТОМ
         const PLUGIN_ICON = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <path d="M 17 10 
-                     L 40 10 
-                     A 10 10 0 1 1 60 10 
-                     L 83 10 
-                     A 7 7 0 0 1 90 17 
-                     L 90 40 
-                     A 10 10 0 1 0 90 60 
-                     L 90 83 
-                     A 7 7 0 0 1 83 90 
-                     L 17 90 
-                     A 7 7 0 0 1 10 83 
-                     L 10 17 
-                     A 7 7 0 0 1 17 10 
-                     Z" 
-                  fill="#4A9FE5"/>
+            <defs>
+                <linearGradient id="pluginGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#4A9FE5;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#00f2ff;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <path d="M 17 10 L 40 10 A 10 10 0 1 1 60 10 L 83 10 A 7 7 0 0 1 90 17 L 90 40 A 10 10 0 1 0 90 60 L 90 83 A 7 7 0 0 1 83 90 L 17 90 A 7 7 0 0 1 10 83 L 10 17 A 7 7 0 0 1 17 10 Z" 
+                  fill="url(#pluginGrad)"/>
         </svg>`;
+
+        // ✅ КРАСИВЫЕ ИКОНКИ МОДУЛЕЙ С ГРАДИЕНТАМИ
+        const MODULE_ICONS = {
+            'Source trigger': `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="modGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FF9500;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#FFD700;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M 55 15 L 25 55 L 45 55 L 40 85 L 75 40 L 55 40 Z" 
+                      fill="url(#modGrad1)" 
+                      stroke="rgba(255,255,255,0.2)" 
+                      stroke-width="1"/>
+            </svg>`,
+            
+            'Giveaway joiner': `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="modGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FF6B6B;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#FFD93D;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <path d="M 50 15 L 58 35 L 80 35 L 62 48 L 70 70 L 50 56 L 30 70 L 38 48 L 20 35 L 42 35 Z" 
+                      fill="url(#modGrad2)" 
+                      stroke="rgba(255,255,255,0.2)" 
+                      stroke-width="1"/>
+            </svg>`,
+            
+            'Module list': `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="modGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#FF9500;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#FF5E3A;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <rect x="20" y="20" width="60" height="8" rx="4" fill="url(#modGrad3)"/>
+                <rect x="20" y="40" width="60" height="8" rx="4" fill="url(#modGrad3)"/>
+                <rect x="20" y="60" width="60" height="8" rx="4" fill="url(#modGrad3)"/>
+                <rect x="20" y="80" width="40" height="8" rx="4" fill="url(#modGrad3)"/>
+            </svg>`
+        };
 
         const APP_ICONS = {
             'Wallify': `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -408,16 +455,8 @@
                 { name: "Wallify", url: "https://t.me/WallifyApp/4/1993", desc: "Красивые живые обои на телефон" },
                 { name: "Larpkeeper", url: "https://t.me/vcvk1/1406", desc: "Фейковый Tonkeeper" }
             ],
-            // ✅ РАЗДЕЛ БОТОВ (пока пустой, добавляй ботов сюда)
-            bots: [
-                // { name: "Название бота", url: "https://t.me/username", desc: "Описание" }
-            ],
-            // ✅ РАЗДЕЛ ПРЕДЛОЖЕНИЙ ОТ ПОЛЬЗОВАТЕЛЕЙ
-            // Синхронизация: когда принимаешь предложение в боте, добавляй его сюда вручную
-            // (веб-приложение не может читать базу данных бота напрямую)
-            suggestions: [
-                // Пример: { name: "Название", url: "https://t.me/link", desc: "Описание", author: "Имя" }
-            ]
+            bots: [],
+            suggestions: []
         };
 
         const tg = window.Telegram.WebApp;
@@ -430,23 +469,25 @@
 
         let state = { activeTab: 'plugins', searchQuery: '', currentPage: 1, itemsPerPage: 5, tabsPage: 1 };
 
-        // ✅ ПЕРЕКЛЮЧЕНИЕ СТРАНИЦ ВКЛАДОК
         function goToTabsPage(page) {
             haptic('medium');
             state.tabsPage = page;
             document.getElementById('tabsPage1').style.display = page === 1 ? 'flex' : 'none';
             document.getElementById('tabsPage2').style.display = page === 2 ? 'flex' : 'none';
             
-            // Сброс активной вкладки при переключении страницы
-            state.activeTab = page === 1 ? 'plugins' : 'bots';
+            state.activeTab = page === 1 ? 'plugins' : 'modules';
             state.searchQuery = '';
             state.currentPage = 1;
             document.getElementById('searchInput').value = '';
             document.getElementById('clearSearch').classList.remove('visible');
+            
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            const tabs = document.querySelectorAll(`#tabsPage${page} .tab`);
+            if (tabs.length > 0) tabs[0].classList.add('active');
+            
             renderList();
         }
 
-        // ✅ СИСТЕМА СКРЫТОГО ДОСТУПА
         let secretClicks = 0;
         let lastClickTime = 0;
         const SECRET_CLICKS_REQUIRED = 7;
@@ -479,7 +520,7 @@
         function getFilteredItems() {
             if (state.searchQuery) {
                 return Object.values(DATA).flat().filter(item => 
-                    item.name && (item.name.toLowerCase().includes(state.searchQuery) || item.desc.toLowerCase().includes(state.searchQuery))
+                    item && item.name && (item.name.toLowerCase().includes(state.searchQuery) || (item.desc && item.desc.toLowerCase().includes(state.searchQuery)))
                 );
             }
             return DATA[state.activeTab] || [];
@@ -543,11 +584,10 @@
 
             list.innerHTML = '';
             
-            // Обработка пустых разделов
             if (filtered.length === 0) {
                 let emptyMsg = 'Ничего не найдено';
                 if (state.activeTab === 'bots') emptyMsg = '🚧 Раздел в разработке...<br>Скоро здесь появятся лучшие боты';
-                else if (state.activeTab === 'suggestions') emptyMsg = '📭 Пока нет принятых предложений<br>Стань первым!';
+                else if (state.activeTab === 'suggestions') emptyMsg = ' Пока нет принятых предложений<br>Стань первым!';
                 
                 list.innerHTML = `<div class="empty-state animate-in"><i class="fas fa-ghost"></i><br>${emptyMsg}</div>`;
                 return;
@@ -577,21 +617,21 @@
                 let iconHTML = '';
                 if (state.activeTab === 'plugins') {
                     iconHTML = `<div class="plugin-icon-wrapper">${PLUGIN_ICON}</div>`;
+                } else if (state.activeTab === 'modules' && MODULE_ICONS[item.name]) {
+                    iconHTML = `<div class="module-icon-wrapper">${MODULE_ICONS[item.name]}</div>`;
                 } else if (state.activeTab === 'apps' && APP_ICONS[item.name]) {
                     iconHTML = `<div class="app-icon-wrapper">${APP_ICONS[item.name]}</div>`;
-                } else if (state.activeTab === 'modules') {
-                    iconHTML = `<div class="item-icon module"><i class="fas fa-cube"></i></div>`;
                 } else if (state.activeTab === 'bots') {
-                    iconHTML = `<div class="item-icon module" style="background: rgba(0, 242, 255, 0.1); color: var(--plugin); border-color: rgba(0, 242, 255, 0.2);"><i class="fas fa-robot"></i></div>`;
+                    iconHTML = `<div class="module-icon-wrapper"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="botGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#00f2ff;stop-opacity:1" /><stop offset="100%" style="stop-color:#bd00ff;stop-opacity:1" /></linearGradient></defs><rect x="25" y="30" width="50" height="40" rx="10" fill="url(#botGrad)"/><circle cx="40" cy="48" r="4" fill="#fff"/><circle cx="60" cy="48" r="4" fill="#fff"/><rect x="45" y="20" width="10" height="10" rx="2" fill="url(#botGrad)"/></svg></div>`;
                 } else if (state.activeTab === 'suggestions') {
-                    iconHTML = `<div class="item-icon module" style="background: rgba(189, 0, 255, 0.1); color: var(--secret); border-color: rgba(189, 0, 255, 0.2);"><i class="fas fa-star"></i></div>`;
+                    iconHTML = `<div class="module-icon-wrapper"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sugGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#bd00ff;stop-opacity:1" /><stop offset="100%" style="stop-color:#ff2d55;stop-opacity:1" /></linearGradient></defs><path d="M 50 15 L 58 35 L 80 35 L 62 48 L 70 70 L 50 56 L 30 70 L 38 48 L 20 35 L 42 35 Z" fill="url(#sugGrad)"/></svg></div>`;
                 }
 
                 let authorInfo = '';
                 if (state.activeTab === 'suggestions' && item.author) {
                     authorInfo = `<div class="item-desc">от ${item.author}</div>`;
                 } else {
-                    authorInfo = `<div class="item-desc">${item.desc}</div>`;
+                    authorInfo = `<div class="item-desc">${item.desc || ''}</div>`;
                 }
 
                 div.innerHTML = `
