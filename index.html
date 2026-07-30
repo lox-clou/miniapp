@@ -18,6 +18,7 @@
             --plugin: #00f2ff;
             --module: #ff9500;
             --app: #ff2d55;
+            --bot: #bd00ff;
             --secret: #bd00ff;
             --border: rgba(255, 255, 255, 0.08);
             --glow: 0 0 20px;
@@ -115,15 +116,34 @@
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-align: center;
             white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+        }
+        .tab::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        .tab:hover::before {
+            width: 300px;
+            height: 300px;
         }
         .tab.active { 
             color: #fff; 
             background: rgba(255, 255, 255, 0.08); 
             border-color: rgba(255, 255, 255, 0.2); 
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
         }
         .tab:active { transform: scale(0.95); }
 
@@ -139,13 +159,14 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-size: 14px;
         }
         .nav-tab:hover {
             color: #fff;
             background: rgba(255, 255, 255, 0.08);
             border-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
         }
         .nav-tab:active { transform: scale(0.9); }
 
@@ -166,85 +187,225 @@
         .clear-search:hover { color: var(--text); }
 
         .items-list { display: flex; flex-direction: column; gap: 14px; min-height: 200px; }
+        
+        /* ✅ УЛУЧШЕННЫЕ АНИМАЦИИ КАРТОЧЕК */
         .item-card {
-            background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 18px;
-            display: flex; align-items: center; justify-content: space-between; cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; overflow: hidden;
+            background: var(--card-bg); 
+            border: 1px solid var(--border); 
+            border-radius: 20px; 
+            padding: 18px;
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            position: relative; 
+            overflow: hidden;
         }
+        
+        /* Свечение при наведении */
         .item-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.06), transparent 40%);
-            opacity: 0; transition: opacity 0.3s; pointer-events: none;
+            content: ''; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.08), transparent 40%);
+            opacity: 0; 
+            transition: opacity 0.4s; 
+            pointer-events: none;
+        }
+        
+        /* Градиентная рамка при наведении */
+        .item-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(0, 242, 255, 0.3), rgba(189, 0, 255, 0.3));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
+        
+        .item-card:hover { 
+            transform: translateY(-4px) scale(1.02); 
+            border-color: rgba(255, 255, 255, 0.2); 
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.6),
+                0 0 30px rgba(0, 242, 255, 0.1);
         }
         .item-card:hover::before { opacity: 1; }
-        .item-card:hover { transform: translateY(-3px); border-color: rgba(255, 255, 255, 0.15); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5); }
-        .item-card:active { transform: scale(0.98); }
+        .item-card:hover::after { opacity: 1; }
+        .item-card:active { transform: translateY(-2px) scale(1.01); }
         
-        .item-info { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 0; position: relative; z-index: 1; }
-        
-        /* ✅ ПАЗЛ С ГРАДИЕНТОМ */
-        .plugin-icon-wrapper {
-            width: 52px; height: 52px; flex-shrink: 0;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.3s ease;
+        .item-info { 
+            display: flex; 
+            align-items: center; 
+            gap: 16px; 
+            flex: 1; 
+            min-width: 0; 
+            position: relative; 
+            z-index: 1;
+            transition: transform 0.3s ease;
         }
+        .item-card:hover .item-info {
+            transform: translateX(4px);
+        }
+        
+        /* ✅ ИКОНКИ С АНИМАЦИЯМИ */
+        .plugin-icon-wrapper,
+        .module-icon-wrapper,
+        .bot-icon-wrapper,
+        .app-icon-wrapper {
+            width: 52px; 
+            height: 52px; 
+            flex-shrink: 0;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        .plugin-icon-wrapper svg,
+        .module-icon-wrapper svg,
+        .bot-icon-wrapper svg,
+        .app-icon-wrapper svg {
+            width: 100%; 
+            height: 100%;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Свечение иконок */
         .plugin-icon-wrapper svg {
-            width: 100%; height: 100%;
             filter: 
                 drop-shadow(0 0 2px rgba(74, 159, 229, 0.4))
                 drop-shadow(0 0 6px rgba(74, 159, 229, 0.25));
-            transition: filter 0.3s ease;
-        }
-        .item-card:hover .plugin-icon-wrapper svg {
-            filter: 
-                drop-shadow(0 0 3px rgba(74, 159, 229, 0.6))
-                drop-shadow(0 0 10px rgba(74, 159, 229, 0.35));
-        }
-        .item-card:hover .plugin-icon-wrapper { transform: scale(1.1) rotate(5deg); }
-        
-        /* ✅ КРАСИВЫЕ ИКОНКИ МОДУЛЕЙ */
-        .module-icon-wrapper {
-            width: 52px; height: 52px; flex-shrink: 0;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.3s ease;
         }
         .module-icon-wrapper svg {
-            width: 100%; height: 100%;
             filter: 
                 drop-shadow(0 0 2px rgba(255, 149, 0, 0.4))
                 drop-shadow(0 0 6px rgba(255, 149, 0, 0.25));
-            transition: filter 0.3s ease;
+        }
+        .bot-icon-wrapper svg {
+            filter: 
+                drop-shadow(0 0 2px rgba(189, 0, 255, 0.4))
+                drop-shadow(0 0 6px rgba(189, 0, 255, 0.25));
+        }
+        .app-icon-wrapper svg {
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+        }
+        
+        /* Анимация иконок при наведении */
+        .item-card:hover .plugin-icon-wrapper svg {
+            filter: 
+                drop-shadow(0 0 4px rgba(74, 159, 229, 0.6))
+                drop-shadow(0 0 12px rgba(74, 159, 229, 0.4));
+            transform: scale(1.1) rotate(5deg);
         }
         .item-card:hover .module-icon-wrapper svg {
             filter: 
-                drop-shadow(0 0 3px rgba(255, 149, 0, 0.6))
-                drop-shadow(0 0 10px rgba(255, 149, 0, 0.35));
+                drop-shadow(0 0 4px rgba(255, 149, 0, 0.6))
+                drop-shadow(0 0 12px rgba(255, 149, 0, 0.4));
+            transform: scale(1.1) rotate(-5deg);
         }
-        .item-card:hover .module-icon-wrapper { transform: scale(1.1) rotate(5deg); }
+        .item-card:hover .bot-icon-wrapper svg {
+            filter: 
+                drop-shadow(0 0 4px rgba(189, 0, 255, 0.6))
+                drop-shadow(0 0 12px rgba(189, 0, 255, 0.4));
+            transform: scale(1.1) rotate(5deg);
+        }
+        .item-card:hover .app-icon-wrapper svg {
+            transform: scale(1.1) rotate(5deg);
+        }
         
-        .app-icon-wrapper {
-            width: 64px; height: 64px; flex-shrink: 0;
-            display: flex; align-items: center; justify-content: center;
+        .item-name { 
+            font-size: 16px; 
+            font-weight: 600; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis;
+            transition: color 0.3s ease;
+        }
+        .item-card:hover .item-name {
+            color: #fff;
+        }
+        .item-desc { 
+            font-size: 13px; 
+            color: var(--text-dim); 
+            margin-top: 4px; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis;
             transition: all 0.3s ease;
         }
-        .app-icon-wrapper svg {
-            width: 100%; height: 100%;
-            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+        .item-card:hover .item-desc {
+            color: rgba(255, 255, 255, 0.6);
         }
-        .item-card:hover .app-icon-wrapper { transform: scale(1.1) rotate(5deg); }
         
-        .item-name { font-size: 16px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .item-desc { font-size: 13px; color: var(--text-dim); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        
-        .action-btns { display: flex; gap: 10px; flex-shrink: 0; position: relative; z-index: 1; }
+        /* ✅ АНИМАЦИЯ КНОПОК ДЕЙСТВИЙ */
+        .action-btns { 
+            display: flex; 
+            gap: 10px; 
+            flex-shrink: 0; 
+            position: relative; 
+            z-index: 1;
+        }
         .icon-btn {
-            width: 40px; height: 40px; border-radius: 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border);
-            color: var(--text-dim); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; font-size: 15px;
+            width: 40px; 
+            height: 40px; 
+            border-radius: 12px; 
+            background: rgba(255, 255, 255, 0.03); 
+            border: 1px solid var(--border);
+            color: var(--text-dim); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            font-size: 15px;
+            position: relative;
+            overflow: hidden;
         }
-        .icon-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); transform: scale(1.1); }
-        .icon-btn.open-btn { background: linear-gradient(135deg, var(--plugin), #0099cc); color: #000; border-color: transparent; box-shadow: 0 4px 20px rgba(0, 242, 255, 0.2); }
-        .icon-btn.open-btn:hover { transform: scale(1.15); box-shadow: 0 6px 30px rgba(0, 242, 255, 0.4); }
-        .icon-btn:active { transform: scale(0.9); }
+        .icon-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+        .icon-btn:hover::before {
+            width: 100px;
+            height: 100px;
+        }
+        .icon-btn:hover { 
+            color: #fff; 
+            background: rgba(255, 255, 255, 0.08); 
+            border-color: rgba(255, 255, 255, 0.2); 
+            transform: scale(1.15) rotate(5deg);
+        }
+        .icon-btn.open-btn { 
+            background: linear-gradient(135deg, var(--plugin), #0099cc); 
+            color: #000; 
+            border-color: transparent; 
+            box-shadow: 0 4px 20px rgba(0, 242, 255, 0.2); 
+        }
+        .icon-btn.open-btn:hover { 
+            transform: scale(1.15) rotate(-5deg);
+            box-shadow: 0 6px 30px rgba(0, 242, 255, 0.4);
+        }
+        .icon-btn:active { transform: scale(0.95); }
 
         .pagination { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 28px; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
         .pagination.visible { opacity: 1; pointer-events: all; }
@@ -310,14 +471,14 @@
                 </div>
             </div>
 
-            <!-- ✅ СТРАНИЦА 2: Модули, Предложения -->
+            <!-- ✅ СТРАНИЦА 2: Модули, Боты -->
             <div class="tabs-container animate-in" style="animation-delay: 0.1s; display: none;" id="tabsPage2">
                 <div class="nav-tab" onclick="goToTabsPage(1)" title="Предыдущая страница">
                     <i class="fas fa-chevron-left"></i>
                 </div>
                 <div class="tabs">
                     <div class="tab" onclick="switchTab('modules', this)">Модули</div>
-                    <div class="tab" onclick="switchTab('suggestions', this)">Предложения</div>
+                    <div class="tab" onclick="switchTab('bots', this)">Боты</div>
                 </div>
             </div>
 
@@ -359,7 +520,6 @@
     <div class="toast" id="toast"><i class="fas fa-check-circle"></i> Ссылка скопирована!</div>
 
     <script>
-        // ✅ ПАЗЛ С ГРАДИЕНТОМ
         const PLUGIN_ICON = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <linearGradient id="pluginGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -371,7 +531,6 @@
                   fill="url(#pluginGrad)"/>
         </svg>`;
 
-        // ✅ КРАСИВЫЕ ИКОНКИ МОДУЛЕЙ С ГРАДИЕНТАМИ
         const MODULE_ICONS = {
             'Source trigger': `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <defs>
@@ -385,7 +544,6 @@
                       stroke="rgba(255,255,255,0.2)" 
                       stroke-width="1"/>
             </svg>`,
-            
             'Giveaway joiner': `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <linearGradient id="modGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -398,7 +556,6 @@
                       stroke="rgba(255,255,255,0.2)" 
                       stroke-width="1"/>
             </svg>`,
-            
             'Module list': `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <linearGradient id="modGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -412,6 +569,21 @@
                 <rect x="20" y="80" width="40" height="8" rx="4" fill="url(#modGrad3)"/>
             </svg>`
         };
+
+        // ✅ КРАСИВАЯ ИКОНКА БОТА
+        const BOT_ICON = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="botGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#bd00ff;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#ff2d55;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <rect x="25" y="30" width="50" height="40" rx="10" fill="url(#botGrad)"/>
+            <circle cx="40" cy="48" r="4" fill="#fff"/>
+            <circle cx="60" cy="48" r="4" fill="#fff"/>
+            <rect x="45" y="20" width="10" height="10" rx="2" fill="url(#botGrad)"/>
+            <circle cx="50" cy="18" r="3" fill="#fff"/>
+        </svg>`;
 
         const APP_ICONS = {
             'Wallify': `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -455,8 +627,7 @@
                 { name: "Wallify", url: "https://t.me/WallifyApp/4/1993", desc: "Красивые живые обои на телефон" },
                 { name: "Larpkeeper", url: "https://t.me/vcvk1/1406", desc: "Фейковый Tonkeeper" }
             ],
-            bots: [],
-            suggestions: []
+            bots: []
         };
 
         const tg = window.Telegram.WebApp;
@@ -586,8 +757,7 @@
             
             if (filtered.length === 0) {
                 let emptyMsg = 'Ничего не найдено';
-                if (state.activeTab === 'bots') emptyMsg = '🚧 Раздел в разработке...<br>Скоро здесь появятся лучшие боты';
-                else if (state.activeTab === 'suggestions') emptyMsg = ' Пока нет принятых предложений<br>Стань первым!';
+                if (state.activeTab === 'bots') emptyMsg = ' Раздел в разработке...<br>Скоро здесь появятся лучшие боты';
                 
                 list.innerHTML = `<div class="empty-state animate-in"><i class="fas fa-ghost"></i><br>${emptyMsg}</div>`;
                 return;
@@ -619,19 +789,10 @@
                     iconHTML = `<div class="plugin-icon-wrapper">${PLUGIN_ICON}</div>`;
                 } else if (state.activeTab === 'modules' && MODULE_ICONS[item.name]) {
                     iconHTML = `<div class="module-icon-wrapper">${MODULE_ICONS[item.name]}</div>`;
+                } else if (state.activeTab === 'bots') {
+                    iconHTML = `<div class="bot-icon-wrapper">${BOT_ICON}</div>`;
                 } else if (state.activeTab === 'apps' && APP_ICONS[item.name]) {
                     iconHTML = `<div class="app-icon-wrapper">${APP_ICONS[item.name]}</div>`;
-                } else if (state.activeTab === 'bots') {
-                    iconHTML = `<div class="module-icon-wrapper"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="botGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#00f2ff;stop-opacity:1" /><stop offset="100%" style="stop-color:#bd00ff;stop-opacity:1" /></linearGradient></defs><rect x="25" y="30" width="50" height="40" rx="10" fill="url(#botGrad)"/><circle cx="40" cy="48" r="4" fill="#fff"/><circle cx="60" cy="48" r="4" fill="#fff"/><rect x="45" y="20" width="10" height="10" rx="2" fill="url(#botGrad)"/></svg></div>`;
-                } else if (state.activeTab === 'suggestions') {
-                    iconHTML = `<div class="module-icon-wrapper"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sugGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#bd00ff;stop-opacity:1" /><stop offset="100%" style="stop-color:#ff2d55;stop-opacity:1" /></linearGradient></defs><path d="M 50 15 L 58 35 L 80 35 L 62 48 L 70 70 L 50 56 L 30 70 L 38 48 L 20 35 L 42 35 Z" fill="url(#sugGrad)"/></svg></div>`;
-                }
-
-                let authorInfo = '';
-                if (state.activeTab === 'suggestions' && item.author) {
-                    authorInfo = `<div class="item-desc">от ${item.author}</div>`;
-                } else {
-                    authorInfo = `<div class="item-desc">${item.desc || ''}</div>`;
                 }
 
                 div.innerHTML = `
@@ -639,7 +800,7 @@
                         ${iconHTML}
                         <div style="flex:1; min-width:0;">
                             <div class="item-name">${displayName}</div>
-                            ${authorInfo}
+                            <div class="item-desc">${item.desc || ''}</div>
                         </div>
                     </div>
                     <div class="action-btns">
