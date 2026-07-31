@@ -85,7 +85,7 @@
         }
         .tab:active { transform: scale(0.96); }
         
-        .tab .ripple, .nav-tab .ripple {
+        .tab .ripple, .nav-tab .ripple, .page-btn .ripple {
             position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.15);
             transform: scale(0); animation: ripple 0.6s linear; pointer-events: none;
         }
@@ -115,7 +115,8 @@
         .clear-search.visible { opacity: 1; pointer-events: all; }
         .clear-search:hover { color: var(--text); }
 
-        .items-list { display: flex; flex-direction: column; gap: 12px; min-height: 200px; }
+        .items-list { display: flex; flex-direction: column; gap: 12px; min-height: 200px; transition: opacity 0.3s ease, transform 0.3s ease; }
+        .items-list.fade-out { opacity: 0; transform: translateY(10px); }
         
         .item-card {
             background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 16px;
@@ -145,21 +146,17 @@
             display: flex; align-items: center; gap: 16px; flex: 1; min-width: 0; position: relative; z-index: 1;
         }
         
-        /* ✅ ИСПРАВЛЕНИЕ БАГОВ: Разделение трансформаций для плавности */
         .icon-wrapper {
             width: 52px; height: 52px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .icon-svg {
             width: 100%; height: 100%;
-            /* Используем CSS-переменные для JS-сдвига, чтобы не конфликтовать с hover-эффектами */
             transform: translate(var(--offset-x, 0px), var(--offset-y, 0px));
             transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .item-card:hover .icon-wrapper { transform: scale(1.1); }
-        
-        /* Свечение применяется только к SVG, не ломая transform */
         .item-card:hover .plugin-svg { filter: drop-shadow(0 0 8px rgba(0, 242, 255, 0.5)); }
         .item-card:hover .module-svg { filter: drop-shadow(0 0 8px rgba(255, 149, 0, 0.5)); }
         .item-card:hover .bot-svg { filter: drop-shadow(0 0 8px rgba(189, 0, 255, 0.5)); }
@@ -188,12 +185,62 @@
         .icon-btn.open-btn:hover { box-shadow: 0 6px 25px rgba(0, 242, 255, 0.4); transform: scale(1.1); }
         .icon-btn:active { transform: scale(0.95); }
 
-        .pagination { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 28px; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
-        .pagination.visible { opacity: 1; pointer-events: all; }
-        .page-dots { display: flex; gap: 8px; }
-        .page-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); cursor: pointer; transition: all 0.3s ease; }
-        .page-dot:hover { background: rgba(255, 255, 255, 0.4); transform: scale(1.3); }
-        .page-dot.active { width: 24px; border-radius: 4px; background: var(--plugin); box-shadow: 0 0 10px var(--plugin); }
+        /* ✅ НОВАЯ УДОБНАЯ ПАГИНАЦИЯ */
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 28px;
+            padding: 8px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .pagination-controls.visible {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateY(0);
+        }
+        .page-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+        .page-btn:active:not(:disabled) { transform: scale(0.95); }
+        .page-btn:disabled {
+            opacity: 0.2;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .page-info {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dim);
+            min-width: 70px;
+            text-align: center;
+        }
+        .page-info span { color: var(--text); }
 
         .view { display: none; }
         .view.active { display: block; }
@@ -260,7 +307,19 @@
             </div>
 
             <div id="content-list" class="items-list"></div>
-            <div class="pagination" id="pagination"><div class="page-dots" id="pageDots"></div></div>
+            
+            <!-- ✅ НОВАЯ ПАНЕЛЬ ПАГИНАЦИИ -->
+            <div class="pagination-controls" id="paginationControls">
+                <button class="page-btn" id="prevPageBtn" onclick="changePage(-1)" title="Предыдущая страница">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="page-info" id="pageInfo">
+                    <span id="currentPageNum">1</span> / <span id="totalPagesNum">1</span>
+                </div>
+                <button class="page-btn" id="nextPageBtn" onclick="changePage(1)" title="Следующая страница">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
         </div>
 
         <div id="view-secret" class="view">
@@ -288,10 +347,9 @@
     <div class="toast" id="toast"><i class="fas fa-check-circle"></i> Ссылка скопирована!</div>
 
     <script>
-        // ✅ ПРЕМИАЛЬНЫЕ SVG ИКОНКИ (1-в-1 как оригинал с тенями и градиентами)
         const ICONS = {
             plugins: {
-                'ChimeraNFT': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient><filter id="glow1"><feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#00f2ff" flood-opacity="0.3"/></filter></defs><g filter="url(#glow1)"><path d="M50 15 L80 35 L80 65 L50 85 L20 65 L20 35 Z" fill="none" stroke="url(#g1)" stroke-width="4"/><path d="M50 25 L70 38 L70 62 L50 75 L30 62 L30 38 Z" fill="url(#g1)" opacity="0.2"/><circle cx="50" cy="50" r="8" fill="url(#g1)"/></g></svg>`,
+                'ChimeraNFT': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><path d="M50 15 L80 35 L80 65 L50 85 L20 65 L20 35 Z" fill="none" stroke="url(#g1)" stroke-width="4"/><path d="M50 25 L70 38 L70 62 L50 75 L30 62 L30 38 Z" fill="url(#g1)" opacity="0.3"/><circle cx="50" cy="50" r="8" fill="url(#g1)"/></svg>`,
                 'LocalEditor': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><rect x="25" y="25" width="50" height="50" rx="8" fill="none" stroke="url(#g2)" stroke-width="4"/><path d="M65 65 L80 80" stroke="url(#g2)" stroke-width="6" stroke-linecap="round"/><path d="M40 40 L40 60 M40 50 L55 50" stroke="url(#g2)" stroke-width="4" stroke-linecap="round"/></svg>`,
                 'Lyrics+': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><path d="M35 30 L35 70 Q35 80 45 80 L65 80 Q75 80 75 70 L75 30" fill="none" stroke="url(#g3)" stroke-width="5"/><circle cx="35" cy="30" r="8" fill="url(#g3)"/><path d="M50 45 L50 65 M60 40 L60 65 M70 50 L70 65" stroke="url(#g3)" stroke-width="4" stroke-linecap="round" opacity="0.6"/></svg>`,
                 'Animated Wallpaper': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><rect x="20" y="30" width="60" height="40" rx="6" fill="none" stroke="url(#g4)" stroke-width="4"/><path d="M20 55 L40 40 L55 50 L70 35 L80 45 L80 70 L20 70 Z" fill="url(#g4)" opacity="0.2"/><circle cx="65" cy="45" r="4" fill="url(#g4)"/></svg>`,
@@ -311,13 +369,12 @@
                 'Module list': `<svg class="icon-svg module-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="m3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF9500"/><stop offset="100%" stop-color="#FF5E3A"/></linearGradient></defs><rect x="20" y="20" width="60" height="8" rx="4" fill="url(#m3)"/><rect x="20" y="40" width="60" height="8" rx="4" fill="url(#m3)"/><rect x="20" y="60" width="60" height="8" rx="4" fill="url(#m3)"/><rect x="20" y="80" width="40" height="8" rx="4" fill="url(#m3)"/></svg>`
             },
             apps: {
-                // ✅ 1-в-1 КАК ОРИГИНАЛ: скругленные углы, градиенты, тени
-                'TikTok You v3.4': `<svg class="icon-svg app-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ttBg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1e1e24"/><stop offset="100%" stop-color="#121216"/></linearGradient><filter id="ttShadow"><feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/></filter></defs><rect width="100" height="100" rx="22" fill="url(#ttBg)"/><g filter="url(#ttShadow)"><path d="M66 24 C66 34, 71 39, 80 39 L80 49 C70 49, 65 46, 60 42 L60 69 C60 79, 52 86, 42 86 C32 86, 25 79, 25 69 C25 59, 32 52, 42 52 C44 52, 46 52.5, 48 53 L48 33 L66 33 Z" fill="#fff"/><path d="M66 24 C66 34, 71 39, 80 39 L80 49 C70 49, 65 46, 60 42 L60 69 C60 79, 52 86, 42 86 C32 86, 25 79, 25 69 C25 59, 32 52, 42 52 C44 52, 46 52.5, 48 53 L48 33 L66 33 Z" fill="#00f2ea" style="mix-blend-mode: screen; transform: translate(-2px, -2px);"/><path d="M66 24 C66 34, 71 39, 80 39 L80 49 C70 49, 65 46, 60 42 L60 69 C60 79, 52 86, 42 86 C32 86, 25 79, 25 69 C25 59, 32 52, 42 52 C44 52, 46 52.5, 48 53 L48 33 L66 33 Z" fill="#ff0050" style="mix-blend-mode: screen; transform: translate(2px, 2px);"/></g></svg>`,
-                'Wallify': `<svg class="icon-svg app-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="wBg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e67e22"/><stop offset="100%" stop-color="#d35400"/></linearGradient><filter id="wShadow"><feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.4"/></filter></defs><rect width="100" height="100" rx="22" fill="url(#wBg)"/><g filter="url(#wShadow)"><path d="M28 35 L38 65 L48 45 L58 65 L68 35" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`,
-                'Larpkeeper': `<svg class="icon-svg app-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="lBg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1a2a44"/><stop offset="100%" stop-color="#0f1929"/></linearGradient><linearGradient id="l1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A90E2"/><stop offset="100%" stop-color="#357ABD"/></linearGradient><linearGradient id="l2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#5BA3F5"/><stop offset="100%" stop-color="#4A90E2"/></linearGradient><linearGradient id="l3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2E6BB5"/><stop offset="100%" stop-color="#1E4D8C"/></linearGradient><filter id="lShadow"><feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.4"/></filter></defs><rect width="100" height="100" rx="22" fill="url(#lBg)"/><g filter="url(#lShadow)"><polygon points="50,20 80,35 80,65 50,80 20,65 20,35" fill="url(#l1)"/><polygon points="50,20 80,35 50,50 20,35" fill="url(#l2)"/><polygon points="50,50 80,35 80,65 50,80" fill="url(#l3)" opacity="0.8"/><polygon points="50,50 20,35 20,65 50,80" fill="#fff" opacity="0.1"/></g></svg>`
+                'TikTok You v3.4': `<svg class="icon-svg app-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M65 20 C65 30, 70 35, 80 35 L80 45 C70 45, 65 42, 60 38 L60 65 C60 75, 52 82, 42 82 C32 82, 25 75, 25 65 C25 55, 32 48, 42 48 C44 48, 46 48.5, 48 49 L48 59 C46 58.5, 44 58, 42 58 C37 58, 35 61, 35 65 C35 69, 38 72, 42 72 C47 72, 50 69, 50 65 L50 20 L65 20 Z" fill="#6B5B95"/></svg>`,
+                'Wallify': `<svg class="icon-svg app-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 10 C60 10, 70 15, 75 25 C80 35, 85 40, 85 50 C85 60, 80 70, 70 75 C60 80, 55 85, 50 85 C45 85, 40 80, 30 75 C20 70, 15 60, 15 50 C15 40, 20 35, 25 25 C30 15, 40 10, 50 10 Z" fill="#8B4513"/><text x="50" y="62" font-family="Arial" font-size="40" font-weight="bold" fill="#1a1a1a" text-anchor="middle">W</text></svg>`,
+                'Larpkeeper': `<svg class="icon-svg app-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,15 80,40 50,85 20,40" fill="#4A90E2"/><polygon points="50,15 80,40 50,40" fill="#5BA3F5"/><polygon points="50,40 80,40 50,85" fill="#3A7BC8"/><polygon points="50,40 20,40 50,85" fill="#2E6BB5"/></svg>`
             },
             bots: {
-                'ChimeraNFT support': `<svg class="icon-svg bot-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="bBg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2a1a35"/><stop offset="100%" stop-color="#1a0f22"/></linearGradient><linearGradient id="b1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#bd00ff"/><stop offset="100%" stop-color="#ff2d55"/></linearGradient><filter id="bShadow"><feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/></filter></defs><rect width="100" height="100" rx="22" fill="url(#bBg)"/><g filter="url(#bShadow)"><path d="M50 22 C36 22 26 32 26 46 L26 56 C26 61 30 65 35 65 L41 65 L41 76 L59 76 L59 65 L65 65 C70 65 74 61 74 56 L74 46 C74 32 64 22 50 22 Z" fill="url(#b1)"/><circle cx="41" cy="46" r="4" fill="#fff"/><circle cx="59" cy="46" r="4" fill="#fff"/><path d="M31 36 Q21 36 21 46 L21 56 Q21 66 31 66" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><path d="M69 36 Q79 36 79 46 L79 56 Q79 66 69 66" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><path d="M46 56 Q50 61 54 56" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/></g></svg>`
+                'ChimeraNFT support': `<svg class="icon-svg bot-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="botGrad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#bd00ff"/><stop offset="100%" stop-color="#ff2d55"/></linearGradient><linearGradient id="botGrad2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00f2ff"/><stop offset="100%" stop-color="#bd00ff"/></linearGradient></defs><rect x="25" y="30" width="50" height="45" rx="12" fill="url(#botGrad1)"/><circle cx="38" cy="48" r="5" fill="#fff"/><circle cx="62" cy="48" r="5" fill="#fff"/><path d="M38 62 Q50 70 62 62" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><rect x="45" y="18" width="10" height="12" rx="3" fill="url(#botGrad2)"/><circle cx="50" cy="15" r="4" fill="#00f2ff"/><path d="M20 45 L25 45 M75 45 L80 45" stroke="url(#botGrad1)" stroke-width="4" stroke-linecap="round"/><path d="M50 30 L50 40 M45 35 L55 35" stroke="#fff" stroke-width="2" stroke-linecap="round"/><polygon points="50,75 55,85 45,85" fill="url(#botGrad2)"/></svg>`
             }
         };
 
@@ -344,7 +401,7 @@
             ],
             apps: [
                 { name: "TikTok You v3.4", url: "https://t.me/tiktokyou/49", desc: "Модифицированный клиент TikTok" },
-                { name: "Wallify", url: "https://t.me/WallifyApp/4/1993", desc: "Красивые живые обои на телефон" },
+                { name: "Wallify", url: "https://t.me/WallifyApp/4/2370", desc: "Красивые живые обои на телефон" },
                 { name: "Larpkeeper", url: "https://t.me/vcvk1/1406", desc: "Фейковый Tonkeeper" }
             ],
             bots: [
@@ -357,7 +414,14 @@
         tg.ready();
         tg.setHeaderColor('#050507');
         tg.setBackgroundColor('#050507');
-        const haptic = (type = 'light') => tg.HapticFeedback?.impactOccurred(type);
+        
+        const haptic = (type = 'light') => {
+            try {
+                if (window.Telegram?.WebApp?.HapticFeedback) {
+                    window.Telegram.WebApp.HapticFeedback.impactOccurred(type);
+                }
+            } catch (e) {}
+        };
 
         let state = { activeTab: 'plugins', searchQuery: '', currentPage: 1, itemsPerPage: 5, tabsPage: 1 };
 
@@ -365,8 +429,13 @@
             const ripple = document.createElement('span');
             const rect = element.getBoundingClientRect();
             const size = Math.max(rect.width, rect.height);
-            const x = event.clientX - rect.left - size / 2;
-            const y = event.clientY - rect.top - size / 2;
+            
+            const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+            const clientY = event.touches ? event.touches[0].clientY : event.clientY;
+            
+            const x = clientX - rect.left - size / 2;
+            const y = clientY - rect.top - size / 2;
+            
             ripple.style.width = ripple.style.height = size + 'px';
             ripple.style.left = x + 'px';
             ripple.style.top = y + 'px';
@@ -375,8 +444,8 @@
             setTimeout(() => ripple.remove(), 600);
         }
 
-        document.querySelectorAll('.tab, .nav-tab').forEach(tab => {
-            tab.addEventListener('click', function(e) { createRipple(e, this); });
+        document.querySelectorAll('.tab, .nav-tab, .page-btn').forEach(el => {
+            el.addEventListener('click', function(e) { createRipple(e, this); });
         });
 
         function goToTabsPage(page) {
@@ -454,30 +523,47 @@
             handleSearch('');
         }
 
-        function goToPage(page) {
-            haptic('light');
-            state.currentPage = page;
-            renderList();
-            document.getElementById('content-list').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // ✅ НОВАЯ ФУНКЦИЯ ПЕРЕКЛЮЧЕНИЯ СТРАНИЦ С АНИМАЦИЕЙ
+        function changePage(direction) {
+            const filtered = getFilteredItems();
+            const totalPages = Math.ceil(filtered.length / state.itemsPerPage) || 1;
+            const newPage = state.currentPage + direction;
+            
+            if (newPage >= 1 && newPage <= totalPages) {
+                haptic('light');
+                
+                // Анимация исчезновения
+                const list = document.getElementById('content-list');
+                list.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    state.currentPage = newPage;
+                    renderList();
+                    // Плавный скролл к началу списка
+                    document.getElementById('content-list').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 300);
+            }
         }
 
         function renderList() {
             const list = document.getElementById('content-list');
-            const pagination = document.getElementById('pagination');
+            const pagination = document.getElementById('paginationControls');
             const filtered = getFilteredItems();
+            
             const totalPages = Math.ceil(filtered.length / state.itemsPerPage) || 1;
             if (state.currentPage > totalPages) state.currentPage = 1;
 
+            // Управление видимостью и состоянием кнопок пагинации
             if (totalPages > 1) {
                 pagination.classList.add('visible');
-                const dotsContainer = document.getElementById('pageDots');
-                dotsContainer.innerHTML = '';
-                for (let i = 1; i <= totalPages; i++) {
-                    const dot = document.createElement('div');
-                    dot.className = `page-dot ${i === state.currentPage ? 'active' : ''}`;
-                    dot.onclick = () => goToPage(i);
-                    dotsContainer.appendChild(dot);
-                }
+                document.getElementById('currentPageNum').textContent = state.currentPage;
+                document.getElementById('totalPagesNum').textContent = totalPages;
+                
+                const prevBtn = document.getElementById('prevPageBtn');
+                const nextBtn = document.getElementById('nextPageBtn');
+                
+                prevBtn.disabled = state.currentPage === 1;
+                nextBtn.disabled = state.currentPage === totalPages;
             } else {
                 pagination.classList.remove('visible');
             }
@@ -498,7 +584,6 @@
                 div.className = 'item-card animate-in';
                 div.style.animationDelay = `${index * 0.06}s`;
                 
-                // ✅ ИСПРАВЛЕНИЕ БАГОВ: Используем CSS-переменные для сдвига, чтобы не конфликтовать с hover-эффектами
                 div.addEventListener('mousemove', (e) => {
                     const rect = div.getBoundingClientRect();
                     const mouseX = e.clientX - rect.left;
@@ -529,7 +614,8 @@
                 
                 let displayName = item.name;
                 if (state.searchQuery) {
-                    const regex = new RegExp(`(${state.searchQuery})`, 'gi');
+                    const escapedQuery = state.searchQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    const regex = new RegExp(`(${escapedQuery})`, 'gi');
                     displayName = item.name.replace(regex, '<span style="color: var(--plugin); font-weight: 700;">$1</span>');
                 }
 
@@ -561,9 +647,15 @@
                 `;
                 list.appendChild(div);
             });
+            
+            // Убираем класс анимации после рендера, чтобы следующие переходы работали корректно
+            setTimeout(() => {
+                list.classList.remove('fade-out');
+            }, 50);
         }
 
         function openLink(url) { haptic('heavy'); tg.openTelegramLink(url); }
+        
         function copyLink(url, event) {
             event.stopPropagation();
             haptic('medium');
@@ -571,6 +663,8 @@
                 const toast = document.getElementById('toast');
                 toast.classList.add('show');
                 setTimeout(() => toast.classList.remove('show'), 2000);
+            }).catch(err => {
+                console.error('Не удалось скопировать:', err);
             });
         }
 
