@@ -212,54 +212,82 @@
         .item-card:active { transform: translateY(-3px) scale(0.99); }
         
         .item-info { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 0; position: relative; z-index: 1; }
-        
         .icon-wrapper {
             width: 52px; height: 52px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
             position: relative;
+            will-change: transform;
         }
         .icon-svg {
             width: 100%; height: 100%;
             transform: translate(var(--offset-x, 0px), var(--offset-y, 0px));
-            transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
-            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease, opacity 0.3s ease;
+            filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.4));
+            will-change: transform, filter;
+        }
+
+        /* ✨ УЛУЧШЕННЫЕ АНИМАЦИИ ИКОНОК ПРИ НАВЕДЕНИИ */
+        .item-card:hover .icon-wrapper {
+            transform: scale(1.15) rotate(8deg);
+            filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5));
         }
         
-        .item-card:hover .icon-wrapper { 
-            transform: scale(1.15) rotate(5deg);
-        }
-        .item-card:hover .plugin-svg { 
-            filter: drop-shadow(0 0 15px rgba(0, 242, 255, 0.8)) drop-shadow(0 0 30px rgba(0, 242, 255, 0.4));
-            animation: iconPulsePlugin 2s ease-in-out infinite;
-        }
-        .item-card:hover .module-svg { 
-            filter: drop-shadow(0 0 15px rgba(255, 149, 0, 0.8)) drop-shadow(0 0 30px rgba(255, 149, 0, 0.4));
-            animation: iconPulseModule 2s ease-in-out infinite;
-        }
-        .item-card:hover .bot-svg { 
-            filter: drop-shadow(0 0 15px rgba(189, 0, 255, 0.8)) drop-shadow(0 0 30px rgba(189, 0, 255, 0.4));
-            animation: iconPulseBot 2s ease-in-out infinite;
-        }
-        .item-card:hover .app-svg { 
-            filter: drop-shadow(0 4px 20px rgba(255, 45, 85, 0.7)) drop-shadow(0 0 30px rgba(255, 45, 85, 0.4));
-            animation: iconPulseApp 2s ease-in-out infinite;
+        /* Plugin icons - cyan glow pulse */
+        .item-card:hover .plugin-svg {
+            filter: drop-shadow(0 0 20px rgba(0, 242, 255, 0.9)) drop-shadow(0 0 40px rgba(0, 242, 255, 0.5)) drop-shadow(0 4px 15px rgba(0, 0, 0, 0.6));
+            animation: iconPulsePlugin 1.5s ease-in-out infinite, iconFloatPlugin 3s ease-in-out infinite;
         }
         
+        /* Module icons - orange glow pulse */
+        .item-card:hover .module-svg {
+            filter: drop-shadow(0 0 20px rgba(255, 149, 0, 0.9)) drop-shadow(0 0 40px rgba(255, 149, 0, 0.5)) drop-shadow(0 4px 15px rgba(0, 0, 0, 0.6));
+            animation: iconPulseModule 1.5s ease-in-out infinite, iconFloatModule 3s ease-in-out infinite;
+        }
+        
+        /* Bot icons - purple glow pulse */
+        .item-card:hover .bot-svg {
+            filter: drop-shadow(0 0 20px rgba(189, 0, 255, 0.9)) drop-shadow(0 0 40px rgba(189, 0, 255, 0.5)) drop-shadow(0 4px 15px rgba(0, 0, 0, 0.6));
+            animation: iconPulseBot 1.5s ease-in-out infinite, iconFloatBot 3s ease-in-out infinite;
+        }
+        
+        /* App icons - pink glow pulse */
+        .item-card:hover .app-svg {
+            filter: drop-shadow(0 0 20px rgba(255, 45, 85, 0.9)) drop-shadow(0 0 40px rgba(255, 45, 85, 0.5)) drop-shadow(0 4px 15px rgba(0, 0, 0, 0.6));
+            animation: iconPulseApp 1.5s ease-in-out infinite, iconFloatApp 3s ease-in-out infinite;
+        }
+
         @keyframes iconPulsePlugin {
             0%, 100% { transform: translate(var(--offset-x, 0px), var(--offset-y, 0px)) scale(1); }
-            50% { transform: translate(var(--offset-x, 0px), var(--offset-y, 0px)) scale(1.05); }
+            50% { transform: translate(var(--offset-x, 0px), var(--offset-y, 0px)) scale(1.08); }
         }
         @keyframes iconPulseModule {
             0%, 100% { transform: translate(var(--offset-x, 0px), var(--offset-y, 0px)) scale(1); }
-            50% { transform: translate(var(--offset-x, 0px), var(--offset-y, 0px)) scale(1.05); }
+            50% { transform: translate(var(--offset-x, 0px), var(--offset-y, 0px)) scale(1.08); }
         }
         @keyframes iconPulseBot {
             0%, 100% { transform: translate(var(--offset-x, 0px), var(--offset-y, 0px)) scale(1); }
-            50% { transform: translate(var(--offset-x, 0px), var(--offset-y, 0px)) scale(1.05); }
+            50% { transform: translate(var(--offset-x, 0px), var(--offset-y, 0px)) scale(1.08); }
         }
         @keyframes iconPulseApp {
             0%, 100% { transform: translate(var(--offset-x, 0px), var(--offset-y, 0px)) scale(1); }
-            50% { transform: translate(var(--offset-x, 0px), var(--offset-y, 0px)) scale(1.05); }
+            50% { transform: translate(var(--offset-x, 0px), var(--offset-y, 0px)) scale(1.08); }
+        }
+
+        @keyframes iconFloatPlugin {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-3px) scale(1.05); }
+        }
+        @keyframes iconFloatModule {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-3px) scale(1.05); }
+        }
+        @keyframes iconFloatBot {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-3px) scale(1.05); }
+        }
+        @keyframes iconFloatApp {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-3px) scale(1.05); }
         }
 
         .item-name { font-size: 15px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 0.3s ease; }
