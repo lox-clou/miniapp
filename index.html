@@ -2,1060 +2,776 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="description" content="Каталог лучших плагинов, модулей и приложений для Telegram">
-    <meta name="theme-color" content="#050507">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NexaHub | Premium Ecosystem</title>
+    <meta name="description" content="Экосистема премиальных модулей, плагинов и ботов для развития ваших проектов.">
+    <meta name="theme-color" content="#0f172a">
+    
+    <!-- PWA & Mobile Optimizations -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Каталог | Extera Plugins</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta name="apple-mobile-web-app-title" content="NexaHub">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-TileColor" content="#0f172a">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
-            --bg: #050507;
-            --bg-gradient: linear-gradient(135deg, #050507 0%, #0a0a0f 50%, #050507 100%);
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --card-hover: rgba(255, 255, 255, 0.06);
-            --card-active: rgba(255, 255, 255, 0.08);
-            --text: #ffffff;
-            --text-dim: #8b8b9e;
-            --text-bright: #f0f0f5;
-            --plugin: #00f2ff;
-            --module: #ff9500;
-            --app: #ff2d55;
-            --bot: #bd00ff;
-            --secret: #bd00ff;
-            --border: rgba(255, 255, 255, 0.08);
-            --border-bright: rgba(255, 255, 255, 0.15);
-            --border-glow: rgba(0, 242, 255, 0.3);
-            --glow: 0 0 20px;
-            --glow-strong: 0 0 40px;
-            --skeleton: rgba(255, 255, 255, 0.04);
-            --skeleton-shine: rgba(255, 255, 255, 0.08);
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-            --shadow-glow: 0 0 30px rgba(0, 242, 255, 0.15);
+            /* Palette */
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.6);
+            --secondary: #ec4899;
+            --secondary-glow: rgba(236, 72, 153, 0.6);
+            --accent: #8b5cf6;
+            --bg-dark: #020617;
+            --bg-card: rgba(30, 41, 59, 0.4);
+            --bg-card-hover: rgba(51, 65, 85, 0.6);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(148, 163, 184, 0.08);
+            --success: #10b981;
+            --warning: #f59e0b;
+            
+            /* Physics & Motion */
+            --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+            
+            /* Effects */
+            --glass-bg: blur(16px) saturate(180%);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-glow: 0 0 20px var(--primary-glow);
+            --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'Inter', -apple-system, sans-serif; }
-        *:focus-visible { outline: 2px solid var(--plugin); outline-offset: 2px; }
-        
-        body { 
-            background: var(--bg); 
-            background: var(--bg-gradient);
-            color: var(--text); 
-            min-height: 100vh; 
-            overflow-x: hidden; 
-            padding-bottom: 40px; 
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(236, 72, 153, 0.08), transparent 25%);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+            scroll-behavior: smooth;
         }
 
-        .ambient-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: transparent; }
+        /* Animated Aurora Background */
         .aurora {
-            position: absolute; width: 150%; height: 150%; top: -25%; left: -25%;
-            background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(0, 242, 255, 0.06) 60deg, transparent 120deg, rgba(255, 45, 85, 0.06) 180deg, transparent 240deg, rgba(189, 0, 255, 0.06) 300deg, transparent 360deg);
-            animation: rotate 30s linear infinite; filter: blur(140px); opacity: 0.7;
-        }
-        .aurora::after {
-            content: ''; position: absolute; inset: 0;
-            background: conic-gradient(from 180deg at 50% 50%, transparent 0deg, rgba(189, 0, 255, 0.04) 90deg, transparent 180deg, rgba(0, 242, 255, 0.04) 270deg, transparent 360deg);
-            animation: rotate 40s linear infinite reverse; filter: blur(120px);
-        }
-        @keyframes rotate { from { transform: translate(0, 0) rotate(0deg); } to { transform: translate(0, 0) rotate(360deg); } }
-
-        .noise {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.02; pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
         }
 
-        .app { max-width: 480px; margin: 0 auto; padding: 20px 16px 40px; position: relative; }
-
-        .header { display: flex; justify-content: center; align-items: center; margin-bottom: 32px; padding-top: 8px; position: relative; }
-        .header h1 {
-            font-size: 15px; font-weight: 900; letter-spacing: 6px; text-transform: uppercase;
-            background: linear-gradient(135deg, #fff 0%, var(--plugin) 50%, var(--app) 100%);
-            background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: gradientShift 6s ease infinite; cursor: pointer; user-select: none; transition: transform 0.15s ease, filter 0.3s ease; text-align: center;
-            filter: drop-shadow(0 0 20px rgba(0, 242, 255, 0.3));
-        }
-        .header h1:hover { filter: drop-shadow(0 0 30px rgba(0, 242, 255, 0.5)); }
-        .header h1:active { transform: scale(0.92); }
-        @keyframes gradientShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-        
-        .secret-counter {
-            position: absolute; top: 50%; right: 0; transform: translateY(-50%); width: 6px; height: 6px; border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1); opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
-        }
-        .secret-counter.visible { opacity: 1; }
-        .secret-counter.pulse { animation: counterPulse 0.3s ease; }
-        @keyframes counterPulse {
-            0%, 100% { transform: translateY(-50%) scale(1); }
-            50% { transform: translateY(-50%) scale(2); background: rgba(189, 0, 255, 0.8); box-shadow: 0 0 10px rgba(189, 0, 255, 0.8); }
+        .aurora-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: floatBlob 20s infinite ease-in-out;
+            will-change: transform, opacity;
         }
 
-        .tabs-container { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
-        .tabs { display: flex; gap: 10px; flex: 1; overflow-x: auto; overflow-y: visible; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; padding: 4px; }
-        .tabs::-webkit-scrollbar { display: none; }
-        
-        .tab {
-            flex: 0 0 auto; min-width: max-content; padding: 14px 18px; border-radius: 100px; background: var(--card-bg); border: 1px solid var(--border);
-            color: var(--text-dim); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            text-align: center; white-space: nowrap; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 8px;
-            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+        .blob-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: var(--primary); animation-delay: 0s; }
+        .blob-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: var(--secondary); animation-delay: -5s; }
+        .blob-3 { top: 40%; left: 40%; width: 40vw; height: 40vw; background: var(--accent); animation-delay: -10s; }
+
+        @keyframes floatBlob {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -40px) scale(1.1); }
+            66% { transform: translate(-20px, 30px) scale(0.95); }
         }
-        .tab.active { 
-            color: #fff; background: rgba(255, 255, 255, 0.08); border-color: var(--border-bright); 
-            box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.15);
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 60px 0 40px;
+            animation: fadeInDown 0.8s var(--ease-smooth);
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 50%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+            letter-spacing: -0.03em;
+            text-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+            cursor: default;
+            position: relative;
+            display: inline-block;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        /* Search Bar */
+        .search-container {
+            position: relative;
+            max-width: 560px;
+            margin: 40px auto 0;
+            animation: fadeInUp 0.8s var(--ease-smooth) 0.2s backwards;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 18px 24px 18px 56px;
+            border-radius: 20px;
+            border: var(--glass-border);
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: var(--glass-bg);
+            color: var(--text-main);
+            font-size: 1rem;
+            transition: all 0.3s var(--ease-smooth);
+            outline: none;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .search-input:focus {
+            background: rgba(15, 23, 42, 0.8);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15), var(--shadow-glow);
             transform: translateY(-2px);
         }
-        .tab:hover {
-            background: var(--card-hover);
+
+        .search-icon {
+            position: absolute;
+            left: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            transition: color 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .search-input:focus + .search-icon { color: var(--primary); }
+
+        /* Tabs Navigation */
+        .tabs-wrapper {
+            margin: 40px 0 30px;
+            animation: fadeInUp 0.8s var(--ease-smooth) 0.3s backwards;
+            position: sticky;
+            top: 20px;
+            z-index: 50;
+        }
+
+        .tabs {
+            display: flex;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: var(--glass-bg);
+            padding: 6px;
+            border-radius: 16px;
+            border: var(--glass-border);
+            box-shadow: var(--shadow-card);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            gap: 4px;
+        }
+
+        .tabs::-webkit-scrollbar { display: none; }
+
+        .tab-btn {
+            flex: 1;
+            min-width: max-content;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.4s var(--ease-elastic);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn i { transition: transform 0.4s var(--ease-elastic); font-size: 1.1rem; }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active i { transform: scale(1.1) rotate(5deg); }
+
+        .tab-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
             transform: translateY(-1px);
         }
-        .tab:active { transform: scale(0.97); }
-        .tab-count { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 10px; background: rgba(255, 255, 255, 0.1); color: var(--text-dim); transition: all 0.3s ease; }
-        .tab.active .tab-count { background: linear-gradient(135deg, rgba(0, 242, 255, 0.25), rgba(0, 153, 204, 0.2)); color: var(--plugin); box-shadow: 0 0 10px rgba(0, 242, 255, 0.3); }
-        
-        .tab .ripple, .nav-tab .ripple, .page-btn .ripple, .scroll-top .ripple {
-            position: absolute; border-radius: 50%; background: rgba(255, 255, 255, 0.25);
-            transform: scale(0); animation: ripple 0.6s linear; pointer-events: none;
-        }
-        @keyframes ripple { to { transform: scale(4); opacity: 0; } }
 
-        .nav-tab {
-            flex-shrink: 0; width: 44px; height: 44px; border-radius: 100px; background: var(--card-bg); border: 1px solid var(--border);
-            color: var(--text-dim); display: flex; align-items: center; justify-content: center; cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-size: 14px; position: relative; overflow: hidden;
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 28px;
+            padding-bottom: 60px;
+            min-height: 400px;
         }
-        .nav-tab:hover { 
-            color: #fff; 
-            background: var(--card-hover); 
-            border-color: var(--border-bright); 
-            transform: scale(1.05) rotate(3deg); 
-        }
-        .nav-tab:active { transform: scale(0.95) rotate(0deg); }
 
-        .search-box { position: relative; margin-bottom: 28px; }
-        .search-input {
-            width: 100%; background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px;
-            padding: 18px 50px 18px 55px; color: var(--text); font-size: 15px; outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-        }
-        .search-input::placeholder { color: var(--text-dim); }
-        .search-input:focus { 
-            border-color: var(--plugin); 
-            box-shadow: 0 0 0 3px rgba(0, 242, 255, 0.1), var(--glow-strong) rgba(0, 242, 255, 0.2); 
-            background: var(--card-hover); 
-            transform: translateY(-2px);
-        }
-        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--text-dim); transition: color 0.3s, filter 0.3s; pointer-events: none; font-size: 16px; }
-        .search-input:focus ~ .search-icon { color: var(--plugin); filter: drop-shadow(0 0 8px rgba(0, 242, 255, 0.5)); }
-        .clear-search {
-            position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: var(--text-dim);
-            cursor: pointer; opacity: 0; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none; padding: 8px;
-        }
-        .clear-search.visible { opacity: 1; pointer-events: all; }
-        .clear-search:hover { color: var(--text); transform: translateY(-50%) scale(1.05); }
-
-        .items-list { display: flex; flex-direction: column; gap: 12px; min-height: 200px; transition: opacity 0.3s ease, transform 0.3s ease; opacity: 1; }
-        .items-list.fade-out { opacity: 0; transform: translateY(10px); }
-        .items-list.fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .skeleton-card {
-            background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 16px;
-            display: flex; align-items: center; gap: 16px; position: relative; overflow: hidden;
-        }
-        .skeleton-card::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, var(--skeleton-shine), transparent);
-            animation: shimmer 1.5s infinite;
-        }
-        @keyframes shimmer { 100% { left: 100%; } }
-        .skeleton-icon { width: 52px; height: 52px; border-radius: 12px; background: var(--skeleton); flex-shrink: 0; }
-        .skeleton-text { flex: 1; }
-        .skeleton-line { height: 12px; background: var(--skeleton); border-radius: 6px; margin-bottom: 8px; }
-        .skeleton-line:last-child { margin-bottom: 0; width: 60%; }
-        
-        .item-card {
-            background: var(--card-bg); 
-            border: 1px solid var(--border); 
-            border-radius: 20px; 
-            padding: 18px;
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            cursor: pointer;
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); 
-            position: relative; 
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-        .item-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.06), transparent 40%);
-            opacity: 0; transition: opacity 0.35s; pointer-events: none;
-        }
-        .item-card::after {
-            content: ''; position: absolute; inset: 0; border-radius: 20px; padding: 1px;
-            background: linear-gradient(135deg, rgba(0, 242, 255, 0.2), rgba(189, 0, 255, 0.2));
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.35s; pointer-events: none;
-        }
-        .item-card:hover { 
-            transform: translateY(-4px) scale(1.005); 
-            border-color: var(--border-bright); 
-            box-shadow: var(--shadow-lg), var(--shadow-glow);
-            background: var(--card-hover);
-        }
-        .item-card:hover::before { opacity: 1; }
-        .item-card:hover::after { opacity: 1; }
-        .item-card:active { transform: translateY(-2px) scale(0.995); }
-        
-        .item-info { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 0; position: relative; z-index: 1; }
-        .icon-wrapper {
-            width: 52px; height: 52px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s ease;
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: var(--glass-bg);
+            border: var(--glass-border);
+            border-radius: 24px;
+            padding: 28px;
+            transition: all 0.5s var(--ease-elastic);
             position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(40px) scale(0.95);
+            animation: cardEnter 0.7s var(--ease-out) forwards;
+            will-change: transform, opacity;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(99, 102, 241, 0.15);
+            background: var(--bg-card-hover);
+            z-index: 10;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.4s var(--ease-smooth);
+        }
+
+        .card:hover::before { opacity: 1; }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .icon-wrapper {
+            width: 64px;
+            height: 64px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            position: relative;
+            transition: all 0.5s var(--ease-elastic);
+            will-change: transform, filter;
+            flex-shrink: 0;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Icon Variants */
+        .icon-plugin { background: rgba(99, 102, 241, 0.15); color: #818cf8; }
+        .icon-module { background: rgba(236, 72, 153, 0.15); color: #f472b6; }
+        .icon-bot { background: rgba(139, 92, 246, 0.15); color: #a78bfa; }
+        .icon-app { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+
+        .card:hover .icon-wrapper {
+            transform: scale(1.15) rotate(-5deg);
+            filter: drop-shadow(0 0 15px currentColor);
+        }
+
+        /* Floating Animations */
+        .icon-plugin { animation: floatIconPlugin 4s ease-in-out infinite; }
+        .icon-module { animation: floatIconModule 4.5s ease-in-out infinite; }
+        .icon-bot { animation: floatIconBot 5s ease-in-out infinite; }
+        .icon-app { animation: floatIconApp 5.5s ease-in-out infinite; }
+
+        @keyframes floatIconPlugin { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        @keyframes floatIconModule { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+        @keyframes floatIconBot { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        @keyframes floatIconApp { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+        .card-info { flex: 1; display: flex; flex-direction: column; }
+
+        .card-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-main);
+            line-height: 1.3;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(4px);
+        }
+
+        .badge-new { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .badge-hot { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .badge-premium { background: rgba(236, 72, 153, 0.2); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.3); }
+
+        .card-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: auto;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 14px;
+            border: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-elastic);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
             will-change: transform;
         }
-        .icon-svg {
-            width: 100%; height: 100%;
-            transform: translate(var(--offset-x, 0px), var(--offset-y, 0px));
-            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s ease, opacity 0.3s ease;
-            filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.4));
-            will-change: transform, filter;
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
         }
 
-        /* ✨ УЛУЧШЕННЫЕ АНИМАЦИИ ИКОНОК ПРИ НАВЕДЕНИИ */
-        .item-card:hover .icon-wrapper {
-            transform: scale(1.08) rotate(5deg);
-            filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.4));
-        }
-        
-        /* Plugin icons - cyan glow pulse */
-        .item-card:hover .plugin-svg {
-            filter: drop-shadow(0 0 20px rgba(0, 242, 255, 0.9)) drop-shadow(0 0 40px rgba(0, 242, 255, 0.5)) drop-shadow(0 4px 15px rgba(0, 0, 0, 0.6));
-            animation: iconPulsePlugin 1.5s ease-in-out infinite, iconFloatPlugin 3s ease-in-out infinite;
-        }
-        
-        /* Module icons - orange glow pulse */
-        .item-card:hover .module-svg {
-            filter: drop-shadow(0 0 20px rgba(255, 149, 0, 0.9)) drop-shadow(0 0 40px rgba(255, 149, 0, 0.5)) drop-shadow(0 4px 15px rgba(0, 0, 0, 0.6));
-            animation: iconPulseModule 1.5s ease-in-out infinite, iconFloatModule 3s ease-in-out infinite;
-        }
-        
-        /* Bot icons - purple glow pulse */
-        .item-card:hover .bot-svg {
-            filter: drop-shadow(0 0 20px rgba(189, 0, 255, 0.9)) drop-shadow(0 0 40px rgba(189, 0, 255, 0.5)) drop-shadow(0 4px 15px rgba(0, 0, 0, 0.6));
-            animation: iconPulseBot 1.5s ease-in-out infinite, iconFloatBot 3s ease-in-out infinite;
-        }
-        
-        /* App icons - pink glow pulse */
-        .item-card:hover .app-svg {
-            filter: drop-shadow(0 0 20px rgba(255, 45, 85, 0.9)) drop-shadow(0 0 40px rgba(255, 45, 85, 0.5)) drop-shadow(0 4px 15px rgba(0, 0, 0, 0.6));
-            animation: iconPulseApp 1.5s ease-in-out infinite, iconFloatApp 3s ease-in-out infinite;
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+            filter: brightness(1.1);
         }
 
-        @keyframes iconPulsePlugin {
-            0%, 100% { transform: translate(var(--offset-x, 0px), var(--offset-y, 0px)) scale(1); }
-            50% { transform: translate(var(--offset-x, 0px), var(--offset-y, 0px)) scale(1.08); }
-        }
-        @keyframes iconPulseModule {
-            0%, 100% { transform: translate(var(--offset-x, 0px), var(--offset-y, 0px)) scale(1); }
-            50% { transform: translate(var(--offset-x, 0px), var(--offset-y, 0px)) scale(1.08); }
-        }
-        @keyframes iconPulseBot {
-            0%, 100% { transform: translate(var(--offset-x, 0px), var(--offset-y, 0px)) scale(1); }
-            50% { transform: translate(var(--offset-x, 0px), var(--offset-y, 0px)) scale(1.08); }
-        }
-        @keyframes iconPulseApp {
-            0%, 100% { transform: translate(var(--offset-x, 0px), var(--offset-y, 0px)) scale(1); }
-            50% { transform: translate(var(--offset-x, 0px), var(--offset-y, 0px)) scale(1.08); }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(4px);
         }
 
-        @keyframes iconFloatPlugin {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-3px) scale(1.05); }
-        }
-        @keyframes iconFloatModule {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-3px) scale(1.05); }
-        }
-        @keyframes iconFloatBot {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-3px) scale(1.05); }
-        }
-        @keyframes iconFloatApp {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-3px) scale(1.05); }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            border-color: var(--text-muted);
         }
 
-        .item-name { font-size: 15px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 0.3s ease; }
-        .item-card:hover .item-name { color: var(--text-bright); }
-        .item-desc { font-size: 13px; color: var(--text-dim); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 0.3s ease; }
-        .item-card:hover .item-desc { color: rgba(255, 255, 255, 0.6); }
-        
-        .action-btns { display: flex; gap: 8px; flex-shrink: 0; position: relative; z-index: 1; }
-        .icon-btn {
-            width: 40px; height: 40px; border-radius: 14px; background: var(--card-bg); border: 1px solid var(--border);
-            color: var(--text-dim); display: flex; align-items: center; justify-content: center; cursor: pointer; 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-size: 14px; position: relative; overflow: hidden;
-            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+        .btn:active { transform: scale(0.96); }
+
+        /* Page Transitions */
+        .page-section {
+            display: none;
+            animation: pageFadeIn 0.6s var(--ease-smooth) forwards;
         }
-        .icon-btn:hover { 
-            color: #fff; 
-            background: var(--card-hover); 
-            border-color: var(--border-bright); 
-            transform: scale(1.06) rotate(-3deg); 
-            box-shadow: var(--shadow-md); 
+
+        .page-section.active-page { display: block; }
+
+        @keyframes pageFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .icon-btn.open-btn { 
-            background: linear-gradient(135deg, var(--plugin), #0099cc); 
-            color: #000; 
-            border-color: transparent; 
-            box-shadow: 0 4px 15px rgba(0, 242, 255, 0.35); 
+
+        @keyframes cardEnter {
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Scroll Top */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 54px;
+            height: 54px;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border: var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px) rotate(180deg);
+            transition: all 0.5s var(--ease-elastic);
+            z-index: 100;
+            box-shadow: var(--shadow-card);
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) rotate(0deg);
+        }
+
+        .scroll-top:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-8px) rotate(-15deg);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(16px);
+            padding: 16px 28px;
+            border-radius: 16px;
+            border: var(--glass-border);
+            color: var(--text-main);
+            font-weight: 500;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.5s var(--ease-elastic);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+            justify-content: center;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast i { color: var(--success); font-size: 1.3rem; filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.6)); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .content-grid { grid-template-columns: 1fr; gap: 20px; }
+            .tabs { padding: 4px; }
+            .tab-btn { font-size: 0.9rem; padding: 10px 16px; }
+            .card-actions { flex-direction: column; }
+            .btn { width: 100%; }
+            .container { padding: 16px; }
+        }
+
+        /* Search Highlight */
+        mark {
+            background: rgba(245, 158, 11, 0.25);
+            color: #fbbf24;
+            border-radius: 4px;
+            padding: 0 2px;
             font-weight: 600;
         }
-        .icon-btn.open-btn:hover { 
-            box-shadow: 0 6px 25px rgba(0, 242, 255, 0.5), var(--glow-strong) rgba(0, 242, 255, 0.3); 
-            transform: scale(1.06) translateY(-2px) rotate(-3deg); 
-        }
-        .icon-btn:active { transform: scale(0.95) rotate(0deg); }
-
-        .pagination-controls {
-            display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 28px; padding: 8px;
-            background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; backdrop-filter: blur(10px);
-            opacity: 0; pointer-events: none; transform: translateY(10px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .pagination-controls.visible { opacity: 1; pointer-events: all; transform: translateY(0); }
-        .page-btn {
-            width: 44px; height: 44px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);
-            color: var(--text); display: flex; align-items: center; justify-content: center; cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;
-        }
-        .page-btn:hover:not(:disabled) { 
-            background: var(--card-hover); 
-            border-color: var(--border-bright); 
-            transform: scale(1.06) rotate(-3deg); 
-        }
-        .page-btn:active:not(:disabled) { transform: scale(0.95) rotate(0deg); }
-        .page-btn:disabled { opacity: 0.2; cursor: not-allowed; transform: none; }
-        .page-info { font-size: 14px; font-weight: 600; color: var(--text-dim); min-width: 70px; text-align: center; }
-        .page-info span { color: var(--text); }
-
-        .scroll-top {
-            position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--plugin), #0099cc); color: #000; border: none;
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            box-shadow: 0 8px 30px rgba(0, 242, 255, 0.5), var(--glow-strong) rgba(0, 242, 255, 0.3); font-size: 20px;
-            opacity: 0; pointer-events: none; transform: translateY(20px) scale(0.8);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 99;
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-        }
-        .scroll-top.visible { opacity: 1; pointer-events: all; transform: translateY(0) scale(1); }
-        .scroll-top:hover { 
-            transform: translateY(-4px) scale(1.08) rotate(-10deg); 
-            box-shadow: 0 12px 40px rgba(0, 242, 255, 0.7), var(--glow-strong) rgba(0, 242, 255, 0.4); 
-        }
-        .scroll-top:active { transform: scale(0.95) rotate(0deg); }
-
-        .view { display: none; }
-        .view.active { display: block; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-in { animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
-
-        .back-btn {
-            display: inline-flex; align-items: center; gap: 8px; color: var(--plugin); font-size: 14px; font-weight: 600;
-            margin-bottom: 28px; cursor: pointer; padding: 10px 18px; border-radius: 14px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.15);
-        }
-        .back-btn:hover { 
-            background: rgba(0, 242, 255, 0.1); 
-            transform: translateX(-4px) scale(1.03); 
-            box-shadow: 0 4px 15px rgba(0, 242, 255, 0.2);
-        }
-        .back-btn:active { transform: scale(0.96); }
-
-        .empty-state { text-align: center; padding: 60px 20px; color: var(--text-dim); }
-        .empty-state i { font-size: 48px; margin-bottom: 16px; opacity: 0.2; }
-
-        .secret-card { border-color: rgba(189, 0, 255, 0.3) !important; background: rgba(189, 0, 255, 0.05) !important; }
-        .secret-card .item-name { color: var(--secret) !important; }
-        .secret-card .icon-btn.open-btn { background: linear-gradient(135deg, var(--secret), #8800cc); color: #fff; box-shadow: 0 4px 20px rgba(189, 0, 255, 0.3); }
-
-        .toast {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
-            background: rgba(10, 10, 15, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); color: #fff;
-            padding: 16px 32px; border-radius: 100px; font-size: 14px; font-weight: 600;
-            opacity: 0; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 100;
-            border: 1px solid var(--border-glow); display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-lg), 0 0 30px rgba(0, 242, 255, 0.2);
-        }
-        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-        .toast i { color: var(--plugin); filter: drop-shadow(0 0 8px rgba(0, 242, 255, 0.5)); }
-        
-        .swipe-hint {
-            text-align: center; color: var(--text-dim); font-size: 12px; margin-top: 12px;
-            opacity: 0; transition: opacity 0.5s ease; pointer-events: none;
-        }
-        .swipe-hint.visible { opacity: 0.5; }
-        
-        .tab.loading { pointer-events: none; opacity: 0.6; }
     </style>
 </head>
 <body>
-    <div class="ambient-bg"><div class="aurora"></div></div>
-    <div class="noise"></div>
-    
-    <div class="app">
-        <div id="view-main" class="view active">
-            <div class="header animate-in" style="animation-delay: 0.05s;">
-                <h1 id="titleClick" role="button" tabindex="0" aria-label="Каталог">Каталог</h1>
-                <div class="secret-counter" id="secretCounter" aria-hidden="true"></div>
-            </div>
 
-            <div class="tabs-container animate-in" style="animation-delay: 0.1s;" id="tabsPage1">
-                <div class="tabs" role="tablist">
-                    <button class="tab active" onclick="switchTab('plugins', this)" role="tab" aria-selected="true">
-                        Плагины <span class="tab-count" id="count-plugins">0</span>
-                    </button>
-                    <button class="tab" onclick="switchTab('apps', this)" role="tab" aria-selected="false">
-                        Приложения <span class="tab-count" id="count-apps">0</span>
-                    </button>
-                </div>
-                <button class="nav-tab" onclick="goToTabsPage(2)" aria-label="Следующая страница вкладок">
-                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
-                </button>
-            </div>
-
-            <div class="tabs-container animate-in" style="animation-delay: 0.1s; display: none;" id="tabsPage2">
-                <button class="nav-tab" onclick="goToTabsPage(1)" aria-label="Предыдущая страница вкладок">
-                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
-                </button>
-                <div class="tabs" role="tablist">
-                    <button class="tab" onclick="switchTab('modules', this)" role="tab" aria-selected="false">
-                        Модули <span class="tab-count" id="count-modules">0</span>
-                    </button>
-                    <button class="tab" onclick="switchTab('bots', this)" role="tab" aria-selected="false">
-                        Боты <span class="tab-count" id="count-bots">0</span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="search-box animate-in" style="animation-delay: 0.15s;">
-                <input type="text" class="search-input" id="searchInput" placeholder="Поиск по каталогу..." aria-label="Поиск по каталогу">
-                <i class="fas fa-search search-icon" aria-hidden="true"></i>
-                <button class="clear-search" id="clearSearch" onclick="clearSearchInput()" aria-label="Очистить поиск" tabindex="-1">
-                    <i class="fas fa-times" aria-hidden="true"></i>
-                </button>
-            </div>
-
-            <div id="content-list" class="items-list" role="list" aria-live="polite"></div>
-            
-            <div class="pagination-controls" id="paginationControls" role="navigation" aria-label="Пагинация">
-                <button class="page-btn" id="prevPageBtn" onclick="changePage(-1)" aria-label="Предыдущая страница">
-                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
-                </button>
-                <div class="page-info" aria-live="polite">
-                    <span id="currentPageNum">1</span> / <span id="totalPagesNum">1</span>
-                </div>
-                <button class="page-btn" id="nextPageBtn" onclick="changePage(1)" aria-label="Следующая страница">
-                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
-                </button>
-            </div>
-            
-            <div class="swipe-hint" id="swipeHint" aria-hidden="true">← свайп для переключения страниц →</div>
-        </div>
-
-        <div id="view-secret" class="view">
-            <button class="back-btn animate-in" onclick="closeSecret()">
-                <i class="fas fa-arrow-left" aria-hidden="true"></i> Назад
-            </button>
-            <div class="header animate-in" style="animation-delay: 0.1s;">
-                <h1 style="background: linear-gradient(135deg, var(--secret), var(--app)); -webkit-background-clip: text;">Secret</h1>
-            </div>
-            <div class="items-list" role="list">
-                <div class="item-card secret-card animate-in" style="animation-delay: 0.2s;" onclick="openLink('https://t.me/exterapl/838')" role="listitem" tabindex="0">
-                    <div class="item-info">
-                        <div class="icon-wrapper"><i class="fas fa-skull" style="font-size: 24px; color: var(--secret);" aria-hidden="true"></i></div>
-                        <div style="flex:1; min-width:0;">
-                            <div class="item-name">Секретный Плагин</div>
-                            <div class="item-desc">Доступ только для избранных</div>
-                        </div>
-                    </div>
-                    <div class="action-btns">
-                        <div class="icon-btn open-btn" aria-label="Открыть"><i class="fas fa-external-link-alt" aria-hidden="true"></i></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- Dynamic Background -->
+    <div class="aurora">
+        <div class="aurora-blob blob-1"></div>
+        <div class="aurora-blob blob-2"></div>
+        <div class="aurora-blob blob-3"></div>
     </div>
 
-    <button class="scroll-top" id="scrollTopBtn" onclick="scrollToTop()" aria-label="Вернуться наверх" tabindex="-1">
-        <i class="fas fa-arrow-up" aria-hidden="true"></i>
-    </button>
+    <div class="container">
+        <header>
+            <h1 id="main-title">NexaHub</h1>
+            <p class="subtitle">Экосистема премиальных решений для автоматизации и масштабирования ваших проектов</p>
+            
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" id="searchInput" placeholder="Найти плагин, модуль или бота..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            </div>
+        </header>
+
+        <nav class="tabs-wrapper">
+            <div class="tabs" role="tablist">
+                <button class="tab-btn active" data-tab="plugins" role="tab" aria-selected="true">
+                    <i class="fas fa-puzzle-piece"></i> Плагины
+                </button>
+                <button class="tab-btn" data-tab="modules" role="tab" aria-selected="false">
+                    <i class="fas fa-cubes"></i> Модули
+                </button>
+                <button class="tab-btn" data-tab="bots" role="tab" aria-selected="false">
+                    <i class="fas fa-robot"></i> Боты
+                </button>
+                <button class="tab-btn" data-tab="apps" role="tab" aria-selected="false">
+                    <i class="fas fa-mobile-alt"></i> Приложения
+                </button>
+            </div>
+        </nav>
+
+        <main>
+            <section id="plugins" class="page-section active-page" role="tabpanel">
+                <div class="content-grid" id="plugins-grid"></div>
+            </section>
+
+            <section id="modules" class="page-section" role="tabpanel">
+                <div class="content-grid" id="modules-grid"></div>
+            </section>
+
+            <section id="bots" class="page-section" role="tabpanel">
+                <div class="content-grid" id="bots-grid"></div>
+            </section>
+
+            <section id="apps" class="page-section" role="tabpanel">
+                <div class="content-grid" id="apps-grid"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- UI Components -->
+    <div class="scroll-top" id="scrollTopBtn" aria-label="Наверх">
+        <i class="fas fa-arrow-up"></i>
+    </div>
 
     <div class="toast" id="toast" role="alert">
-        <i class="fas fa-check-circle" aria-hidden="true"></i> 
-        <span id="toastText">Ссылка скопирована!</span>
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Операция выполнена успешно</span>
     </div>
 
     <script>
-        const ICONS = {
-            plugins: {
-                'ChimeraNFT': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><path d="M50 15 L80 35 L80 65 L50 85 L20 65 L20 35 Z" fill="none" stroke="url(#g1)" stroke-width="4" stroke-linejoin="round"/><path d="M50 25 L70 38 L70 62 L50 75 L30 62 L30 38 Z" fill="url(#g1)" opacity="0.3"/><circle cx="50" cy="50" r="8" fill="url(#g1)"/></svg>`,
-                'LocalEditor': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><rect x="25" y="25" width="50" height="50" rx="8" fill="none" stroke="url(#g2)" stroke-width="4"/><path d="M65 65 L80 80" stroke="url(#g2)" stroke-width="6" stroke-linecap="round"/><path d="M40 40 L40 60 M40 50 L55 50" stroke="url(#g2)" stroke-width="4" stroke-linecap="round"/></svg>`,
-                'Lyrics+': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><path d="M35 30 L35 70 Q35 80 45 80 L65 80 Q75 80 75 70 L75 30" fill="none" stroke="url(#g3)" stroke-width="5" stroke-linecap="round"/><circle cx="35" cy="30" r="8" fill="url(#g3)"/><path d="M50 45 L50 65 M60 40 L60 65 M70 50 L70 65" stroke="url(#g3)" stroke-width="4" stroke-linecap="round" opacity="0.6"/></svg>`,
-                'Animated Wallpaper': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><rect x="20" y="30" width="60" height="40" rx="6" fill="none" stroke="url(#g4)" stroke-width="4"/><path d="M20 55 L40 40 L55 50 L70 35 L80 45 L80 70 L20 70 Z" fill="url(#g4)" opacity="0.2"/><circle cx="65" cy="45" r="4" fill="url(#g4)"/></svg>`,
-                'reSwaga': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><rect x="25" y="35" width="50" height="30" rx="4" fill="none" stroke="url(#g5)" stroke-width="4"/><path d="M30 50 L40 42 L50 55 L60 38 L70 50" fill="none" stroke="url(#g5)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
-                're:extera': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g6" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><circle cx="50" cy="50" r="25" fill="none" stroke="url(#g6)" stroke-width="4"/><path d="M50 25 L50 35 M50 65 L50 75 M25 50 L35 50 M65 50 L75 50" stroke="url(#g6)" stroke-width="4" stroke-linecap="round"/><circle cx="50" cy="50" r="8" fill="url(#g6)"/></svg>`,
-                'Quotify+': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g7" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><path d="M30 40 Q30 25 45 25 L55 25 Q70 25 70 40 L70 60 Q70 75 55 75 L45 75 Q30 75 30 60 Z" fill="none" stroke="url(#g7)" stroke-width="4" stroke-linejoin="round"/><path d="M40 45 Q40 40 45 40 L50 40 Q55 40 55 45 L55 55 Q55 60 50 60 L45 60 Q40 60 40 55 Z" fill="url(#g7)" opacity="0.3"/></svg>`,
-                'miniPlayer+': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g8" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><rect x="20" y="35" width="60" height="30" rx="15" fill="none" stroke="url(#g8)" stroke-width="4"/><circle cx="40" cy="50" r="6" fill="url(#g8)"/><path d="M60 45 L60 55 L70 50 Z" fill="url(#g8)"/></svg>`,
-                'Hide link preview fork': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g9" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><path d="M30 50 Q50 20 70 50 Q50 80 30 50" fill="none" stroke="url(#g9)" stroke-width="4"/><circle cx="50" cy="50" r="10" fill="none" stroke="url(#g9)" stroke-width="4"/><line x1="35" y1="65" x2="65" y2="35" stroke="url(#g9)" stroke-width="4" stroke-linecap="round"/></svg>`,
-                'UITweaks x QuantaHut': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g10" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><rect x="25" y="25" width="20" height="20" rx="4" fill="url(#g10)" opacity="0.5"/><rect x="55" y="25" width="20" height="20" rx="4" fill="none" stroke="url(#g10)" stroke-width="3"/><rect x="25" y="55" width="20" height="20" rx="4" fill="none" stroke="url(#g10)" stroke-width="3"/><rect x="55" y="55" width="20" height="20" rx="4" fill="url(#g10)" opacity="0.8"/><path d="M75 35 L85 25 M85 25 L85 35 M85 25 L75 25" stroke="url(#g10)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
-                'Log overlay': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g11" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><rect x="20" y="25" width="60" height="50" rx="6" fill="none" stroke="url(#g11)" stroke-width="4"/><path d="M30 40 L45 40 M30 50 L55 50 M30 60 L40 60" stroke="url(#g11)" stroke-width="4" stroke-linecap="round"/><circle cx="70" cy="65" r="6" fill="url(#g11)"/></svg>`,
-                'Transcriber fork': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g12" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><path d="M40 30 L40 55 Q40 65 50 65 Q60 65 60 55 L60 30" fill="none" stroke="url(#g12)" stroke-width="4" stroke-linecap="round"/><circle cx="50" cy="30" r="10" fill="none" stroke="url(#g12)" stroke-width="4"/><path d="M70 40 L70 60 M78 45 L78 55 M86 35 L86 65" stroke="url(#g12)" stroke-width="4" stroke-linecap="round" opacity="0.6"/></svg>`,
-                'Bot login': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g13" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><rect x="30" y="35" width="40" height="30" rx="8" fill="none" stroke="url(#g13)" stroke-width="4"/><circle cx="42" cy="50" r="4" fill="url(#g13)"/><circle cx="58" cy="50" r="4" fill="url(#g13)"/><path d="M50 25 L50 35" stroke="url(#g13)" stroke-width="4" stroke-linecap="round"/><path d="M40 75 Q50 85 60 75" fill="none" stroke="url(#g13)" stroke-width="4" stroke-linecap="round"/></svg>`,
-                'Subfolders': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g14" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><path d="M20 30 L38 30 L44 38 L80 38 Q85 38 85 43 L85 70 Q85 75 80 75 L20 75 Q15 75 15 70 L15 35 Q15 30 20 30 Z" fill="none" stroke="url(#g14)" stroke-width="4" stroke-linejoin="round"/><path d="M35 48 L48 48 L52 53 L72 53 Q74 53 74 55 L74 66 Q74 68 72 68 L35 68 Q33 68 33 66 L33 50 Q33 48 35 48 Z" fill="url(#g14)" opacity="0.4" stroke="url(#g14)" stroke-width="2"/></svg>`,
-                'Forty En Two': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g15" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><rect x="30" y="45" width="40" height="35" rx="6" fill="none" stroke="url(#g15)" stroke-width="4"/><path d="M38 45 L38 35 Q38 23 50 23 Q62 23 62 35 L62 45" fill="none" stroke="url(#g15)" stroke-width="4" stroke-linecap="round"/><circle cx="50" cy="60" r="4" fill="url(#g15)"/><path d="M50 64 L50 72" stroke="url(#g15)" stroke-width="4" stroke-linecap="round"/></svg>`,
-                'Remove Flag Secure': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g16" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><path d="M50 15 L80 28 L80 52 Q80 72 50 88 Q20 72 20 52 L20 28 Z" fill="none" stroke="url(#g16)" stroke-width="4" stroke-linejoin="round"/><path d="M36 50 L46 60 L64 40" fill="none" stroke="url(#g16)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
-                // ✅ НОВАЯ УЛУЧШЕННАЯ ИКОНКА 16 ACCOUNTS
-                '16 accounts': `<svg class="icon-svg plugin-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g17" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4A9FE5"/><stop offset="100%" stop-color="#00f2ff"/></linearGradient></defs><circle cx="67" cy="30" r="10" fill="url(#g17)" opacity="0.4"/><path d="M50 60 Q50 44 67 44 Q84 44 84 60 L84 61 Q84 63 82 63 L52 63 Q50 63 50 61 Z" fill="url(#g17)" opacity="0.4"/><circle cx="38" cy="36" r="13" fill="url(#g17)"/><path d="M16 73 Q16 54 38 54 Q60 54 60 73 L60 74 Q60 76 58 76 L18 76 Q16 76 16 74 Z" fill="url(#g17)"/><circle cx="76" cy="74" r="14" fill="#0A0A0F" stroke="url(#g17)" stroke-width="3.5"/><text x="76" y="79.5" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="800" fill="url(#g17)" text-anchor="middle">16</text></svg>`
-            },
-            modules: {
-                'Source trigger': `<svg class="icon-svg module-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="m1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF9500"/><stop offset="100%" stop-color="#FFD700"/></linearGradient></defs><path d="M55 15 L25 55 L45 55 L40 85 L75 40 L55 40 Z" fill="url(#m1)" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linejoin="round"/></svg>`,
-                'Giveaway joiner': `<svg class="icon-svg module-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="m2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF6B6B"/><stop offset="100%" stop-color="#FFD93D"/></linearGradient></defs><path d="M50 15 L58 35 L80 35 L62 48 L70 70 L50 56 L30 70 L38 48 L20 35 L42 35 Z" fill="url(#m2)" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-linejoin="round"/></svg>`,
-                'Module list': `<svg class="icon-svg module-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="m3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF9500"/><stop offset="100%" stop-color="#FF5E3A"/></linearGradient></defs><rect x="20" y="20" width="60" height="8" rx="4" fill="url(#m3)"/><rect x="20" y="40" width="60" height="8" rx="4" fill="url(#m3)"/><rect x="20" y="60" width="60" height="8" rx="4" fill="url(#m3)"/><rect x="20" y="80" width="40" height="8" rx="4" fill="url(#m3)"/></svg>`,
-                'VoiceToText': `<svg class="icon-svg module-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="m4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF9500"/><stop offset="100%" stop-color="#FFD700"/></linearGradient></defs><rect x="40" y="20" width="20" height="35" rx="10" fill="none" stroke="url(#m4)" stroke-width="4"/><path d="M28 50 Q28 68 50 68 Q72 68 72 50" fill="none" stroke="url(#m4)" stroke-width="4" stroke-linecap="round"/><path d="M50 68 L50 80" stroke="url(#m4)" stroke-width="4" stroke-linecap="round"/><path d="M38 80 L62 80" stroke="url(#m4)" stroke-width="4" stroke-linecap="round"/><path d="M15 35 Q15 45 22 50" stroke="url(#m4)" stroke-width="3" stroke-linecap="round" opacity="0.7"/><path d="M85 35 Q85 45 78 50" stroke="url(#m4)" stroke-width="3" stroke-linecap="round" opacity="0.7"/></svg>`
-            },
-            apps: {
-                'TikTok You v3.4': `<svg class="icon-svg app-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M65 20 C65 30, 70 35, 80 35 L80 45 C70 45, 65 42, 60 38 L60 65 C60 75, 52 82, 42 82 C32 82, 25 75, 25 65 C25 55, 32 48, 42 48 C44 48, 46 48.5, 48 49 L48 59 C46 58.5, 44 58, 42 58 C37 58, 35 61, 35 65 C35 69, 38 72, 42 72 C47 72, 50 69, 50 65 L50 20 L65 20 Z" fill="#6B5B95"/></svg>`,
-                'Wallify': `<svg class="icon-svg app-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 10 C60 10, 70 15, 75 25 C80 35, 85 40, 85 50 C85 60, 80 70, 70 75 C60 80, 55 85, 50 85 C45 85, 40 80, 30 75 C20 70, 15 60, 15 50 C15 40, 20 35, 25 25 C30 15, 40 10, 50 10 Z" fill="#8B4513"/><text x="50" y="62" font-family="Arial" font-size="40" font-weight="bold" fill="#1a1a1a" text-anchor="middle">W</text></svg>`,
-                'Larpkeeper': `<svg class="icon-svg app-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><polygon points="50,15 80,40 50,85 20,40" fill="#4A90E2"/><polygon points="50,15 80,40 50,40" fill="#5BA3F5"/><polygon points="50,40 80,40 50,85" fill="#3A7BC8"/><polygon points="50,40 20,40 50,85" fill="#2E6BB5"/></svg>`
-            },
-            bots: {
-                'ChimeraNFT support': `<svg class="icon-svg bot-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="botGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#bd00ff"/><stop offset="100%" stop-color="#ff2d55"/></linearGradient></defs><path d="M20 30 Q20 20 30 20 L70 20 Q80 20 80 30 L80 55 Q80 65 70 65 L45 65 L30 80 L30 65 Q20 65 20 55 Z" fill="url(#botGrad)"/><path d="M35 35 L65 35 M35 45 L65 45 M35 55 L55 55" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle cx="65" cy="55" r="4" fill="#fff"/></svg>`
-            }
-        };
-
-        const DATA = {
+        // Data Configuration
+        const data = {
             plugins: [
-                { name: "ChimeraNFT", url: "https://t.me/vcvk1/1662", desc: "NFT юзернеймы, номера и подарки" },
-                { name: "LocalEditor", url: "https://t.me/exteraPluginsSup/221", desc: "Редактирование сообщений без пересылки" },
-                { name: "Lyrics+", url: "https://t.me/thefantiq/22", desc: "Тексты песен прямо в плеере" },
-                { name: "Animated Wallpaper", url: "https://t.me/swagnonher/321", desc: "Живые обои для фона чатов" },
-                { name: "reSwaga", url: "https://t.me/meeowPlugins/213", desc: "Карточки и треки со всех площадок" },
-                { name: "re:extera", url: "https://t.me/shikaatuxplugins/224", desc: "Расширенные настройки Extera" },
-                { name: "Quotify+", url: "https://t.me/mur_live/1537", desc: "Создание красивых цитат" },
-                { name: "miniPlayer+", url: "https://t.me/RnPlugins/1083", desc: "Продвинутый мини-плеер" },
-                { name: "Hide link preview fork", url: "https://t.me/kchemi_projects/125", desc: "Скрытие предпросмотра ссылок" },
-                { name: "UITweaks x QuantaHut", url: "https://t.me/QuantaPlugins/210", desc: "Глубокая кастомизация интерфейса" },
-                { name: "Log overlay", url: "https://t.me/RnPlugins/620", desc: "Отображение логов поверх экрана" },
-                { name: "Transcriber fork", url: "https://t.me/kchemi_projects/12", desc: "Расшифровка голосовых в текст" },
-                { name: "Bot login", url: "https://t.me/kvucoPlugins/54", desc: "Удобный вход через ботов" },
-                { name: "Subfolders", url: "https://t.me/useful_plugins/49", desc: "Создание подпапок для удобства" },
-                { name: "Forty En Two", url: "https://t.me/exterapl/858", desc: "Кодирование и декодирование текста" },
-                { name: "Remove Flag Secure", url: "https://t.me/anivPlugins/112", desc: "Убирает ограничения для фото и видео" },
-                { name: "16 accounts", url: "https://t.me/anivPlugins/142", desc: "Увеличивает количество аккаунтов до 16" }
+                { id: 1, title: "AutoModerator Pro", desc: "Интеллектуальная система модерации с защитой от рейдов и спам-атак. Настройка правил в один клик.", icon: "fa-shield-halved", type: "plugin", badge: "hot" },
+                { id: 2, title: "Welcome Master", desc: "Создавайте красивые приветствия с картинками, кнопками и статистикой сервера для новых участников.", icon: "fa-hand-sparkles", type: "plugin", badge: "new" },
+                { id: 3, title: "Economy System", desc: "Полноценная экономика: магазины, инвентари, работы, азартные игры и глобальный топ игроков.", icon: "fa-coins", type: "plugin", badge: "premium" },
+                { id: 4, title: "Ticket Tool", desc: "Профессиональная система тикетов поддержки. Создание каналов, логирование и транскрипты диалогов.", icon: "fa-ticket", type: "plugin", badge: "" },
+                { id: 5, title: "Music Player HD", desc: "Высококачественное воспроизведение музыки из всех популярных источников без задержек и буферизации.", icon: "fa-music", type: "plugin", badge: "hot" },
+                { id: 6, title: "Leveling System", desc: "Геймификация сервера: уровни, карты рангов, роли за активность и красивые лидерборды.", icon: "fa-chart-line", type: "plugin", badge: "" },
+                { id: 7, title: "Logger Ultimate", desc: "Детальное логирование всех событий: сообщения, голос, модерация, изменения ролей и настроек.", icon: "fa-file-contract", type: "plugin", badge: "" },
+                { id: 8, title: "Reaction Roles", desc: "Интерактивное меню выбора ролей через реакции. Поддержка эмодзи и кастомных иконок.", icon: "fa-star", type: "plugin", badge: "new" },
+                { id: 9, title: "Giveaway Bot", desc: "Честные и прозрачные розыгрыши призов среди участников сообщества с автоматическим выбором победителя.", icon: "fa-gift", type: "plugin", badge: "" },
+                { id: 10, title: "Anti-Raid Guard", desc: "Мгновенная защита от массовых входов ботов и подозрительной активности аккаунтов.", icon: "fa-user-shield", type: "plugin", badge: "hot" },
+                { id: 11, title: "Temp Channels", desc: "Автоматическое создание временных голосовых каналов для встреч и игр.", icon: "fa-microphone-lines", type: "plugin", badge: "" },
+                { id: 12, title: "Word Filter AI", desc: "Нейросеть для фильтрации оскорблений и токсичного контента в реальном времени.", icon: "fa-brain", type: "plugin", badge: "premium" },
+                { id: 13, title: "Stats Dashboard", desc: "Веб-панель со статистикой сервера: онлай, активность, графики роста и удержания.", icon: "fa-chart-pie", type: "plugin", badge: "" },
+                { id: 14, title: "Backup Master", desc: "Полное резервное копирование настроек сервера, каналов и ролей в один клик.", icon: "fa-database", type: "plugin", badge: "" },
+                { id: 15, title: "Fun Games Pack", desc: "Набор мини-игр: викторины, слова, мафия и рулетка для развлечения участников.", icon: "fa-gamepad", type: "plugin", badge: "new" },
+                { id: 16, title: "Stream Notifier", desc: "Уведомления о стримах на Twitch, YouTube и других платформах с кастомными сообщениями.", icon: "fa-video", type: "plugin", badge: "" },
+                { id: 17, title: "Captcha Verify", desc: "Проверка новых пользователей через капчу для максимальной защиты от ботов.", icon: "fa-robot", type: "plugin", badge: "hot" }
             ],
             modules: [
-                { name: "Source trigger", url: "https://t.me/RnPlugins/1097", desc: "Триггеры на сообщения" },
-                { name: "Giveaway joiner", url: "https://t.me/kchemi_projects/142", desc: "Авто-участие в розыгрышах" },
-                { name: "Module list", url: "https://t.me/kchemi_projects/207", desc: "Управление списком модулей" },
-                { name: "VoiceToText", url: "https://t.me/RnPlugins/1330", desc: "Быстрая расшифровка голосовых сообщений" }
-            ],
-            apps: [
-                { name: "TikTok You v3.4", url: "https://t.me/tiktokyou/49", desc: "Модифицированный клиент TikTok" },
-                { name: "Wallify", url: "https://t.me/WallifyApp/4/2370", desc: "Красивые живые обои на телефон" },
-                { name: "Larpkeeper", url: "https://t.me/vcvk1/1406", desc: "Фейковый Tonkeeper" }
+                { id: 101, title: "Auth Module", desc: "Готовая система авторизации через Telegram и Discord с поддержкой JWT токенов.", icon: "fa-key", type: "module", badge: "premium" },
+                { id: 102, title: "Payment Gateway", desc: "Интеграция платежных систем (Stripe, Crypto) для приема оплат внутри вашего приложения.", icon: "fa-credit-card", type: "module", badge: "hot" },
+                { id: 103, title: "Notification Core", desc: "Централизованная система уведомлений: Email, Push, Telegram, Webhook.", icon: "fa-bell", type: "module", badge: "" },
+                { id: 104, title: "Cache Manager", desc: "Высокопроизводительный кэширующий слой для ускорения работы базы данных.", icon: "fa-bolt", type: "module", badge: "new" }
             ],
             bots: [
-                { name: "ChimeraNFT support", url: "https://t.me/eblannftsupbot", desc: "Поддержка разработки" }
+                { id: 201, title: "Support Assistant", desc: "AI-бот техподдержки, обученный на вашей базе знаний. Отвечает 24/7.", icon: "fa-headset", type: "bot", badge: "premium" },
+                { id: 202, title: "Content Curator", desc: "Бот для автоматического постинга контента из RSS и социальных сетей.", icon: "fa-rss", type: "bot", badge: "" },
+                { id: 203, title: "Analytics Spy", desc: "Сбор глубокой аналитики поведения пользователей и построение воронок продаж.", icon: "fa-eye", type: "bot", badge: "hot" }
+            ],
+            apps: [
+                { id: 301, title: "Nexa Dashboard", desc: "Веб-приложение для управления всеми сервисами NexaHub в одном месте.", icon: "fa-laptop-code", type: "app", badge: "new" },
+                { id: 302, title: "Mobile Companion", desc: "Мобильное приложение для получения уведомлений и быстрого доступа к функциям.", icon: "fa-mobile-screen", type: "app", badge: "premium" },
+                { id: 303, title: "Dev Toolkit", desc: "Набор инструментов для разработчиков: генераторы, валидаторы, сниппеты.", icon: "fa-toolbox", type: "app", badge: "" }
             ]
         };
 
-        const tg = window.Telegram?.WebApp;
-        if (tg) {
-            tg.expand();
-            tg.ready();
-            tg.setHeaderColor('#050507');
-            tg.setBackgroundColor('#050507');
-        }
-        
-        const haptic = (type = 'light') => {
-            try { if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred(type); } catch (e) {}
-        };
+        // DOM Elements
+        const tabs = document.querySelectorAll('.tab-btn');
+        const sections = document.querySelectorAll('.page-section');
+        const searchInput = document.getElementById('searchInput');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
 
-        let state = { 
-            activeTab: 'plugins', searchQuery: '', currentPage: 1, 
-            itemsPerPage: 5, tabsPage: 1, isAnimating: false, secretViewActive: false
-        };
+        // Render Logic
+        function renderCards(category, containerId, searchTerm = '') {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            const items = data[category].filter(item => 
+                item.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                item.desc.toLowerCase().includes(searchTerm.toLowerCase())
+            );
 
-        function throttle(func, limit) {
-            let inThrottle;
-            return function(...args) {
-                if (!inThrottle) {
-                    func.apply(this, args);
-                    inThrottle = true;
-                    setTimeout(() => inThrottle = false, limit);
-                }
-            };
-        }
-
-        function debounce(func, wait) {
-            let timeout;
-            return function(...args) {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(this, args), wait);
-            };
-        }
-
-        function initCounts() {
-            document.getElementById('count-plugins').textContent = DATA.plugins.length;
-            document.getElementById('count-modules').textContent = DATA.modules.length;
-            document.getElementById('count-apps').textContent = DATA.apps.length;
-            document.getElementById('count-bots').textContent = DATA.bots.length;
-        }
-
-        function createRipple(event, element) {
-            if (element.disabled) return;
-            const ripple = document.createElement('span');
-            const rect = element.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            let clientX, clientY;
-            if (event.touches && event.touches.length > 0) {
-                clientX = event.touches[0].clientX; clientY = event.touches[0].clientY;
-            } else if (event.changedTouches && event.changedTouches.length > 0) {
-                clientX = event.changedTouches[0].clientX; clientY = event.changedTouches[0].clientY;
-            } else {
-                clientX = event.clientX; clientY = event.clientY;
-            }
-            ripple.style.width = ripple.style.height = `${size}px`;
-            ripple.style.left = `${clientX - rect.left - size / 2}px`;
-            ripple.style.top = `${clientY - rect.top - size / 2}px`;
-            ripple.classList.add('ripple');
-            element.appendChild(ripple);
-            setTimeout(() => { if (ripple.parentNode) ripple.remove(); }, 600);
-        }
-
-        document.querySelectorAll('.tab, .nav-tab, .page-btn, .scroll-top').forEach(el => {
-            el.addEventListener('mousedown', function(e) { if (e.button === 0) createRipple(e, this); });
-            el.addEventListener('touchstart', function(e) { createRipple(e, this); }, { passive: true });
-        });
-
-        function goToTabsPage(page) {
-            if (state.isAnimating) return;
-            haptic('medium');
-            state.tabsPage = page;
-            document.getElementById('tabsPage1').style.display = page === 1 ? 'flex' : 'none';
-            document.getElementById('tabsPage2').style.display = page === 2 ? 'flex' : 'none';
-            state.activeTab = page === 1 ? 'plugins' : 'modules';
-            state.searchQuery = '';
-            state.currentPage = 1;
-            document.getElementById('searchInput').value = '';
-            document.getElementById('clearSearch').classList.remove('visible');
-            document.querySelectorAll('.tab').forEach(t => {
-                t.classList.remove('active');
-                t.setAttribute('aria-selected', 'false');
-            });
-            const tabs = document.querySelectorAll(`#tabsPage${page} .tab`);
-            if (tabs.length > 0) {
-                tabs[0].classList.add('active');
-                tabs[0].setAttribute('aria-selected', 'true');
-            }
-            renderList();
-        }
-
-        let secretClicks = 0, lastClickTime = 0;
-        const SECRET_CLICKS_REQUIRED = 7, SECRET_CLICK_TIMEOUT = 2000;
-
-        function handleSecretClick() {
-            const now = Date.now();
-            if (now - lastClickTime > SECRET_CLICK_TIMEOUT) secretClicks = 0;
-            secretClicks++;
-            lastClickTime = now;
-            const counter = document.getElementById('secretCounter');
-            counter.classList.add('visible', 'pulse');
-            setTimeout(() => counter.classList.remove('pulse'), 300);
-            if (secretClicks >= SECRET_CLICKS_REQUIRED) {
-                haptic('heavy');
-                openSecret();
-                secretClicks = 0;
-                counter.classList.remove('visible');
+            if (items.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--text-muted); animation: fadeInUp 0.5s ease;">
+                        <div style="font-size: 4rem; margin-bottom: 20px; opacity: 0.3;"><i class="fas fa-search"></i></div>
+                        <h3 style="font-size: 1.5rem; margin-bottom: 10px; color: var(--text-main)">Ничего не найдено</h3>
+                        <p>Попробуйте изменить поисковый запрос или выбрать другую категорию</p>
+                    </div>
+                `;
                 return;
             }
-            setTimeout(() => {
-                if (Date.now() - lastClickTime >= SECRET_CLICK_TIMEOUT) {
-                    secretClicks = 0;
-                    counter.classList.remove('visible');
+
+            items.forEach((item, index) => {
+                const delay = index * 60; 
+                const badgeHtml = item.badge ? `<span class="badge badge-${item.badge}">${item.badge}</span>` : '';
+                
+                let displayTitle = item.title;
+                let displayDesc = item.desc;
+                if (searchTerm) {
+                    const regex = new RegExp(`(${searchTerm})`, 'gi');
+                    displayTitle = displayTitle.replace(regex, '<mark>$1</mark>');
+                    displayDesc = displayDesc.replace(regex, '<mark>$1</mark>');
                 }
-            }, SECRET_CLICK_TIMEOUT);
+
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.style.animationDelay = `${delay}ms`;
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="icon-wrapper icon-${item.type}">
+                            <i class="fas ${item.icon}"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3 class="card-title">${displayTitle}</h3>
+                            <div class="card-meta">${badgeHtml}</div>
+                        </div>
+                    </div>
+                    <p class="card-desc">${displayDesc}</p>
+                    <div class="card-actions">
+                        <button class="btn btn-primary" onclick="showToast('Загрузка ${item.title}...')">
+                            <i class="fas fa-download"></i> Скачать
+                        </button>
+                        <button class="btn btn-secondary" onclick="showToast('Открываем информацию о ${item.title}')">
+                            <i class="fas fa-info-circle"></i> Инфо
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
         }
 
-        const titleClick = document.getElementById('titleClick');
-        titleClick.addEventListener('click', handleSecretClick);
-        titleClick.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSecretClick(); }
-        });
+        // Tab Switching
+        function switchTab(tabName) {
+            tabs.forEach(btn => {
+                const isActive = btn.dataset.tab === tabName;
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-selected', isActive);
+            });
 
-        function getFilteredItems() {
-            if (state.searchQuery) {
-                const query = state.searchQuery.toLowerCase();
-                return Object.values(DATA).flat().filter(item => 
-                    item && item.name && (
-                        item.name.toLowerCase().includes(query) || 
-                        (item.desc && item.desc.toLowerCase().includes(query))
-                    )
-                );
-            }
-            return DATA[state.activeTab] || [];
+            sections.forEach(section => {
+                const isActive = section.id === tabName;
+                section.classList.toggle('active-page', isActive);
+                
+                if (isActive) {
+                    const cards = section.querySelectorAll('.card');
+                    cards.forEach((card, idx) => {
+                        card.style.animation = 'none';
+                        card.offsetHeight; 
+                        card.style.animation = `cardEnter 0.7s var(--ease-out) forwards ${idx * 60}ms`;
+                    });
+                }
+            });
         }
 
-        const searchInput = document.getElementById('searchInput');
-        const clearSearchBtn = document.getElementById('clearSearch');
-
-        const debouncedSearch = debounce((query) => {
-            state.searchQuery = query.toLowerCase().trim();
-            state.currentPage = 1;
-            renderList();
-        }, 150);
+        // Event Listeners
+        tabs.forEach(tab => tab.addEventListener('click', () => switchTab(tab.dataset.tab)));
 
         searchInput.addEventListener('input', (e) => {
-            const query = e.target.value;
-            clearSearchBtn.classList.toggle('visible', query.length > 0);
-            clearSearchBtn.tabIndex = query.length > 0 ? 0 : -1;
-            debouncedSearch(query);
+            const term = e.target.value.trim();
+            const activeTab = document.querySelector('.tab-btn.active').dataset.tab;
+            renderCards(activeTab, `${activeTab}-grid`, term);
         });
 
-        function clearSearchInput() {
-            haptic('light');
-            searchInput.value = '';
-            clearSearchBtn.classList.remove('visible');
-            clearSearchBtn.tabIndex = -1;
-            state.searchQuery = '';
-            state.currentPage = 1;
-            renderList();
-            searchInput.focus();
+        window.addEventListener('scroll', () => {
+            scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        function showToast(message) {
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        function switchTab(tab, element) {
-            if (state.isAnimating || state.activeTab === tab) return;
-            haptic('medium');
-            element.classList.add('loading');
-            document.querySelectorAll('.tab').forEach(t => {
-                t.classList.remove('active');
-                t.setAttribute('aria-selected', 'false');
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            ['plugins', 'modules', 'bots', 'apps'].forEach(cat => {
+                renderCards(cat, `${cat}-grid`);
             });
-            element.classList.add('active');
-            element.setAttribute('aria-selected', 'true');
-            state.activeTab = tab;
-            if (!state.searchQuery) state.currentPage = 1;
-            setTimeout(() => {
-                element.classList.remove('loading');
-                renderList();
-            }, 100);
-        }
-
-        let pageChangeTimeout = null;
-
-        function changePage(direction) {
-            if (state.isAnimating) return;
-            const filtered = getFilteredItems();
-            const totalPages = Math.ceil(filtered.length / state.itemsPerPage) || 1;
-            const newPage = state.currentPage + direction;
-            if (newPage < 1 || newPage > totalPages) return;
-            
-            state.isAnimating = true;
-            haptic('light');
-            const list = document.getElementById('content-list');
-            if (pageChangeTimeout) clearTimeout(pageChangeTimeout);
-            
-            list.classList.add('fade-out');
-            list.classList.remove('fade-in');
-            
-            pageChangeTimeout = setTimeout(() => {
-                state.currentPage = newPage;
-                list.classList.remove('fade-out'); // ✅ убираем fade-out ДО рендера, чтобы skeleton был виден
-                renderList();
-                const listRect = list.getBoundingClientRect();
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                window.scrollTo({ top: Math.max(0, listRect.top + scrollTop - 100), behavior: 'smooth' });
-                state.isAnimating = false;
-            }, 300);
-        }
-
-        // ========================================
-        // ✅ ПОЛНОСТЬЮ ПЕРЕПИСАННЫЙ СВАЙП
-        // ========================================
-        const SWIPE_THRESHOLD = 70;
-        const SWIPE_MAX_VERTICAL = 70;
-        const SWIPE_MAX_TIME = 800;
-
-        let touchStartX = 0, touchStartY = 0, touchStartTime = 0;
-        let swipeDirectionLocked = null;
-
-        const contentList = document.getElementById('content-list');
-
-        contentList.addEventListener('touchstart', (e) => {
-            if (e.touches.length !== 1) return;
-            touchStartX = e.touches[0].clientX;
-            touchStartY = e.touches[0].clientY;
-            touchStartTime = Date.now();
-            swipeDirectionLocked = null;
-        }, { passive: true });
-
-        contentList.addEventListener('touchmove', (e) => {
-            if (swipeDirectionLocked) return;
-            const dx = e.touches[0].clientX - touchStartX;
-            const dy = e.touches[0].clientY - touchStartY;
-            // ✅ Блокировка направления: вертикально = скролл, горизонтально = свайп
-            if (Math.abs(dx) > 12 || Math.abs(dy) > 12) {
-                swipeDirectionLocked = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
-            }
-        }, { passive: true });
-
-        contentList.addEventListener('touchend', (e) => {
-            const dx = e.changedTouches[0].clientX - touchStartX;
-            const dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
-            const dt = Date.now() - touchStartTime;
-            
-            // ✅ Свайп срабатывает ЛЮБОМ месте списка (включая карточки),
-            // но только если это действительно горизонтальное движение
-            if (swipeDirectionLocked === 'h' && Math.abs(dx) > SWIPE_THRESHOLD && dy < SWIPE_MAX_VERTICAL && dt < SWIPE_MAX_TIME) {
-                e.preventDefault(); // ✅ глушим клик, чтобы не открылась ссылка
-                markSwipeHintUsed();
-                changePage(dx < 0 ? 1 : -1);
-            }
-        }, { passive: false });
-
-        function showSwipeHint() {
-            const isTouch = matchMedia('(hover: none)').matches || 'ontouchstart' in window;
-            const hint = document.getElementById('swipeHint');
-            let shown = false;
-            try { shown = !!localStorage.getItem('swipeHintShown'); } catch (e) {}
-            if (!isTouch || !hint || shown) return;
-            setTimeout(() => {
-                hint.classList.add('visible');
-                setTimeout(() => hint.classList.remove('visible'), 3500);
-            }, 1500);
-        }
-
-        function markSwipeHintUsed() {
-            try { localStorage.setItem('swipeHintShown', '1'); } catch (e) {}
-            const hint = document.getElementById('swipeHint');
-            if (hint) hint.classList.remove('visible');
-        }
-
-        const scrollTopBtn = document.getElementById('scrollTopBtn');
-        const throttledScroll = throttle(() => {
-            const showButton = window.scrollY > 600;
-            scrollTopBtn.classList.toggle('visible', showButton);
-            scrollTopBtn.tabIndex = showButton ? 0 : -1;
-        }, 100);
-        window.addEventListener('scroll', throttledScroll, { passive: true });
-
-        function scrollToTop() {
-            haptic('light');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function showSkeleton() {
-            const list = document.getElementById('content-list');
-            const filtered = getFilteredItems();
-            if (filtered.length === 0) return; // ✅ не показываем skeleton для пустых результатов
-            list.innerHTML = '';
-            for (let i = 0; i < Math.min(3, state.itemsPerPage); i++) {
-                const skel = document.createElement('div');
-                skel.className = 'skeleton-card';
-                skel.setAttribute('aria-hidden', 'true');
-                skel.innerHTML = `<div class="skeleton-icon"></div><div class="skeleton-text"><div class="skeleton-line"></div><div class="skeleton-line"></div></div>`;
-                list.appendChild(skel);
-            }
-        }
-
-        function renderList() {
-            const list = document.getElementById('content-list');
-            const pagination = document.getElementById('paginationControls');
-            const filtered = getFilteredItems();
-            const totalPages = Math.ceil(filtered.length / state.itemsPerPage) || 1;
-            if (state.currentPage > totalPages) state.currentPage = 1;
-
-            if (totalPages > 1 && filtered.length > 0) {
-                pagination.classList.add('visible');
-                document.getElementById('currentPageNum').textContent = state.currentPage;
-                document.getElementById('totalPagesNum').textContent = totalPages;
-                document.getElementById('prevPageBtn').disabled = state.currentPage === 1;
-                document.getElementById('nextPageBtn').disabled = state.currentPage === totalPages;
-            } else {
-                pagination.classList.remove('visible');
-            }
-
-            if (filtered.length > 0) showSkeleton();
-            const delay = filtered.length > 0 ? 150 : 0;
-            
-            setTimeout(() => {
-                list.innerHTML = '';
-                if (filtered.length === 0) {
-                    let emptyMsg = state.activeTab === 'bots' 
-                        ? '🚧 Раздел в разработке...<br>Скоро здесь появятся лучшие боты' 
-                        : state.searchQuery 
-                            ? `Ничего не найдено по запросу «${state.searchQuery}»`
-                            : 'Ничего не найдено';
-                    list.innerHTML = `<div class="empty-state animate-in" role="status"><i class="fas fa-ghost" aria-hidden="true"></i><br>${emptyMsg}</div>`;
-                    list.classList.remove('fade-out');
-                    list.classList.add('fade-in');
-                    return;
-                }
-
-                const start = (state.currentPage - 1) * state.itemsPerPage;
-                const end = start + state.itemsPerPage;
-                const pageItems = filtered.slice(start, end);
-
-                pageItems.forEach((item, index) => {
-                    const div = document.createElement('div');
-                    div.className = 'item-card animate-in';
-                    div.style.animationDelay = `${index * 0.06}s`;
-                    div.setAttribute('role', 'listitem');
-                    
-                    const throttledMouseMove = throttle((e) => {
-                        const rect = div.getBoundingClientRect();
-                        const mouseX = e.clientX - rect.left;
-                        const mouseY = e.clientY - rect.top;
-                        const centerX = rect.width / 2;
-                        const centerY = rect.height / 2;
-                        const maxOffset = 6;
-                        div.style.setProperty('--mouse-x', `${mouseX}px`);
-                        div.style.setProperty('--mouse-y', `${mouseY}px`);
-                        const svg = div.querySelector('.icon-svg');
-                        if (svg) {
-                            svg.style.setProperty('--offset-x', `${-((mouseX - centerX) / centerX) * maxOffset}px`);
-                            svg.style.setProperty('--offset-y', `${-((mouseY - centerY) / centerY) * maxOffset}px`);
-                        }
-                    }, 16);
-                    
-                    div.addEventListener('mousemove', throttledMouseMove);
-                    div.addEventListener('mouseleave', () => {
-                        const svg = div.querySelector('.icon-svg');
-                        if (svg) {
-                            svg.style.setProperty('--offset-x', '0px');
-                            svg.style.setProperty('--offset-y', '0px');
-                        }
-                    });
-                    
-                    let displayName = item.name;
-                    if (state.searchQuery) {
-                        const escapedQuery = state.searchQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                        const regex = new RegExp(`(${escapedQuery})`, 'gi');
-                        displayName = item.name.replace(regex, '<mark style="background: rgba(0, 242, 255, 0.2); color: var(--plugin); padding: 0 2px; border-radius: 3px;">$1</mark>');
-                    }
-
-                    let iconHTML = '';
-                    if (state.activeTab === 'plugins' && ICONS.plugins[item.name]) iconHTML = `<div class="icon-wrapper">${ICONS.plugins[item.name]}</div>`;
-                    else if (state.activeTab === 'modules' && ICONS.modules[item.name]) iconHTML = `<div class="icon-wrapper">${ICONS.modules[item.name]}</div>`;
-                    else if (state.activeTab === 'bots' && ICONS.bots[item.name]) iconHTML = `<div class="icon-wrapper">${ICONS.bots[item.name]}</div>`;
-                    else if (state.activeTab === 'apps' && ICONS.apps[item.name]) iconHTML = `<div class="icon-wrapper">${ICONS.apps[item.name]}</div>`;
-                    else iconHTML = `<div class="icon-wrapper"><i class="fas fa-cube" style="font-size: 24px; color: var(--module);" aria-hidden="true"></i></div>`;
-
-                    div.innerHTML = `
-                        <div class="item-info" onclick="openLink('${item.url}')" tabindex="0" role="button" aria-label="Открыть ${item.name}">
-                            ${iconHTML}
-                            <div style="flex:1; min-width:0;">
-                                <div class="item-name">${displayName}</div>
-                                <div class="item-desc">${item.desc || ''}</div>
-                            </div>
-                        </div>
-                        <div class="action-btns">
-                            <button class="icon-btn" onclick="copyLink('${item.url}', event)" title="Копировать" aria-label="Копировать ссылку">
-                                <i class="fas fa-copy" aria-hidden="true"></i>
-                            </button>
-                            <button class="icon-btn open-btn" onclick="openLink('${item.url}')" title="Открыть" aria-label="Открыть ссылку">
-                                <i class="fas fa-external-link-alt" aria-hidden="true"></i>
-                            </button>
-                        </div>
-                    `;
-                    list.appendChild(div);
-                });
-                
-                list.classList.remove('fade-out');
-                list.classList.add('fade-in');
-                setTimeout(() => list.classList.remove('fade-in'), 400);
-            }, delay);
-        }
-
-        function openLink(url) {
-            haptic('heavy');
-            if (!url || typeof url !== 'string') { showToast('Ошибка: неверная ссылка'); return; }
-            try {
-                if (tg?.openTelegramLink) tg.openTelegramLink(url);
-                else window.open(url, '_blank', 'noopener,noreferrer');
-            } catch (e) {
-                console.error('Ошибка открытия ссылки:', e);
-                showToast('Не удалось открыть ссылку');
-            }
-        }
-        
-        function copyLink(url, event) {
-            if (event) event.stopPropagation();
-            haptic('medium');
-            if (!url || typeof url !== 'string') { showToast('Ошибка: неверная ссылка'); return; }
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(url).then(() => showToast('Ссылка скопирована!'))
-                    .catch(() => fallbackCopy(url));
-            } else fallbackCopy(url);
-        }
-
-        function fallbackCopy(text) {
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            textArea.style.position = 'fixed';
-            textArea.style.left = '-999999px';
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                document.execCommand('copy') ? showToast('Ссылка скопирована!') : showToast('Не удалось скопировать');
-            } catch (err) { showToast('Не удалось скопировать'); }
-            document.body.removeChild(textArea);
-        }
-
-        let toastTimeout = null;
-        function showToast(text) {
-            if (toastTimeout) clearTimeout(toastTimeout);
-            document.getElementById('toastText').textContent = text;
-            document.getElementById('toast').classList.add('show');
-            toastTimeout = setTimeout(() => document.getElementById('toast').classList.remove('show'), 2000);
-        }
-
-        function openSecret() {
-            if (state.secretViewActive) return;
-            haptic('heavy');
-            state.secretViewActive = true;
-            document.getElementById('view-main').classList.remove('active');
-            document.getElementById('view-secret').classList.add('active');
-            if (tg?.BackButton) { tg.BackButton.show(); tg.BackButton.onClick(closeSecret); }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function closeSecret() {
-            if (!state.secretViewActive) return;
-            haptic('medium');
-            state.secretViewActive = false;
-            document.getElementById('view-secret').classList.remove('active');
-            document.getElementById('view-main').classList.add('active');
-            if (tg?.BackButton) tg.BackButton.hide();
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && state.secretViewActive) closeSecret();
         });
 
-        initCounts();
-        renderList();
-        showSwipeHint();
+        // Easter Egg
+        let clickCount = 0;
+        document.getElementById('main-title').addEventListener('click', () => {
+            clickCount++;
+            if (clickCount === 7) {
+                showToast('Секретный режим активирован! 🌈');
+                document.body.style.transition = 'filter 1s ease';
+                document.body.style.filter = 'hue-rotate(90deg) saturate(1.5)';
+                setTimeout(() => {
+                    document.body.style.filter = 'none';
+                }, 5000);
+                clickCount = 0;
+            }
+        });
     </script>
 </body>
-    </html>
+</html>
