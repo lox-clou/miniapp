@@ -96,22 +96,27 @@
             50% { transform: translateY(-50%) scale(2); background: rgba(189, 0, 255, 0.8); box-shadow: 0 0 10px rgba(189, 0, 255, 0.8); }
         }
 
-        .tabs-container { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; }
-        .tabs { display: flex; gap: 8px; flex: 1; overflow: hidden; }
+        .tabs-container { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+        .tabs { display: flex; gap: 10px; flex: 1; overflow-x: auto; overflow-y: visible; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; padding: 4px; }
+        .tabs::-webkit-scrollbar { display: none; }
         
         .tab {
-            flex: 1; padding: 14px 10px; border-radius: 100px; background: var(--card-bg); border: 1px solid var(--border);
-            color: var(--text-dim); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            text-align: center; white-space: nowrap; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 6px;
+            flex: 0 0 auto; min-width: max-content; padding: 14px 18px; border-radius: 100px; background: var(--card-bg); border: 1px solid var(--border);
+            color: var(--text-dim); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center; white-space: nowrap; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; gap: 8px;
             backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
         }
         .tab.active { 
             color: #fff; background: rgba(255, 255, 255, 0.08); border-color: var(--border-bright); 
             box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.15);
-            transform: translateY(-2px) scale(1.02);
+            transform: translateY(-2px);
         }
-        .tab:active { transform: scale(0.96); }
-        .tab-count { font-size: 11px; font-weight: 700; padding: 3px 7px; border-radius: 10px; background: rgba(255, 255, 255, 0.1); color: var(--text-dim); transition: all 0.3s ease; }
+        .tab:hover {
+            background: var(--card-hover);
+            transform: translateY(-1px);
+        }
+        .tab:active { transform: scale(0.97); }
+        .tab-count { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 10px; background: rgba(255, 255, 255, 0.1); color: var(--text-dim); transition: all 0.3s ease; }
         .tab.active .tab-count { background: linear-gradient(135deg, rgba(0, 242, 255, 0.25), rgba(0, 153, 204, 0.2)); color: var(--plugin); box-shadow: 0 0 10px rgba(0, 242, 255, 0.3); }
         
         .tab .ripple, .nav-tab .ripple, .page-btn .ripple, .scroll-top .ripple {
@@ -123,13 +128,13 @@
         .nav-tab {
             flex-shrink: 0; width: 44px; height: 44px; border-radius: 100px; background: var(--card-bg); border: 1px solid var(--border);
             color: var(--text-dim); display: flex; align-items: center; justify-content: center; cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); font-size: 14px; position: relative; overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-size: 14px; position: relative; overflow: hidden;
         }
         .nav-tab:hover { 
             color: #fff; 
             background: var(--card-hover); 
             border-color: var(--border-bright); 
-            transform: scale(1.1) rotate(5deg); 
+            transform: scale(1.05) rotate(3deg); 
         }
         .nav-tab:active { transform: scale(0.95) rotate(0deg); }
 
@@ -150,10 +155,10 @@
         .search-input:focus ~ .search-icon { color: var(--plugin); filter: drop-shadow(0 0 8px rgba(0, 242, 255, 0.5)); }
         .clear-search {
             position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: var(--text-dim);
-            cursor: pointer; opacity: 0; transition: all 0.2s; pointer-events: none; padding: 8px;
+            cursor: pointer; opacity: 0; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none; padding: 8px;
         }
         .clear-search.visible { opacity: 1; pointer-events: all; }
-        .clear-search:hover { color: var(--text); transform: translateY(-50%) scale(1.1); }
+        .clear-search:hover { color: var(--text); transform: translateY(-50%) scale(1.05); }
 
         .items-list { display: flex; flex-direction: column; gap: 12px; min-height: 200px; transition: opacity 0.3s ease, transform 0.3s ease; opacity: 1; }
         .items-list.fade-out { opacity: 0; transform: translateY(10px); }
@@ -184,7 +189,7 @@
             align-items: center; 
             justify-content: space-between; 
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); 
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); 
             position: relative; 
             overflow: hidden;
             backdrop-filter: blur(10px);
@@ -193,43 +198,43 @@
         .item-card::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.06), transparent 40%);
-            opacity: 0; transition: opacity 0.4s; pointer-events: none;
+            opacity: 0; transition: opacity 0.35s; pointer-events: none;
         }
         .item-card::after {
             content: ''; position: absolute; inset: 0; border-radius: 20px; padding: 1px;
             background: linear-gradient(135deg, rgba(0, 242, 255, 0.2), rgba(189, 0, 255, 0.2));
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.4s; pointer-events: none;
+            -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.35s; pointer-events: none;
         }
         .item-card:hover { 
-            transform: translateY(-6px) scale(1.01); 
+            transform: translateY(-4px) scale(1.005); 
             border-color: var(--border-bright); 
             box-shadow: var(--shadow-lg), var(--shadow-glow);
             background: var(--card-hover);
         }
         .item-card:hover::before { opacity: 1; }
         .item-card:hover::after { opacity: 1; }
-        .item-card:active { transform: translateY(-3px) scale(0.99); }
+        .item-card:active { transform: translateY(-2px) scale(0.995); }
         
         .item-info { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 0; position: relative; z-index: 1; }
         .icon-wrapper {
             width: 52px; height: 52px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s ease;
             position: relative;
             will-change: transform;
         }
         .icon-svg {
             width: 100%; height: 100%;
             transform: translate(var(--offset-x, 0px), var(--offset-y, 0px));
-            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease, opacity 0.3s ease;
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s ease, opacity 0.3s ease;
             filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.4));
             will-change: transform, filter;
         }
 
         /* ✨ УЛУЧШЕННЫЕ АНИМАЦИИ ИКОНОК ПРИ НАВЕДЕНИИ */
         .item-card:hover .icon-wrapper {
-            transform: scale(1.15) rotate(8deg);
-            filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5));
+            transform: scale(1.08) rotate(5deg);
+            filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.4));
         }
         
         /* Plugin icons - cyan glow pulse */
@@ -299,14 +304,14 @@
         .icon-btn {
             width: 40px; height: 40px; border-radius: 14px; background: var(--card-bg); border: 1px solid var(--border);
             color: var(--text-dim); display: flex; align-items: center; justify-content: center; cursor: pointer; 
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); font-size: 14px; position: relative; overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-size: 14px; position: relative; overflow: hidden;
             backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
         }
         .icon-btn:hover { 
             color: #fff; 
             background: var(--card-hover); 
             border-color: var(--border-bright); 
-            transform: scale(1.12) rotate(-5deg); 
+            transform: scale(1.06) rotate(-3deg); 
             box-shadow: var(--shadow-md); 
         }
         .icon-btn.open-btn { 
@@ -318,7 +323,7 @@
         }
         .icon-btn.open-btn:hover { 
             box-shadow: 0 6px 25px rgba(0, 242, 255, 0.5), var(--glow-strong) rgba(0, 242, 255, 0.3); 
-            transform: scale(1.12) translateY(-2px) rotate(-5deg); 
+            transform: scale(1.06) translateY(-2px) rotate(-3deg); 
         }
         .icon-btn:active { transform: scale(0.95) rotate(0deg); }
 
@@ -331,12 +336,12 @@
         .page-btn {
             width: 44px; height: 44px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border);
             color: var(--text); display: flex; align-items: center; justify-content: center; cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative; overflow: hidden;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;
         }
         .page-btn:hover:not(:disabled) { 
             background: var(--card-hover); 
             border-color: var(--border-bright); 
-            transform: scale(1.1) rotate(-5deg); 
+            transform: scale(1.06) rotate(-3deg); 
         }
         .page-btn:active:not(:disabled) { transform: scale(0.95) rotate(0deg); }
         .page-btn:disabled { opacity: 0.2; cursor: not-allowed; transform: none; }
@@ -349,12 +354,12 @@
             display: flex; align-items: center; justify-content: center; cursor: pointer;
             box-shadow: 0 8px 30px rgba(0, 242, 255, 0.5), var(--glow-strong) rgba(0, 242, 255, 0.3); font-size: 20px;
             opacity: 0; pointer-events: none; transform: translateY(20px) scale(0.8);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 99;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 99;
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
         }
         .scroll-top.visible { opacity: 1; pointer-events: all; transform: translateY(0) scale(1); }
         .scroll-top:hover { 
-            transform: translateY(-4px) scale(1.12) rotate(-15deg); 
+            transform: translateY(-4px) scale(1.08) rotate(-10deg); 
             box-shadow: 0 12px 40px rgba(0, 242, 255, 0.7), var(--glow-strong) rgba(0, 242, 255, 0.4); 
         }
         .scroll-top:active { transform: scale(0.95) rotate(0deg); }
@@ -366,12 +371,12 @@
 
         .back-btn {
             display: inline-flex; align-items: center; gap: 8px; color: var(--plugin); font-size: 14px; font-weight: 600;
-            margin-bottom: 28px; cursor: pointer; padding: 10px 18px; border-radius: 14px; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin-bottom: 28px; cursor: pointer; padding: 10px 18px; border-radius: 14px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             background: rgba(0, 242, 255, 0.05); border: 1px solid rgba(0, 242, 255, 0.15);
         }
         .back-btn:hover { 
             background: rgba(0, 242, 255, 0.1); 
-            transform: translateX(-4px) scale(1.05); 
+            transform: translateX(-4px) scale(1.03); 
             box-shadow: 0 4px 15px rgba(0, 242, 255, 0.2);
         }
         .back-btn:active { transform: scale(0.96); }
